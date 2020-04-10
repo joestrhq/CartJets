@@ -5,7 +5,7 @@ Copyright (c) 2019 Joel Strasser
 
 Only the owner is allowed to use this software.
  */
-package kiwi.nevermined.cartjets.configuration;
+package kiwi.minecraft.cartjets.configuration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,7 +47,7 @@ public class LanguageConfiguration {
     
     for (File languageFile : bundledLanguages.listFiles()) {
       String fileName = languageFile.getName();
-      externalLanguageConfigurations.put(
+      bundledLanguageConfigurations.put(
         Locale.forLanguageTag(
           fileName.contains(".") ? fileName.split(".")[0] : fileName
         ),

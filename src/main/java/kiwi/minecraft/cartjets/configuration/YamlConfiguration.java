@@ -5,64 +5,29 @@ Copyright (c) 2019 Joel Strasser
 
 Only the owner is allowed to use this software.
  */
-package kiwi.nevermined.cartjets.configuration;
+package kiwi.minecraft.cartjets.configuration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.yaml.snakeyaml.Yaml;
 
 /**
  *
  * @author Joel
  */
-public class YamlFileConfiguration extends YamlConfiguration {
+public abstract class YamlConfiguration {
   
-  private File configFile;
+  Map<Object, Object> config;
   
-  public YamlFileConfiguration(File configFile) throws FileNotFoundException {
-    super();
-    this.config =
-      new Yaml().load(new FileInputStream(configFile));
-    this.configFile = configFile;
-  }
-
-  public File getConfigFile() {
-    return configFile;
-  }
-
-  public void setConfigFile(File configFile) {
-    this.configFile = configFile;
-  }
-  
-  private Map<Object, Object> lookupMap(String path, Map<Object, Object> configMap) {
-    Map<Object, Object> subMap = new HashMap<>(configMap);
-    
-    String[] splitted = path.split(".");
-    
-    for (int i = 0; i < splitted.length - 1; i++) {
-      if(!subMap.containsKey(splitted[i])) {
-        return null;
-      } else {
-        subMap =
-          (Map<Object, Object>) subMap.get(splitted[i]);
-      }
-    }
-    
-    return subMap;
+  public YamlConfiguration(Map<Object, Object> config) {
+    this.config = config;
   }
   
   private Object lookupObject(String path, Map<Object, Object> configMap) {
     Map<Object, Object> subMap = new HashMap<>(configMap);
     
-    String[] splitted = path.split(".");
+    String[] splitted = path.contains(".") ? path.split(".") : new String[] { path };
     
     for (int i = 0; i < splitted.length - 1; i++) {
       if(!subMap.containsKey(splitted[i])) {
@@ -73,7 +38,7 @@ public class YamlFileConfiguration extends YamlConfiguration {
       }
     }
     
-    return subMap.get(splitted[splitted.length]);
+    return subMap.get(splitted[splitted.length - 1]);
   }
   
   private <T> T getObject(String path, Class<? extends T> clazz) {
@@ -88,7 +53,7 @@ public class YamlFileConfiguration extends YamlConfiguration {
   
   private <T> void setObject(String path, Class<? extends T> clazz, T value) {
     String last = path.split(".")[path.split(".").length - 1];
-    Map<Object, Object> result = lookupMap(path, this.config);
+    Map<Object, Object> result = (Map<Object, Object>) lookupObject(path, this.config);
     result.put(last, clazz.cast(value));
   }
   
@@ -198,16 +163,5 @@ public class YamlFileConfiguration extends YamlConfiguration {
   
   public <T> void setCustomObject(String path, Class<T> value) {
     setObject(path, value.getClass(), value);
-  }
-  
-  public void loadConfigFile() throws FileNotFoundException {
-    this.config = new Yaml().load(new FileInputStream(this.configFile));
-  }
-  
-  public void saveConfigFile() throws FileNotFoundException, IOException {
-    FileOutputStream fOS = new FileOutputStream(this.configFile);
-    fOS.write(
-      new Yaml().dumpAsMap(this.configFile).getBytes(StandardCharsets.UTF_8)
-    );
   }
 }

@@ -5,7 +5,7 @@ Copyright (c) 2019 Joel Strasser
 
 Only the owner is allowed to use this software.
 */
-package kiwi.nevermined.cartjets.configuration;
+package kiwi.minecraft.cartjets.configuration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,25 +20,46 @@ import java.util.logging.Logger;
  *
  * @author Joel
  */
-public class PluginConfiguration {
+public class AppConfiguration {
   
-  private static PluginConfiguration INSTANCE;
-  private static final Logger LOG = Logger.getLogger(PluginConfiguration.class.getSimpleName());
+  private static AppConfiguration INSTANCE;
+  private static final Logger LOG = Logger.getLogger(AppConfiguration.class.getSimpleName());
   
   private final YamlFileConfiguration external;
   private final YamlStreamConfiguration bundled;
   
-  private PluginConfiguration(File externalConfig, InputStream bundledConfig) throws FileNotFoundException {
-    this.external = new YamlFileConfiguration(externalConfig);
+  private AppConfiguration(File externalConfig, InputStream bundledConfig) throws FileNotFoundException, IOException {
     this.bundled = new YamlStreamConfiguration(bundledConfig);
+    if (!externalConfig.exists()) {
+      externalConfig.getParentFile().mkdirs();
+      this.bundled.saveConfigAsFile(externalConfig);
+    }
+    this.external = new YamlFileConfiguration(externalConfig);
   }
   
-  public static PluginConfiguration getInstance(File externalConfigFile, InputStream bundledConfigStream) throws FileNotFoundException {
+  /**
+   * Handles the configuration of this app.
+   * 
+   * @param externalConfigFile
+   * @param bundledConfigStream
+   * @return
+   * @throws FileNotFoundException
+   * @throws IOException 
+   */
+  public static AppConfiguration getInstance(File externalConfigFile, InputStream bundledConfigStream) throws FileNotFoundException, IOException {
     if (INSTANCE != null) {
       throw new RuntimeException("This class has already been instantiated.");
     }
     
-    INSTANCE = new PluginConfiguration(externalConfigFile, bundledConfigStream);
+    INSTANCE = new AppConfiguration(externalConfigFile, bundledConfigStream);
+    
+    return INSTANCE;
+  }
+  
+  public static AppConfiguration getInstance() {
+    if (INSTANCE == null) {
+      throw new RuntimeException("This class has not been initialized yet.");
+    }
     
     return INSTANCE;
   }

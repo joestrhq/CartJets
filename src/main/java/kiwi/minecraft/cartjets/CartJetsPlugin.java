@@ -21,17 +21,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.nevermined.cartjets;
+package kiwi.minecraft.cartjets;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import kiwi.nevermined.cartjets.configuration.LanguageConfiguration;
-import kiwi.nevermined.cartjets.configuration.PluginConfiguration;
+import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
+import kiwi.minecraft.cartjets.configuration.AppConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -70,8 +70,8 @@ public class CartJetsPlugin extends JavaPlugin {
     File externalLanguages = new File(this.getDataFolder(), "languages");
     
     try {
-      PluginConfiguration.getInstance(externalConfig, bundledConfig);
-    } catch (FileNotFoundException ex) {
+      AppConfiguration.getInstance(externalConfig, bundledConfig);
+    } catch (IOException ex) {
       instance.getLogger().log(
         Level.SEVERE,
         "Error whilst intialising the plugin configuration!",

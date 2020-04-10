@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.nevermined.cartjets.commands;
+package kiwi.minecraft.cartjets.commands;
 
 import java.util.List;
 import org.bukkit.command.Command;
