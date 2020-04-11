@@ -23,15 +23,21 @@
 // 
 package kiwi.minecraft.cartjets;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.logging.Level;
 import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
 import kiwi.minecraft.cartjets.configuration.AppConfiguration;
+import kiwi.minecraft.cartjets.models.CartJetsButtonModel;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -42,6 +48,11 @@ public class CartJetsPlugin extends JavaPlugin {
   
   private static CartJetsPlugin instance;
   
+  private Dao<CartJetsButtonModel, String> cartJetsButtonsDao;
+  
+  public static CartJetsPlugin getInstance() {
+    return instance;
+  }
   
   @Override
   public void onLoad() {
@@ -90,6 +101,31 @@ public class CartJetsPlugin extends JavaPlugin {
       );
       this.getServer().getPluginManager().disablePlugin(this);
     }
+    
+    ConnectionSource connectionSource = null;
+    try {
+      connectionSource = new JdbcConnectionSource(
+        AppConfiguration.getInstance().getString("jdbcUri")
+      );
+    } catch (SQLException ex) {
+      instance.getLogger().log(
+        Level.SEVERE,
+        "Error whilst connecting to database!",
+        ex
+      );
+      this.getServer().getPluginManager().disablePlugin(this);
+    }
+    
+    try {
+      cartJetsButtonsDao = DaoManager.createDao(connectionSource, CartJetsButtonModel.class);
+    } catch (SQLException ex) {
+      instance.getLogger().log(
+        Level.SEVERE,
+        "Error whilst creating Dao!",
+        ex
+      );
+      this.getServer().getPluginManager().disablePlugin(this);
+    }
   }
 
   @Override
@@ -97,7 +133,7 @@ public class CartJetsPlugin extends JavaPlugin {
     super.onDisable();
   }
 
-  public static CartJetsPlugin getInstance() {
-    return instance;
+  public Dao<CartJetsButtonModel, String> getCartJetsButtonsDao() {
+    return cartJetsButtonsDao;
   }
 }

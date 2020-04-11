@@ -1,2 +1,25 @@
-## YAML Template.
----
+main: kiwi.minecraft.cartjets.CartJetsPlugin
+name: CartJets
+version: '{project.version}'
+description: 'Define entry points for faster minecarts.'
+load: POSTWORLD
+author: joestr
+authors: [Schwakat, Enkaptaton, twieteddy, Bambuskadse]
+website: https://www.joestr.at
+prefix: CartJets
+#depend: [WorldEdit, Towny]
+#softdepend: [FAWE]
+#loadbefore: [Essentials]
+commands:
+  cartjets:
+   description: Shows the help for the CartJets plugin.
+   #aliases: [foobar, fubar]
+   #permission: cartjets.command.cartjets
+   #permission-message: 'You are lacking permission cartjets.command.cartjets!'
+   usage: /<command> [setup-wizard|delete]
+permissions:
+  cartjets.command.*:
+   description: Allows the usage all commands provided by the CartJets plugin.
+   default: op
+   children:
+     cartjets.command.cartjets: true

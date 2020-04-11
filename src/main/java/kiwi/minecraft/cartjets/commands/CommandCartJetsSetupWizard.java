@@ -24,25 +24,15 @@
 package kiwi.minecraft.cartjets.commands;
 
 import java.util.List;
-import java.util.Locale;
-import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
-import kiwi.minecraft.cartjets.utils.CurrentEntries;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 
 /**
  *
  * @author Joel
  */
-public class CommandCartjets implements TabExecutor {
+public class CommandCartJetsSetupWizard implements TabExecutor{
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -51,25 +41,7 @@ public class CommandCartjets implements TabExecutor {
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-    
-    Locale locale =
-      sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
-    locale = locale != null ? locale : Locale.ENGLISH;
-    
-    if (!sender.hasPermission("cartjets.commands.cartjets")) {
-      sender.spigot().sendMessage(
-        ComponentSerializer.parse(
-          LanguageConfiguration.getInstance().getString(
-            CurrentEntries.LANG_NO_PERM.toString()
-            , locale)
-        )
-      );
-      return true;
-    }
-      
-      
-      
-      return true;
-    
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
+  
 }
