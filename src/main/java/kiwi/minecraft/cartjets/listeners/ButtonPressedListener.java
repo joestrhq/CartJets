@@ -105,4 +105,53 @@ public class ButtonPressedListener implements Listener {
     
     ev.setCancelled(true);
   }
+  
+  @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+  public void onButtonClicked(PlayerInteractEvent ev) {
+    Block clickedBlock = ev.getClickedBlock();
+    if (clickedBlock == null) return;
+    
+    Material clickedBlockMaterial = clickedBlock.getType();
+    if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
+    
+    List<CartJetsButtonModel> cartJetsButtons = null;
+    try {
+      cartJetsButtons =
+        CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll();
+    } catch (SQLException ex) {
+      CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
+    }
+    if (cartJetsButtons == null) return;
+    
+    boolean buttonPresent =
+      cartJetsButtons.stream()
+        .anyMatch((b) -> {
+          return b.getButtonLocation().equals(clickedBlock.getLocation());
+        });
+    if (!buttonPresent) return;
+    
+    Optional<CartJetsButtonModel> cartJetsButton =
+      cartJetsButtons.stream()
+        .filter((b) -> {
+          return b.getButtonLocation().equals(clickedBlock.getLocation());
+        })
+        .findFirst();
+    
+    Entity spawnedMinecart =
+      ev.getPlayer().getWorld().spawnEntity(
+      cartJetsButton.get().getMinecartSpawningLocation(),
+        EntityType.MINECART
+      );
+    
+    spawnedMinecart.getPassengers().add(ev.getPlayer());
+    
+    spawnedMinecart.setMetadata(
+      "cartjets.is",
+      new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
+    );
+    
+    spawnedMinecart.setVelocity(new Vector(1, 1, 1));
+    
+    ev.setCancelled(true);
+  }
 }

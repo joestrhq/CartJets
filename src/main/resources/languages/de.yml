@@ -4,19 +4,22 @@ generic:
   wrong_syntax: '["",{"text":"Fehlerhafte Syntax! Benutze: ","color":"red"},{"text":"%usage","color":"white","clickEvent":{"action":"suggest_command","value":"%usage"},"hoverEvent":{"action":"show_text","value":"%usage"}}]'
 commands:
   cartjets:
-    setup-wizard_line: '["",%prefix,{"text":"» ","color":"gray"},{"text":"Den Setup-Wizard verwenden","color":"gray","clickEvent":{"action":"run_command","value":"/{0} setup-wizard"},"hoverEvent":{"action":"show_text","value":{"text":"/{0} setup-wizard","color":"white"}}}]'
-    delete_line: '["",{"text":"» ","color":"gray"},{"text":"Eine Strecke löschen ","color":"gray","clickEvent":{"action":"suggest_command","value":"/{0} delete "},"hoverEvent":{"action":"show_text","value":{"text":"/{0} delete <Name>","color":"white"}}}]'
-    list_line: '["",{"text":"» ","color":"gray"},{"text":"Alle Strecken auflisten ","color":"gray","clickEvent":{"action":"run_command","value":"/{0} list"},"hoverEvent":{"action":"show_text","value":{"text":"/{0} list","color":"white"}}}]'
-  cartjets_setup-wizard:
-    mark_button_message: '{"text":"Markiere mit Rechtsklick auf den Knopf, welcher das CartJet spawnen soll.","color":"aqua"}'
-    mark_button_success: '{"text":"Der Knopf wurde erfolgreich ausgewählt.","color":"green"}'
-    mark_button_overlapping: '["",{"text":"Dieser Knopf überlappt mit dem Knopf der Strecke ","color":"red"},{"text":"%line","color":"white"},{"text":"!","color":"red"}]'
-    mark_rail: '{"text":"Markiere mit Rechtsklick das Gleisstück, auf welcher das CartJet spawnen soll.","color":"aqua"}'
-    mark_rail_success: '{"text":"Das Gleisstück wurde erfolgreich markiert.","color":"green"}'
-    name_anvil_placeholder: 'Name der Strecke ...'
-    name_success: '["",{"text":"Die Strecke ","color":"green"},{"text":"%line","color":"white"},{"text":" wurde erfolgreich angelegt.","color":"green"}]'
-  cartjets_delete:
+    message_setupwizard: '["",%prefix,{"text":"» ","color":"gray"},{"text":"Den Setup-Wizard verwenden/beenden","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-setupwizard"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-setupwizard","color":"white"}}}]'
+    message_list: '["",{"text":"» ","color":"gray"},{"text":"Alle Strecken auflisten ","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
+    message_delete: '["",{"text":"» ","color":"gray"},{"text":"Eine Strecke löschen ","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-delete "},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete <Name>","color":"white"}}}]'
+  cartjets-setupwizard:
+    button:
+      instruction: '{"text":"Markiere mit Rechtsklick auf den Knopf, welcher das CartJet spawnen soll.","color":"aqua"}'
+      success: '{"text":"Der Knopf wurde erfolgreich ausgewählt.","color":"green"}'
+      overlapping: '["",{"text":"Dieser Knopf überlappt mit dem Knopf der Strecke ","color":"red"},{"text":"%line","color":"white"},{"text":"!","color":"red"}]'
+    rail:
+      instruction: '{"text":"Markiere mit Rechtsklick das Gleisstück, auf welcher das CartJet spawnen soll.","color":"aqua"}'
+      success: '{"text":"Das Gleisstück wurde erfolgreich markiert.","color":"green"}'
+    name:
+      placeholder: 'Name der Strecke ...'
+      success: '["",{"text":"Die Strecke ","color":"green"},{"text":"%line","color":"white"},{"text":" wurde erfolgreich angelegt.","color":"green"}]'
+  cartjets-list:
+    message: '["",{"text":"Folgende Strecken sind verfügbar: ","color":"red"},{"text":"%lines","color":"white"}]'
+  cartjets-delete:
     non_existing: '["",{"text":"Die Strecke ","color":"red"},{"text":"%line","color":"white"},{"text":" existiert nicht.","color":"red"}]'
     success: '["",{"text":"Die Strecke ","color":"green"},{"text":"%line","color":"white"},{"text":" wurde erfolgreich gelöscht.","color":"green"}]'
-  cartjets_list:
-    list: '["",{"text":"Folgende Strecken sind verfügbar: ","color":"red"},{"text":"%lines","color":"white"}]'

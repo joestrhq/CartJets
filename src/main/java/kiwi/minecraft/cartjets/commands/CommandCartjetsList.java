@@ -24,17 +24,15 @@
 package kiwi.minecraft.cartjets.commands;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import kiwi.minecraft.cartjets.CartJetsPlugin;
-import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
 import kiwi.minecraft.cartjets.utils.CurrentEntries;
 import kiwi.minecraft.cartjets.utils.MessageHelper;
-import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -45,7 +43,7 @@ import org.bukkit.entity.Player;
  *
  * @author Joel
  */
-public class CommandCartjets implements TabExecutor {
+public class CommandCartjetsList implements TabExecutor {
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -53,8 +51,7 @@ public class CommandCartjets implements TabExecutor {
   }
 
   @Override
-  public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-    
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     Locale l =
       sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
     final Locale locale = l != null ? l : Locale.ENGLISH;
@@ -63,15 +60,24 @@ public class CommandCartjets implements TabExecutor {
       return false;
     }
     
-    CartJetsPlugin.getInstance().getDescription().getCommands().forEach((cmd, map) -> {
-      if (Bukkit.getServer().getPluginCommand(cmd).testPermissionSilent(sender)) {
-        new MessageHelper()
-          .path(CurrentEntries.valueOf((String) map.get("permission")))
-          .locale(locale)
-          .receiver(sender)
-          .send();
-      }
-    });
+    String lineListAsString;
+    try {
+        lineListAsString =
+          CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll()
+            .stream()
+            .map((b) -> b.getName())
+            .collect(Collectors.joining(", ", "", ""));
+    } catch (SQLException ex) {
+      CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
+      throw new RuntimeException(null, ex);
+    }
+    
+    new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_LIST_MESSAGE)
+      .locale(locale)
+      .receiver(sender)
+      .modify((s) -> s.replace("%list", lineListAsString))
+      .send();
     return true;
   }
 }

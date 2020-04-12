@@ -23,12 +23,58 @@
 // 
 package kiwi.minecraft.cartjets.utils;
 
+import java.util.Locale;
+import java.util.function.Function;
+import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
+import net.md_5.bungee.chat.ComponentSerializer;
+import org.bukkit.command.CommandSender;
+
 /**
  *
  * @author Joel
  */
-public enum SetupWizardMode {
-  MARK_BUTTON,
-  MARK_RAIL,
-  NETER_NAME
+public class MessageHelper {
+  
+  private CurrentEntries path;
+  private Function<String, String> modify;
+  private Locale locale;
+  private CommandSender receiver;
+  
+  public MessageHelper() { 
+  }
+  
+  public MessageHelper path(CurrentEntries path) {
+    this.path = path;
+    return this;
+  }
+  
+  public MessageHelper locale(Locale locale) {
+    this.locale = locale;
+    return this;
+  }
+  
+  public MessageHelper modify(Function<String, String> modify) {
+    this.modify = modify;
+    return this;
+  }
+  
+  public MessageHelper receiver(CommandSender receiver) {
+    this.receiver = receiver;
+    return this;
+  }
+  
+  public void send() {
+    String message =
+      LanguageConfiguration.getInstance()
+        .getString(
+          this.path.toString(),
+          this.locale
+        );
+    
+    if (this.modify != null) this.modify.apply(message);
+    
+    receiver.spigot().sendMessage(
+      ComponentSerializer.parse(message)
+    );
+  }
 }

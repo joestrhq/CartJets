@@ -33,11 +33,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
+import javax.print.attribute.HashAttributeSet;
 import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
 import kiwi.minecraft.cartjets.configuration.AppConfiguration;
 import kiwi.minecraft.cartjets.models.CartJetsButtonModel;
+import kiwi.minecraft.cartjets.utils.SetupWizardMode;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -49,6 +54,7 @@ public class CartJetsPlugin extends JavaPlugin {
   private static CartJetsPlugin instance;
   
   private Dao<CartJetsButtonModel, String> cartJetsButtonsDao;
+  private Map<UUID, SetupWizardMode> playerModes = new HashMap<>();
   
   public static CartJetsPlugin getInstance() {
     return instance;
@@ -135,5 +141,9 @@ public class CartJetsPlugin extends JavaPlugin {
 
   public Dao<CartJetsButtonModel, String> getCartJetsButtonsDao() {
     return cartJetsButtonsDao;
+  }
+  
+  public Map<UUID, SetupWizardMode> getPlayerModes() {
+    return this.playerModes;
   }
 }

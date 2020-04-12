@@ -12,14 +12,35 @@ prefix: CartJets
 #loadbefore: [Essentials]
 commands:
   cartjets:
-   description: Shows the help for the CartJets plugin.
-   #aliases: [foobar, fubar]
-   #permission: cartjets.command.cartjets
-   #permission-message: 'You are lacking permission cartjets.command.cartjets!'
-   usage: /<command> [setup-wizard|delete]
+    description: Shows the help for the CartJets plugin.
+    #aliases: [cj]
+    permission: cartjets.command.cartjets
+    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets§c!'
+    usage: '§cSyntax error! Use: §f/<command> <name>'
+  cartjets-setupwizard:
+    description: Toggles the setup wizard for creating lines.
+    #aliases: [cjsw]
+    permission: cartjets.command.cartjets-setupwizard
+    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets-setupwizard§c!'
+    usage: '§cSyntax error! Use: §f/<command>'
+  cartjets-list:
+    description: Lists all CartJets lines.
+    #aliases: [cjl]
+    permission: cartjets.command.cartjets-list
+    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets-list§c!'
+    usage: '§cSyntax error! Use: §f/<command>'
+  cartjets-delete:
+    description: Deletes a CartJets line.
+    #aliases: [cjd]
+    permission: cartjets.command.cartjets-delete
+    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets-delete§c!'
+    usage: '§cSyntax error! Use: §f/<command> <name>'
 permissions:
   cartjets.command.*:
    description: Allows the usage all commands provided by the CartJets plugin.
    default: op
    children:
      cartjets.command.cartjets: true
+     cartjets.command.cartjets-setupwizard: true
+     cartjets.command.cartjets-list: true
+     cartjets.command.cartjets-delete: true
