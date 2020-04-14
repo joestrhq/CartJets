@@ -23,6 +23,7 @@
 // 
 package kiwi.minecraft.cartjets.commands;
 
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -32,16 +33,15 @@ import org.bukkit.command.TabExecutor;
  *
  * @author Joel
  */
-public class CommandCartJetsSetupWizard implements TabExecutor{
+public class CommandCartjetsSetupwizard implements TabExecutor{
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    return ImmutableList.of();
   }
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    return true;
   }
-  
 }
