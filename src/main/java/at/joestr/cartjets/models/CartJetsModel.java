@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.models;
+package at.joestr.cartjets.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -31,8 +31,8 @@ import org.bukkit.Location;
  *
  * @author Joel
  */
-@DatabaseTable(tableName = "cartjetsbuttons")
-public class CartJetsButtonModel {
+@DatabaseTable(tableName = "cartjets")
+public class CartJetsModel {
   @DatabaseField(id = true)
   private String name;
   @DatabaseField
@@ -40,10 +40,10 @@ public class CartJetsButtonModel {
   @DatabaseField
   private Location minecartSpawningLocation;
 
-  public CartJetsButtonModel() {
+  public CartJetsModel() {
   }
 
-  public CartJetsButtonModel(String name, Location buttonLocation, Location minecartSpawningLocation) {
+  public CartJetsModel(String name, Location buttonLocation, Location minecartSpawningLocation) {
     this.name = name;
     this.buttonLocation = buttonLocation;
     this.minecartSpawningLocation = minecartSpawningLocation;

@@ -21,15 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.listeners;
+package at.joestr.cartjets.listeners;
 
+import at.joestr.cartjets.utils.MessageHelper;
+import at.joestr.cartjets.CartJetsPlugin;
+import at.joestr.cartjets.models.CartJetsModel;
+import at.joestr.cartjets.utils.CurrentEntries;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
-import kiwi.minecraft.cartjets.CartJetsPlugin;
-import kiwi.minecraft.cartjets.models.CartJetsButtonModel;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -65,7 +68,7 @@ public class ButtonPressedListener implements Listener {
     Material clickedBlockMaterial = clickedBlock.getType();
     if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
     
-    List<CartJetsButtonModel> cartJetsButtons = null;
+    List<CartJetsModel> cartJetsButtons = null;
     try {
       cartJetsButtons =
         CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll();
@@ -81,7 +84,7 @@ public class ButtonPressedListener implements Listener {
         });
     if (!buttonPresent) return;
     
-    Optional<CartJetsButtonModel> cartJetsButton =
+    Optional<CartJetsModel> cartJetsButton =
       cartJetsButtons.stream()
         .filter((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
@@ -111,10 +114,16 @@ public class ButtonPressedListener implements Listener {
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
+    if (!CartJetsPlugin.getInstance().getPlayerModels().containsKey(ev.getPlayer().getUniqueId()))
+      return;
+    
+    if (CartJetsPlugin.getInstance().getPlayerModels().get(ev.getPlayer().getUniqueId()).getButtonLocation() != null)
+      return;
+    
     Material clickedBlockMaterial = clickedBlock.getType();
     if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
     
-    List<CartJetsButtonModel> cartJetsButtons = null;
+    List<CartJetsModel> cartJetsButtons = null;
     try {
       cartJetsButtons =
         CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll();
@@ -130,28 +139,31 @@ public class ButtonPressedListener implements Listener {
         });
     if (!buttonPresent) return;
     
-    Optional<CartJetsButtonModel> cartJetsButton =
+    Optional<CartJetsModel> cartJetsButton =
       cartJetsButtons.stream()
         .filter((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         })
         .findFirst();
     
-    Entity spawnedMinecart =
-      ev.getPlayer().getWorld().spawnEntity(
-      cartJetsButton.get().getMinecartSpawningLocation(),
-        EntityType.MINECART
-      );
+    Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
+    final Locale locale = l != null ? l : Locale.ENGLISH;
     
-    spawnedMinecart.getPassengers().add(ev.getPlayer());
+    if (!cartJetsButton.isPresent()) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING)
+        .locale(locale)
+        .receiver(ev.getPlayer())
+        .send();
+      ev.setCancelled(true);
+      return;
+    }
     
-    spawnedMinecart.setMetadata(
-      "cartjets.is",
-      new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
-    );
-    
-    spawnedMinecart.setVelocity(new Vector(1, 1, 1));
-    
+    new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_SUCCESS)
+      .locale(locale)
+      .receiver(ev.getPlayer())
+      .send();
     ev.setCancelled(true);
   }
 }

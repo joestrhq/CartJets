@@ -21,8 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets;
+package at.joestr.cartjets;
 
+import at.joestr.cartjets.configuration.AppConfiguration;
+import at.joestr.cartjets.configuration.LanguageConfiguration;
+import at.joestr.cartjets.models.CartJetsModel;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -35,14 +38,8 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
-import javax.print.attribute.HashAttributeSet;
-import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
-import kiwi.minecraft.cartjets.configuration.AppConfiguration;
-import kiwi.minecraft.cartjets.models.CartJetsButtonModel;
-import kiwi.minecraft.cartjets.utils.SetupWizardMode;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -53,8 +50,8 @@ public class CartJetsPlugin extends JavaPlugin {
   
   private static CartJetsPlugin instance;
   
-  private Dao<CartJetsButtonModel, String> cartJetsButtonsDao;
-  private Map<UUID, SetupWizardMode> playerModes = new HashMap<>();
+  private Dao<CartJetsModel, String> cartJetsButtonsDao;
+  private HashMap<UUID, CartJetsModel> playerModels = new HashMap<>();;
   
   public static CartJetsPlugin getInstance() {
     return instance;
@@ -69,6 +66,7 @@ public class CartJetsPlugin extends JavaPlugin {
   @Override
   public void onEnable() {
     super.onEnable();
+    
     InputStream bundledConfig = this.getClass().getResourceAsStream("config.yml");
     File externalConfig = new File(this.getDataFolder(), "config.yml");
     File bundledLanguages = null;
@@ -123,7 +121,7 @@ public class CartJetsPlugin extends JavaPlugin {
     }
     
     try {
-      cartJetsButtonsDao = DaoManager.createDao(connectionSource, CartJetsButtonModel.class);
+      cartJetsButtonsDao = DaoManager.createDao(connectionSource, CartJetsModel.class);
     } catch (SQLException ex) {
       instance.getLogger().log(
         Level.SEVERE,
@@ -139,11 +137,11 @@ public class CartJetsPlugin extends JavaPlugin {
     super.onDisable();
   }
 
-  public Dao<CartJetsButtonModel, String> getCartJetsButtonsDao() {
+  public Dao<CartJetsModel, String> getCartJetsButtonsDao() {
     return cartJetsButtonsDao;
   }
   
-  public Map<UUID, SetupWizardMode> getPlayerModes() {
-    return this.playerModes;
+  public HashMap<UUID, CartJetsModel> getPlayerModels() {
+    return playerModels;
   }
 }

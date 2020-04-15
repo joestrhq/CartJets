@@ -21,11 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.utils;
+package at.joestr.cartjets.utils;
 
+import at.joestr.cartjets.configuration.LanguageConfiguration;
 import java.util.Locale;
 import java.util.function.Function;
-import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.command.CommandSender;
 
@@ -76,5 +76,13 @@ public class MessageHelper {
     receiver.spigot().sendMessage(
       ComponentSerializer.parse(message)
     );
+  }
+  
+  public String string() {
+    return LanguageConfiguration.getInstance()
+        .getString(
+          this.path.toString(),
+          this.locale
+        );
   }
 }

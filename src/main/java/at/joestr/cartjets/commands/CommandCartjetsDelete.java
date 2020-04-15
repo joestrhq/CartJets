@@ -21,18 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.commands;
+package at.joestr.cartjets.commands;
 
+import at.joestr.cartjets.CartJetsPlugin;
+import at.joestr.cartjets.models.CartJetsModel;
+import at.joestr.cartjets.utils.CurrentEntries;
+import at.joestr.cartjets.utils.MessageHelper;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import kiwi.minecraft.cartjets.CartJetsPlugin;
-import kiwi.minecraft.cartjets.models.CartJetsButtonModel;
-import kiwi.minecraft.cartjets.utils.CurrentEntries;
-import kiwi.minecraft.cartjets.utils.MessageHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -56,7 +56,7 @@ public class CommandCartjetsDelete implements TabExecutor {
       buttonNames =
         CartJetsPlugin.getInstance().getCartJetsButtonsDao()
           .queryForAll()
-          .stream().map(CartJetsButtonModel::getName)
+          .stream().map(CartJetsModel::getName)
           .collect(Collectors.toList());
     } catch (SQLException ex) {
       CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
@@ -73,13 +73,22 @@ public class CommandCartjetsDelete implements TabExecutor {
   }
   
   @Override
-  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {    
+    if (args.length != 1) {
+      return false;
+    }
+    
     Locale l =
       sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
     final Locale locale = l != null ? l : Locale.ENGLISH;
     
-    if (args.length != 1) {
-      return false;
+    if (!(sender instanceof Player)) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
+        .locale(locale)
+        .receiver(sender)
+        .send();
+      return true;
     }
     
     int result;

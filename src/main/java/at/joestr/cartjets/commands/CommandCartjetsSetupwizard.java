@@ -21,21 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.commands;
+package at.joestr.cartjets.commands;
 
+import at.joestr.cartjets.CartJetsPlugin;
+import at.joestr.cartjets.utils.CurrentEntries;
+import at.joestr.cartjets.utils.MessageHelper;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import kiwi.minecraft.cartjets.CartJetsPlugin;
-import kiwi.minecraft.cartjets.configuration.LanguageConfiguration;
-import kiwi.minecraft.cartjets.utils.CurrentEntries;
-import kiwi.minecraft.cartjets.utils.MessageHelper;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -45,7 +38,7 @@ import org.bukkit.entity.Player;
  *
  * @author Joel
  */
-public class CommandCartjets implements TabExecutor {
+public class CommandCartjetsSetupwizard implements TabExecutor{
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -53,25 +46,32 @@ public class CommandCartjets implements TabExecutor {
   }
 
   @Override
-  public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    if (args.length != 0) {
+      return false;
+    }
     
     Locale l =
       sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
     final Locale locale = l != null ? l : Locale.ENGLISH;
     
-    if (args.length != 0) {
-      return false;
+    if (!(sender instanceof Player)) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
+        .locale(locale)
+        .receiver(sender)
+        .send();
+      return true;
     }
     
-    CartJetsPlugin.getInstance().getDescription().getCommands().forEach((cmd, map) -> {
-      if (Bukkit.getServer().getPluginCommand(cmd).testPermissionSilent(sender)) {
-        new MessageHelper()
-          .path(CurrentEntries.valueOf((String) map.get("permission")))
-          .locale(locale)
-          .receiver(sender)
-          .send();
-      }
-    });
+    Player player = (Player) sender;
+    
+    new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
+      .locale(locale)
+      .receiver(sender)
+      .send();
+    
     return true;
   }
 }

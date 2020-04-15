@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.utils;
+package at.joestr.cartjets.utils;
 
 /**
  *
@@ -30,8 +30,7 @@ package kiwi.minecraft.cartjets.utils;
 public enum CurrentEntries {
   CONFIG_JDBCURI("jdbcUri"),
   LANG_PREFIX("prefix"),
-  LANG_NO_PERM("generic.no_permission"),
-  LANG_WRONG_SYNTAX("generic.wrong_syntax"),
+  LANG_GEN_NOT_A_PLAYER("generic.not_a_player"),
   LANG_CMD_CARTJETS_MSG_SETUPWIZARD("commands.cartjets.message_setupwizard"),
   LANG_CMD_CARTJETS_MSG_DELETE("commands.cartjets.message_delete"),
   LANG_CMD_CARTJETS_MSG_LIST("commands.cartjets.message_delete"),
@@ -40,8 +39,11 @@ public enum CurrentEntries {
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING("commands.cartjets-setupwizard.button.overlapping"),
   LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_INSTRUCTION("commands.cartjets-setupwizard.rail.instruction"),
   LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS("commands.cartjets-setupwizard.success"),
+  LANG_CMD_CARTJETS_SETUPWIZARD_NAME_ANVIL_GUI_TEXT("commands.cartjets-setupwizard.name.anvilgui_text"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_PLACEHOLDER("commands.cartjets-setupwizard.name.placeholder"),
+  LANG_CMD_CARTJETS_SETUPWIZARD_NAME_DUPLICATE("commands.cartjets-setupwizard.name.duplicate"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_SUCCESS("commands.cartjets-setupwizard.name.success"),
+  LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL("commands.cartjets-setupwizard.cancel"),
   LANG_CMD_CARTJETS_DELETE_NON_EXISTING("commands.cartjets-delete.non_existing"),
   LANG_CMD_CARTJETS_DELETE_SUCCESS("commands.cartjets-delete.success"),
   LANG_CMD_CARTJETS_LIST_MESSAGE("commands.cartjets-list.message"),

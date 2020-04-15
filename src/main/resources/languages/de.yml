@@ -1,7 +1,6 @@
 prefix: '{"text":"[","color":"dark_gray"},{"text":"CJ","color":"dark_green"},{"text":"]","color":"dark_gray"}'
 generic:
-  no_permission: '["",{"text":"Dir fehlt die Berechtigung ","color":"red"},{"text":"%permission","color":"white"},{"text":"!","color":"red"},{"text":" ","color":"green"}]'
-  wrong_syntax: '["",{"text":"Fehlerhafte Syntax! Benutze: ","color":"red"},{"text":"%usage","color":"white","clickEvent":{"action":"suggest_command","value":"%usage"},"hoverEvent":{"action":"show_text","value":"%usage"}}]'
+  not_a_player: '{"text":"Dieser Befehl kann nur von Spielern verwendet werden!","color":"red"}'
 commands:
   cartjets:
     message_setupwizard: '["",%prefix,{"text":"» ","color":"gray"},{"text":"Den Setup-Wizard verwenden/beenden","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-setupwizard"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-setupwizard","color":"white"}}}]'
@@ -16,8 +15,11 @@ commands:
       instruction: '{"text":"Markiere mit Rechtsklick das Gleisstück, auf welcher das CartJet spawnen soll.","color":"aqua"}'
       success: '{"text":"Das Gleisstück wurde erfolgreich markiert.","color":"green"}'
     name:
+      anvilgui_text: 'Strecken-Name'
       placeholder: 'Name der Strecke ...'
+      duplicate: '%line existiert bereits'
       success: '["",{"text":"Die Strecke ","color":"green"},{"text":"%line","color":"white"},{"text":" wurde erfolgreich angelegt.","color":"green"}]'
+    cancel: '{"text":"Die Erstellung wurde abgebrochen!","color":"red"}'
   cartjets-list:
     message: '["",{"text":"Folgende Strecken sind verfügbar: ","color":"red"},{"text":"%lines","color":"white"}]'
   cartjets-delete:

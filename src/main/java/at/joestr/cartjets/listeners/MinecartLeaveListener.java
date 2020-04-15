@@ -21,10 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package kiwi.minecraft.cartjets.listeners;
+package at.joestr.cartjets.listeners;
 
 import java.util.List;
-import kiwi.minecraft.cartjets.CartJetsPlugin;
+import at.joestr.cartjets.CartJetsPlugin;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
