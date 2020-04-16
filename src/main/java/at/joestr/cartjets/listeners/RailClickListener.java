@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -61,10 +60,10 @@ public class RailClickListener implements Listener {
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
-    if (!CartJetsPlugin.getInstance().getPlayerModels().containsKey(ev.getPlayer().getUniqueId()))
+    if (!CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
       return;
     
-    if (CartJetsPlugin.getInstance().getPlayerModels().get(ev.getPlayer().getUniqueId()).getMinecartSpawningLocation() != null)
+    if (CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).getMinecartSpawningLocation() != null)
       return;
     
     Material clickedBlockMaterial = clickedBlock.getType();
@@ -79,50 +78,63 @@ public class RailClickListener implements Listener {
       .receiver(ev.getPlayer())
       .send();
     
+    ev.setCancelled(true);
+    
     new AnvilGUI.Builder()
     .onClose(player -> {
-        new MessageHelper()
-          .receiver(player)
-          .locale(locale)
-          .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
-          .send();
+      Object result =
+        CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
+      
+      if (result == null) return;
+      
+      new MessageHelper()
+        .receiver(player)
+        .locale(locale)
+        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
+        .send();
     })
     .onComplete((player, text) -> {
-      List<CartJetsModel> cartJetsButtons = null;
+      List<CartJetsModel> cartJets;
       try {
-        cartJetsButtons =
-          CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll();
+        cartJets =
+          CartJetsPlugin.getInstance().getCartJetsDao().queryForAll();
       } catch (SQLException ex) {
         CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
+        return AnvilGUI.Response.close();
       }
-      if (cartJetsButtons == null) return AnvilGUI.Response.close();;
+      if (cartJets == null) return AnvilGUI.Response.close();
 
-      Optional<CartJetsModel> cartJets =
-        cartJetsButtons.stream()
+      Optional<CartJetsModel> cartJet =
+        cartJets.stream()
           .filter((b) -> {
             return b.getName().equalsIgnoreCase(text);
           })
           .findFirst();
       
-      if(cartJets.isPresent()) {
-        try {
-          CartJetsPlugin.getInstance().getCartJetsButtonsDao().create(cartJets.get());
-        } catch (SQLException ex) {
-          CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
-        }
-        new MessageHelper()
-          .receiver(player)
-          .locale(locale)
-          .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_SUCCESS)
-          .send();
-        return AnvilGUI.Response.close();
+      if(cartJet.isPresent()) {
+        return AnvilGUI.Response.text(
+          new MessageHelper()
+            .locale(locale)
+            .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_DUPLICATE)
+            .string()
+        );
       }
       
-      return AnvilGUI.Response.text(
-        new MessageHelper().locale(locale)
-        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_DUPLICATE)
-        .string()
-      );
+      CartJetsModel result =
+        CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
+      try {
+        CartJetsPlugin.getInstance().getCartJetsDao().create(result);
+      } catch (SQLException ex) {
+        CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
+        return AnvilGUI.Response.close();
+      }
+
+      new MessageHelper()
+        .receiver(player)
+        .locale(locale)
+        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_SUCCESS)
+        .send();
+      return AnvilGUI.Response.close();
     })
     //.preventClose()
     .text(
@@ -138,7 +150,5 @@ public class RailClickListener implements Listener {
     )
     .plugin(CartJetsPlugin.getInstance())
     .open(ev.getPlayer());
-    
-    ev.setCancelled(true);
   }
 }

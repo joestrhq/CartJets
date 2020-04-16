@@ -54,7 +54,7 @@ public class CommandCartjetsDelete implements TabExecutor {
     
     try {
       buttonNames =
-        CartJetsPlugin.getInstance().getCartJetsButtonsDao()
+        CartJetsPlugin.getInstance().getCartJetsDao()
           .queryForAll()
           .stream().map(CartJetsModel::getName)
           .collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class CommandCartjetsDelete implements TabExecutor {
     
     int result;
     try {
-      result = CartJetsPlugin.getInstance().getCartJetsButtonsDao().deleteById(args[0]);
+      result = CartJetsPlugin.getInstance().getCartJetsDao().deleteById(args[0]);
     } catch (SQLException ex) {
       CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
       throw new RuntimeException(null, ex);

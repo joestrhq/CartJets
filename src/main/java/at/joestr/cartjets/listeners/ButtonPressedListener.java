@@ -68,39 +68,38 @@ public class ButtonPressedListener implements Listener {
     Material clickedBlockMaterial = clickedBlock.getType();
     if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
     
-    List<CartJetsModel> cartJetsButtons = null;
+    List<CartJetsModel> cartJets = null;
     try {
-      cartJetsButtons =
-        CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll();
+      cartJets =
+        CartJetsPlugin.getInstance().getCartJetsDao().queryForAll();
     } catch (SQLException ex) {
       CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
     }
-    if (cartJetsButtons == null) return;
+    if (cartJets == null) return;
     
     boolean buttonPresent =
-      cartJetsButtons.stream()
+      cartJets.stream()
         .anyMatch((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         });
     if (!buttonPresent) return;
     
-    Optional<CartJetsModel> cartJetsButton =
-      cartJetsButtons.stream()
+    Optional<CartJetsModel> cartJet =
+      cartJets.stream()
         .filter((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         })
         .findFirst();
     
     Entity spawnedMinecart =
-      ev.getPlayer().getWorld().spawnEntity(
-      cartJetsButton.get().getMinecartSpawningLocation(),
+      ev.getPlayer().getWorld().spawnEntity(cartJet.get().getMinecartSpawningLocation(),
         EntityType.MINECART
       );
     
     spawnedMinecart.getPassengers().add(ev.getPlayer());
     
     spawnedMinecart.setMetadata(
-      "cartjets.is",
+      "cartjet.is",
       new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
     );
     
@@ -114,33 +113,33 @@ public class ButtonPressedListener implements Listener {
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
-    if (!CartJetsPlugin.getInstance().getPlayerModels().containsKey(ev.getPlayer().getUniqueId()))
+    if (!CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
       return;
     
-    if (CartJetsPlugin.getInstance().getPlayerModels().get(ev.getPlayer().getUniqueId()).getButtonLocation() != null)
+    if (CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).getButtonLocation() != null)
       return;
     
     Material clickedBlockMaterial = clickedBlock.getType();
     if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
     
-    List<CartJetsModel> cartJetsButtons = null;
+    List<CartJetsModel> cartJets = null;
     try {
-      cartJetsButtons =
-        CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll();
+      cartJets =
+        CartJetsPlugin.getInstance().getCartJetsDao().queryForAll();
     } catch (SQLException ex) {
       CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
     }
-    if (cartJetsButtons == null) return;
+    if (cartJets == null) return;
     
     boolean buttonPresent =
-      cartJetsButtons.stream()
+      cartJets.stream()
         .anyMatch((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         });
     if (!buttonPresent) return;
     
-    Optional<CartJetsModel> cartJetsButton =
-      cartJetsButtons.stream()
+    Optional<CartJetsModel> cartJet =
+      cartJets.stream()
         .filter((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         })
@@ -149,7 +148,7 @@ public class ButtonPressedListener implements Listener {
     Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
     final Locale locale = l != null ? l : Locale.ENGLISH;
     
-    if (!cartJetsButton.isPresent()) {
+    if (!cartJet.isPresent()) {
       new MessageHelper()
         .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING)
         .locale(locale)
@@ -159,6 +158,8 @@ public class ButtonPressedListener implements Listener {
       return;
     }
     
+    CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId())
+      .setButtonLocation(ev.getClickedBlock().getLocation());
     new MessageHelper()
       .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_SUCCESS)
       .locale(locale)

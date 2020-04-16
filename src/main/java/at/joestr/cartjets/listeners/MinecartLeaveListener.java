@@ -44,7 +44,7 @@ public class MinecartLeaveListener {
     
     if (dismounted.getType() != EntityType.MINECART) return;
     
-    List<MetadataValue> metadataValues = dismounted.getMetadata("cartjets.is");
+    List<MetadataValue> metadataValues = dismounted.getMetadata("cartjet.is");
     
     if (metadataValues.isEmpty()) return;
     

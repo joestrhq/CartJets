@@ -70,7 +70,7 @@ public class CommandCartjetsList implements TabExecutor {
     String lineListAsString;
     try {
       lineListAsString =
-        CartJetsPlugin.getInstance().getCartJetsButtonsDao().queryForAll()
+        CartJetsPlugin.getInstance().getCartJetsDao().queryForAll()
           .stream()
           .map((b) -> b.getName())
           .collect(Collectors.joining(", ", "", ""));

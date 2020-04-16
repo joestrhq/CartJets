@@ -66,6 +66,15 @@ public class CommandCartjetsSetupwizard implements TabExecutor{
     
     Player player = (Player) sender;
     
+    if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(player.getUniqueId())) {
+      CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
+        .locale(locale)
+        .receiver(sender)
+        .send();
+    }
+    
     new MessageHelper()
       .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
       .locale(locale)

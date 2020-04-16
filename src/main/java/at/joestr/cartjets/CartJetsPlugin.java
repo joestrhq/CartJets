@@ -31,7 +31,6 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -50,8 +49,8 @@ public class CartJetsPlugin extends JavaPlugin {
   
   private static CartJetsPlugin instance;
   
-  private Dao<CartJetsModel, String> cartJetsButtonsDao;
-  private HashMap<UUID, CartJetsModel> playerModels = new HashMap<>();;
+  private Dao<CartJetsModel, String> cartJetsDao;
+  private HashMap<UUID, CartJetsModel> perUserModels;
   
   public static CartJetsPlugin getInstance() {
     return instance;
@@ -67,8 +66,42 @@ public class CartJetsPlugin extends JavaPlugin {
   public void onEnable() {
     super.onEnable();
     
+    this.loadAppConfiguration();
+    this.loadLanguageConfiguration();
+    this.loadDatabase();
+    this.perUserModels = new HashMap<>();
+  }
+
+  @Override
+  public void onDisable() {
+    super.onDisable();
+  }
+
+  public Dao<CartJetsModel, String> getCartJetsDao() {
+    return cartJetsDao;
+  }
+  
+  public HashMap<UUID, CartJetsModel> getPerUserModels() {
+    return perUserModels;
+  }
+  
+  private void loadAppConfiguration() {
     InputStream bundledConfig = this.getClass().getResourceAsStream("config.yml");
     File externalConfig = new File(this.getDataFolder(), "config.yml");
+    
+    try {
+      AppConfiguration.getInstance(externalConfig, bundledConfig);
+    } catch (IOException ex) {
+      instance.getLogger().log(
+        Level.SEVERE,
+        "Error whilst intialising the plugin configuration!",
+        ex
+      );
+      this.getServer().getPluginManager().disablePlugin(this);
+    }
+  }
+  
+  private void loadLanguageConfiguration() {
     File bundledLanguages = null;
     try {
       bundledLanguages = new File(
@@ -85,19 +118,8 @@ public class CartJetsPlugin extends JavaPlugin {
     File externalLanguages = new File(this.getDataFolder(), "languages");
     
     try {
-      AppConfiguration.getInstance(externalConfig, bundledConfig);
-    } catch (IOException ex) {
-      instance.getLogger().log(
-        Level.SEVERE,
-        "Error whilst intialising the plugin configuration!",
-        ex
-      );
-      this.getServer().getPluginManager().disablePlugin(this);
-    }
-    
-    try {
       LanguageConfiguration.getInstance(externalLanguages, bundledLanguages, Locale.ENGLISH);
-    } catch (FileNotFoundException ex) {
+    } catch (IOException ex) {
       instance.getLogger().log(
         Level.SEVERE,
         "Error whilst intialising the language configuration!",
@@ -105,7 +127,9 @@ public class CartJetsPlugin extends JavaPlugin {
       );
       this.getServer().getPluginManager().disablePlugin(this);
     }
-    
+  }
+  
+  private void loadDatabase() {
     ConnectionSource connectionSource = null;
     try {
       connectionSource = new JdbcConnectionSource(
@@ -121,7 +145,7 @@ public class CartJetsPlugin extends JavaPlugin {
     }
     
     try {
-      cartJetsButtonsDao = DaoManager.createDao(connectionSource, CartJetsModel.class);
+      cartJetsDao = DaoManager.createDao(connectionSource, CartJetsModel.class);
     } catch (SQLException ex) {
       instance.getLogger().log(
         Level.SEVERE,
@@ -130,18 +154,5 @@ public class CartJetsPlugin extends JavaPlugin {
       );
       this.getServer().getPluginManager().disablePlugin(this);
     }
-  }
-
-  @Override
-  public void onDisable() {
-    super.onDisable();
-  }
-
-  public Dao<CartJetsModel, String> getCartJetsButtonsDao() {
-    return cartJetsButtonsDao;
-  }
-  
-  public HashMap<UUID, CartJetsModel> getPlayerModels() {
-    return playerModels;
   }
 }
