@@ -33,10 +33,10 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -102,23 +102,13 @@ public class CartJetsPlugin extends JavaPlugin {
   }
   
   private void loadLanguageConfiguration() {
-    File bundledLanguages = null;
-    try {
-      bundledLanguages = new File(
-        this.getClass().getResource("languages/").toURI()
-      );
-    } catch (URISyntaxException ex) {
-      instance.getLogger().log(
-        Level.SEVERE,
-        "Error in URI syntax for bundled languages!",
-        ex
-      );
-      this.getServer().getPluginManager().disablePlugin(this);
-    }
-    File externalLanguages = new File(this.getDataFolder(), "languages");
+    Map<String, InputStream> bundledLanguages = new HashMap<>();
+    bundledLanguages.put("en.yml", this.getClass().getResourceAsStream("languages/en.yml"));
+    bundledLanguages.put("de.yml", this.getClass().getResourceAsStream("languages/de.yml"));
+    File externalLanguagesFolder = new File(this.getDataFolder(), "languages");
     
     try {
-      LanguageConfiguration.getInstance(externalLanguages, bundledLanguages, Locale.ENGLISH);
+      LanguageConfiguration.getInstance(externalLanguagesFolder, bundledLanguages, Locale.ENGLISH);
     } catch (IOException ex) {
       instance.getLogger().log(
         Level.SEVERE,

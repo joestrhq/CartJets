@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,42 +31,41 @@ public class LanguageConfiguration {
   public Map<Locale, YamlStreamConfiguration> bundledLanguageConfigurations;
   public Locale fallback;
   
-  private LanguageConfiguration(File externalLanguages, File bundledLanguages, Locale fallback) throws FileNotFoundException, IOException {
-    if (!externalLanguages.exists()) {
-      externalLanguages.mkdirs();
-      for (File languageFile : bundledLanguages.listFiles()) {
-        String fileName = languageFile.getName();
+  private LanguageConfiguration(File externalLanguagesFolder, Map<String, InputStream> bundledLanguages, Locale fallback) throws FileNotFoundException, IOException {
+    this.externalLanguageConfigurations = new HashMap<>();
+    this.bundledLanguageConfigurations = new HashMap<>();
+    this.fallback = fallback;
+    
+    if (!externalLanguagesFolder.exists()) {
+      externalLanguagesFolder.mkdirs();
+    }
+    
+    for (String languageFileName : bundledLanguages.keySet()) {
+        String fileName = languageFileName;
         Locale l =
           Locale.forLanguageTag(
-            fileName.contains(".") ? fileName.split(".")[0] : fileName
+            fileName.contains(".") ? fileName.split("\\.")[0] : fileName
           );
         bundledLanguageConfigurations.put(
           l,
-          new YamlStreamConfiguration(new FileInputStream(languageFile))
+          new YamlStreamConfiguration(
+            bundledLanguages.get(languageFileName)
+          )
         );
-        bundledLanguageConfigurations.get(l).saveConfigAsFile(
-          new File(externalLanguages, fileName)
-        );
+        File externalFile = 
+          new File(externalLanguagesFolder, fileName);
+        if (!externalFile.exists()) {
+          bundledLanguageConfigurations.get(l).saveConfigAsFile(
+            externalFile
+          );
+        }
       }
-    }
     
-    if (bundledLanguageConfigurations.isEmpty()) {
-      for (File languageFile : bundledLanguages.listFiles()) {
-        String fileName = languageFile.getName();
-        bundledLanguageConfigurations.put(
-          Locale.forLanguageTag(
-            fileName.contains(".") ? fileName.split(".")[0] : fileName
-          ),
-          new YamlStreamConfiguration(new FileInputStream(languageFile))
-        );
-      }
-    }
-    
-    for (File languageFile : externalLanguages.listFiles()) {
+    for (File languageFile : externalLanguagesFolder.listFiles()) {
       String fileName = languageFile.getName();
       externalLanguageConfigurations.put(
         Locale.forLanguageTag(
-          fileName.contains(".") ? fileName.split(".")[0] : fileName
+          fileName.contains(".") ? fileName.split("\\.")[0] : fileName
         ),
         new YamlFileConfiguration(languageFile)
       );
@@ -73,12 +74,12 @@ public class LanguageConfiguration {
     this.fallback = fallback;
   }
   
-  public static LanguageConfiguration getInstance(File externalLanguages, File bundledLanguages, Locale fallback) throws FileNotFoundException, IOException {
+  public static LanguageConfiguration getInstance(File externalLanguagesFolder, Map<String, InputStream> bundledLanguagesStream, Locale fallback) throws FileNotFoundException, IOException {
     if (INSTANCE != null) {
       throw new RuntimeException("This class has already been instantiated!");
     }
     
-    INSTANCE = new LanguageConfiguration(externalLanguages, bundledLanguages, fallback);
+    INSTANCE = new LanguageConfiguration(externalLanguagesFolder, bundledLanguagesStream, fallback);
     
     return INSTANCE;
   }

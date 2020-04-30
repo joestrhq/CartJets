@@ -1,10 +1,10 @@
-main: kiwi.minecraft.cartjets.CartJetsPlugin
+main: at.joestr.cartjets.CartJetsPlugin
 name: CartJets
-version: '{project.version}'
+version: '${project.version}'
 description: 'Define entry points for faster minecarts.'
 load: POSTWORLD
 author: joestr
-authors: [Schwakat, Enkaptaton, twieteddy, Bambuskadse]
+authors: [Bambuskadse, Enkaptaton, General_Honey, Schwakat]
 website: https://www.joestr.at
 prefix: CartJets
 #depend: [WorldEdit, Towny]
