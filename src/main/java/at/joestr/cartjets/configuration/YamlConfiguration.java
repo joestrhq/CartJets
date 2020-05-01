@@ -29,7 +29,7 @@ public abstract class YamlConfiguration {
     
     String[] splitted = path.contains(".") ? path.split(".") : new String[] { path };
     
-    for (int i = 0; i < splitted.length - 1; i++) {
+    for (int i = 0; i < splitted.length; i++) {
       if(!subMap.containsKey(splitted[i])) {
         return null;
       } else {
@@ -38,7 +38,7 @@ public abstract class YamlConfiguration {
       }
     }
     
-    return subMap.get(splitted[splitted.length - 1]);
+    return subMap.get(splitted[splitted.length]);
   }
   
   private <T> T getObject(String path, Class<? extends T> clazz) {

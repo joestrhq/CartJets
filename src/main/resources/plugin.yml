@@ -14,33 +14,33 @@ commands:
   cartjets:
     description: Shows the help for the CartJets plugin.
     #aliases: [cj]
-    permission: cartjets.command.cartjets
-    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets§c!'
-    usage: '§cSyntax error! Use: §f/<command> <name>'
+    permission: cartjets.commands.cartjets
+    permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets§c!'
+    usage: '§cSyntax error! Use: §f/<command>'
   cartjets-setupwizard:
     description: Toggles the setup wizard for creating lines.
     #aliases: [cjsw]
-    permission: cartjets.command.cartjets-setupwizard
-    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets-setupwizard§c!'
+    permission: cartjets.commands.cartjets-setupwizard
+    permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets-setupwizard§c!'
     usage: '§cSyntax error! Use: §f/<command>'
   cartjets-list:
     description: Lists all CartJets lines.
     #aliases: [cjl]
-    permission: cartjets.command.cartjets-list
-    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets-list§c!'
+    permission: cartjets.commands.cartjets-list
+    permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets-list§c!'
     usage: '§cSyntax error! Use: §f/<command>'
   cartjets-delete:
     description: Deletes a CartJets line.
     #aliases: [cjd]
-    permission: cartjets.command.cartjets-delete
-    permission-message: '§cYou are lacking permission §fcartjets.command.cartjets-delete§c!'
+    permission: cartjets.commands.cartjets-delete
+    permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets-delete§c!'
     usage: '§cSyntax error! Use: §f/<command> <name>'
 permissions:
-  cartjets.command.*:
+  cartjets.commands.*:
    description: Allows the usage all commands provided by the CartJets plugin.
    default: op
    children:
-     cartjets.command.cartjets: true
-     cartjets.command.cartjets-setupwizard: true
-     cartjets.command.cartjets-list: true
-     cartjets.command.cartjets-delete: true
+     cartjets.commands.cartjets: true
+     cartjets.commands.cartjets-setupwizard: true
+     cartjets.commands.cartjets-list: true
+     cartjets.commands.cartjets-delete: true

@@ -23,9 +23,14 @@
 // 
 package at.joestr.cartjets;
 
+import at.joestr.cartjets.commands.CommandCartjets;
+import at.joestr.cartjets.commands.CommandCartjetsDelete;
+import at.joestr.cartjets.commands.CommandCartjetsList;
+import at.joestr.cartjets.commands.CommandCartjetsSetupwizard;
 import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
 import at.joestr.cartjets.models.CartJetsModel;
+import com.google.common.base.CharMatcher;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -39,6 +44,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -51,6 +58,7 @@ public class CartJetsPlugin extends JavaPlugin {
   
   private Dao<CartJetsModel, String> cartJetsDao;
   private HashMap<UUID, CartJetsModel> perUserModels;
+  private HashMap<String, TabExecutor> commandMap;
   
   public static CartJetsPlugin getInstance() {
     return instance;
@@ -70,6 +78,14 @@ public class CartJetsPlugin extends JavaPlugin {
     this.loadLanguageConfiguration();
     this.loadDatabase();
     this.perUserModels = new HashMap<>();
+    this.commandMap = new HashMap<>();
+    
+    this.commandMap.put("cartjets", new CommandCartjets());
+    this.commandMap.put("cartjets-delete", new CommandCartjetsDelete());
+    this.commandMap.put("cartjets-list", new CommandCartjetsList());
+    this.commandMap.put("cartjets-setupwizard", new CommandCartjetsSetupwizard());
+    
+    this.registerCommands();
   }
 
   @Override
@@ -83,6 +99,15 @@ public class CartJetsPlugin extends JavaPlugin {
   
   public HashMap<UUID, CartJetsModel> getPerUserModels() {
     return perUserModels;
+  }
+  
+  private void registerCommands() {
+    this.commandMap.forEach((s, e) -> {
+      PluginCommand pluginCommand = getCommand(s);
+      if (pluginCommand == null) return;
+      pluginCommand.setExecutor(e);
+      pluginCommand.setTabCompleter(e);
+    });
   }
   
   private void loadAppConfiguration() {

@@ -23,6 +23,9 @@
 // 
 package at.joestr.cartjets.utils;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  *
  * @author Joel
@@ -49,7 +52,8 @@ public enum CurrentEntries {
   LANG_CMD_CARTJETS_LIST_MESSAGE("commands.cartjets-list.message"),
   PERM_CMD_CARTJETS("cartjets.commands.cartjets"),
   PERM_CMD_CARTJETS_SETUPWIZARD("cartjets.commands.cartjets-setupwizard"),
-  PERM_CMD_CARTJETS_LIST("cartjets.commands.cartjets");
+  PERM_CMD_CARTJETS_LIST("cartjets.commands.cartjets-list"),
+  PERM_CMD_CARTJETS_DELETE("cartjets.commands.cartjets-delete");
   
   private final String text;
 
@@ -60,5 +64,14 @@ public enum CurrentEntries {
   @Override  
   public String toString() {
     return this.text;
+  }
+  
+  public static CurrentEntries find(String text) {
+    Optional<CurrentEntries> result = Arrays.asList(values())
+      .stream()
+      .filter((cE) -> cE.toString().equalsIgnoreCase(text))
+      .findFirst();
+    if (result.isPresent()) return result.get();
+    throw new NullPointerException(String.format("The text {0} is not in this Enum!", text));
   }
 }

@@ -68,7 +68,7 @@ public class CommandCartjets implements TabExecutor {
     CartJetsPlugin.getInstance().getDescription().getCommands().forEach((cmd, map) -> {
       if (Bukkit.getServer().getPluginCommand(cmd).testPermissionSilent(sender)) {
         new MessageHelper()
-          .path(CurrentEntries.valueOf((String) map.get("permission")))
+          .path(CurrentEntries.find((String) map.get("permission")))
           .locale(locale)
           .receiver(sender)
           .send();
