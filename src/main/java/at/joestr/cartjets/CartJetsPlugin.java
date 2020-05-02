@@ -29,12 +29,16 @@ import at.joestr.cartjets.commands.CommandCartjetsList;
 import at.joestr.cartjets.commands.CommandCartjetsSetupwizard;
 import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
+import at.joestr.cartjets.listeners.ButtonPressedListener;
+import at.joestr.cartjets.listeners.MinecartLeaveListener;
+import at.joestr.cartjets.listeners.RailClickListener;
 import at.joestr.cartjets.models.CartJetsModel;
 import com.google.common.base.CharMatcher;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +48,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -74,11 +79,17 @@ public class CartJetsPlugin extends JavaPlugin {
   public void onEnable() {
     super.onEnable();
     
-    this.loadAppConfiguration();
-    this.loadLanguageConfiguration();
-    this.loadDatabase();
     this.perUserModels = new HashMap<>();
     this.commandMap = new HashMap<>();
+    
+    this.loadAppConfiguration();
+    this.loadLanguageConfiguration();
+    try {
+      this.loadDatabase();
+    } catch (SQLException ex) {
+      this.getLogger().log(Level.SEVERE, "Error whilst loading database!", ex);
+      this.getServer().getPluginManager().disablePlugin(this);
+    }
     
     this.commandMap.put("cartjets", new CommandCartjets());
     this.commandMap.put("cartjets-delete", new CommandCartjetsDelete());
@@ -86,6 +97,7 @@ public class CartJetsPlugin extends JavaPlugin {
     this.commandMap.put("cartjets-setupwizard", new CommandCartjetsSetupwizard());
     
     this.registerCommands();
+    this.registerListeners();
   }
 
   @Override
@@ -110,6 +122,12 @@ public class CartJetsPlugin extends JavaPlugin {
     });
   }
   
+  private void registerListeners() {
+    this.getServer().getPluginManager().registerEvents(new ButtonPressedListener(), this);
+    this.getServer().getPluginManager().registerEvents(new MinecartLeaveListener(), this);
+    this.getServer().getPluginManager().registerEvents(new RailClickListener(), this);
+  }
+  
   private void loadAppConfiguration() {
     InputStream bundledConfig = this.getClass().getResourceAsStream("config.yml");
     File externalConfig = new File(this.getDataFolder(), "config.yml");
@@ -117,7 +135,7 @@ public class CartJetsPlugin extends JavaPlugin {
     try {
       AppConfiguration.getInstance(externalConfig, bundledConfig);
     } catch (IOException ex) {
-      instance.getLogger().log(
+      this.getLogger().log(
         Level.SEVERE,
         "Error whilst intialising the plugin configuration!",
         ex
@@ -135,7 +153,7 @@ public class CartJetsPlugin extends JavaPlugin {
     try {
       LanguageConfiguration.getInstance(externalLanguagesFolder, bundledLanguages, Locale.ENGLISH);
     } catch (IOException ex) {
-      instance.getLogger().log(
+      this.getLogger().log(
         Level.SEVERE,
         "Error whilst intialising the language configuration!",
         ex
@@ -144,30 +162,14 @@ public class CartJetsPlugin extends JavaPlugin {
     }
   }
   
-  private void loadDatabase() {
-    ConnectionSource connectionSource = null;
-    try {
-      connectionSource = new JdbcConnectionSource(
+  private void loadDatabase() throws SQLException {
+    ConnectionSource connectionSource =
+      new JdbcConnectionSource(
         AppConfiguration.getInstance().getString("jdbcUri")
       );
-    } catch (SQLException ex) {
-      instance.getLogger().log(
-        Level.SEVERE,
-        "Error whilst connecting to database!",
-        ex
-      );
-      this.getServer().getPluginManager().disablePlugin(this);
-    }
     
-    try {
-      cartJetsDao = DaoManager.createDao(connectionSource, CartJetsModel.class);
-    } catch (SQLException ex) {
-      instance.getLogger().log(
-        Level.SEVERE,
-        "Error whilst creating Dao!",
-        ex
-      );
-      this.getServer().getPluginManager().disablePlugin(this);
-    }
+    this.cartJetsDao = DaoManager.createDao(connectionSource, CartJetsModel.class);
+    
+    TableUtils.createTable(connectionSource, CartJetsModel.class);
   }
 }

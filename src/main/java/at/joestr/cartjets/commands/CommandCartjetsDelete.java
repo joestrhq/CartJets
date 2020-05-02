@@ -25,7 +25,7 @@ package at.joestr.cartjets.commands;
 
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.models.CartJetsModel;
-import at.joestr.cartjets.utils.CurrentEntries;
+import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.utils.MessageHelper;
 import java.sql.SQLException;
 import java.util.ArrayList;

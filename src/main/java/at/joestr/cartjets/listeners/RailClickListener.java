@@ -26,7 +26,7 @@ package at.joestr.cartjets.listeners;
 import at.joestr.cartjets.utils.MessageHelper;
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.models.CartJetsModel;
-import at.joestr.cartjets.utils.CurrentEntries;
+import at.joestr.cartjets.configuration.CurrentEntries;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -112,8 +112,7 @@ public class RailClickListener implements Listener {
           .findFirst();
       
       if(cartJet.isPresent()) {
-        return AnvilGUI.Response.text(
-          new MessageHelper()
+        return AnvilGUI.Response.text(new MessageHelper()
             .locale(locale)
             .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_DUPLICATE)
             .string()
@@ -137,14 +136,12 @@ public class RailClickListener implements Listener {
       return AnvilGUI.Response.close();
     })
     //.preventClose()
-    .text(
-      new MessageHelper().locale(locale)
+    .text(new MessageHelper().locale(locale)
         .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_PLACEHOLDER)
         .string()
     )
     .item(new ItemStack(Material.MINECART))
-    .title(
-      new MessageHelper().locale(locale)
+    .title(new MessageHelper().locale(locale)
         .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_ANVIL_GUI_TEXT)
         .string()
     )

@@ -1,1 +1,1 @@
-jdbcUri: 'jdbc:h2:./cartjets.mv.db'
+jdbcUri: 'jdbc:h2:./plugins/CartJets/cartjets'

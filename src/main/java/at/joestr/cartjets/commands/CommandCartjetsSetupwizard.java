@@ -24,7 +24,7 @@
 package at.joestr.cartjets.commands;
 
 import at.joestr.cartjets.CartJetsPlugin;
-import at.joestr.cartjets.utils.CurrentEntries;
+import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.utils.MessageHelper;
 import com.google.common.collect.ImmutableList;
 import java.util.List;

@@ -27,9 +27,9 @@ public abstract class YamlConfiguration {
   private Object lookupObject(String path, Map<Object, Object> configMap) {
     Map<Object, Object> subMap = new HashMap<>(configMap);
     
-    String[] splitted = path.contains(".") ? path.split(".") : new String[] { path };
+    String[] splitted = path.contains(".") ? path.split("\\.") : new String[] { path };
     
-    for (int i = 0; i < splitted.length; i++) {
+    for (int i = 0; i < splitted.length - 1; i++) {
       if(!subMap.containsKey(splitted[i])) {
         return null;
       } else {
@@ -38,7 +38,7 @@ public abstract class YamlConfiguration {
       }
     }
     
-    return subMap.get(splitted[splitted.length]);
+    return subMap.get(splitted[splitted.length - 1]);
   }
   
   private <T> T getObject(String path, Class<? extends T> clazz) {

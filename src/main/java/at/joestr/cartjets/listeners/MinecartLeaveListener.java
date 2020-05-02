@@ -29,6 +29,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.metadata.MetadataValue;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
@@ -36,7 +37,7 @@ import org.spigotmc.event.entity.EntityDismountEvent;
  *
  * @author Joel
  */
-public class MinecartLeaveListener {
+public class MinecartLeaveListener implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
   public void onMinecartLeave(EntityDismountEvent ev) {

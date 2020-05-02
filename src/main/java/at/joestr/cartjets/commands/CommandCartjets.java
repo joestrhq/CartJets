@@ -24,7 +24,7 @@
 package at.joestr.cartjets.commands;
 
 import at.joestr.cartjets.CartJetsPlugin;
-import at.joestr.cartjets.utils.CurrentEntries;
+import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.utils.MessageHelper;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
@@ -65,15 +65,30 @@ public class CommandCartjets implements TabExecutor {
       return true;
     }
     
-    CartJetsPlugin.getInstance().getDescription().getCommands().forEach((cmd, map) -> {
-      if (Bukkit.getServer().getPluginCommand(cmd).testPermissionSilent(sender)) {
-        new MessageHelper()
-          .path(CurrentEntries.find((String) map.get("permission")))
-          .locale(locale)
-          .receiver(sender)
-          .send();
-      }
-    });
+    if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_SETUPWIZARD.toString())) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_MSG_SETUPWIZARD)
+        .locale(l)
+        .receiver(sender)
+        .send();
+    }
+    
+    if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_LIST.toString())) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_MSG_LIST)
+        .locale(l)
+        .receiver(sender)
+        .send();
+    }
+    
+    if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_DELETE.toString())) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_MSG_DELETE)
+        .locale(l)
+        .receiver(sender)
+        .send();
+    }
+    
     return true;
   }
 }

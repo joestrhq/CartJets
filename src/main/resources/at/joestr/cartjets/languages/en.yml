@@ -1,27 +1,27 @@
-prefix: '{"text":"[","color":"dark_gray"},{"text":"CJ","color":"dark_green"},{"text":"]","color":"dark_gray"}'
+prefix: ',{"text":"[","color":"dark_gray"},{"text":"CJ","color":"dark_green"},{"text":"]","color":"dark_gray"}'
 generic:
   not_a_player: '{"text":"This command can only be used by players!","color":"red"}'
 commands:
   cartjets:
-    message_setupwizard: '["",%prefix,{"text":"» ","color":"gray"},{"text":"Start/cancel the setup wizard","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-setupwizard"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-setupwizard","color":"white"}}}]'
-    message_list: '["",{"text":"» ","color":"gray"},{"text":"List all lines","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
-    message_delete: '["",{"text":"» ","color":"gray"},{"text":"Delete a line","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-delete "},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete <Name>","color":"white"}}}]'
+    message_setupwizard: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Start/cancel the setup wizard","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-setupwizard"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-setupwizard","color":"white"}}}]'
+    message_list: '[""%prefix,{"text":"» ","color":"gray"},{"text":"List all lines","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
+    message_delete: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Delete a line","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-delete "},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete <Name>","color":"white"}}}]'
   cartjets-setupwizard:
     button:
-      instruction: '{"text":"Right-click the button that should spawn a minecart.","color":"aqua"}'
-      success: '{"text":"The button has been selected!","color":"green"}'
-      overlapping: '["",{"text":"This button overlaps with line ","color":"red"},{"text":"%line","color":"white"},{"text":"!","color":"red"}]'
+      instruction: '[""%prefix,{"text":"Right-click the button that should spawn a minecart.","color":"aqua"}]'
+      success: '[""%prefix,{"text":"The button has been selected!","color":"green"}]'
+      overlapping: '[""%prefix,{"text":"This button overlaps with line ","color":"red"},{"text":"%line","color":"white"},{"text":"!","color":"red"}]'
     rail:
-      instruction: '{"text":"Right-click the rail where the minecart should spawn.","color":"aqua"}'
-      success: '{"text":"The rail has been selected!","color":"green"}'
+      instruction: '[""%prefix,{"text":"Right-click the rail where the minecart should spawn.","color":"aqua"}]'
+      success: '[""%prefix,{"text":"The rail has been selected!","color":"green"}]'
     name:
       anvilgui_text: 'Line name'
       placeholder: 'Name of the line ...'
       duplicate: '%line already exists'
-      success: '["",{"text":"The line ","color":"green"},{"text":"%line","color":"white"},{"text":" has been created!","color":"green"}]'
-    cancel: '{"text":"Creation canceled!","color":"red"}'
+      success: '[""%prefix,{"text":"The line ","color":"green"},{"text":"%line","color":"white"},{"text":" has been created!","color":"green"}]'
+    cancel: '[""%prefix,{"text":"Creation canceled!","color":"red"}]'
   cartjets-list:
-    message: '["",{"text":"Following lines are available: ","color":"red"},{"text":"%lines","color":"white"}]'
+    message: '[""%prefix,{"text":"Following lines are available: ","color":"red"},{"text":"%lines","color":"white"}]'
   cartjets-delete:
-    non_existing: '["",{"text":"The line ","color":"red"},{"text":"%line","color":"white"},{"text":" does not exist.","color":"red"}]'
-    success: '["",{"text":"The line ","color":"green"},{"text":"%line","color":"white"},{"text":" has been removed.","color":"green"}]'
+    non_existing: '[""%prefix,{"text":"The line ","color":"red"},{"text":"%line","color":"white"},{"text":" does not exist.","color":"red"}]'
+    success: '[""%prefix,{"text":"The line ","color":"green"},{"text":"%line","color":"white"},{"text":" has been removed.","color":"green"}]'

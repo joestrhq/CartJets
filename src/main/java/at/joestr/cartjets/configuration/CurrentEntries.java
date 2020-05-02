@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package at.joestr.cartjets.utils;
+package at.joestr.cartjets.configuration;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -31,7 +31,10 @@ import java.util.Optional;
  * @author Joel
  */
 public enum CurrentEntries {
-  CONFIG_JDBCURI("jdbcUri"),
+  
+  // Configuration entries
+  CONF_JDBCURI("jdbcUri"),
+  // Languages
   LANG_PREFIX("prefix"),
   LANG_GEN_NOT_A_PLAYER("generic.not_a_player"),
   LANG_CMD_CARTJETS_MSG_SETUPWIZARD("commands.cartjets.message_setupwizard"),
@@ -50,6 +53,7 @@ public enum CurrentEntries {
   LANG_CMD_CARTJETS_DELETE_NON_EXISTING("commands.cartjets-delete.non_existing"),
   LANG_CMD_CARTJETS_DELETE_SUCCESS("commands.cartjets-delete.success"),
   LANG_CMD_CARTJETS_LIST_MESSAGE("commands.cartjets-list.message"),
+  // Permissions
   PERM_CMD_CARTJETS("cartjets.commands.cartjets"),
   PERM_CMD_CARTJETS_SETUPWIZARD("cartjets.commands.cartjets-setupwizard"),
   PERM_CMD_CARTJETS_LIST("cartjets.commands.cartjets-list"),

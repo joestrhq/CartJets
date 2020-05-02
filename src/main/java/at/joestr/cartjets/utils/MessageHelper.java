@@ -23,6 +23,7 @@
 // 
 package at.joestr.cartjets.utils;
 
+import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
 import java.util.Locale;
 import java.util.function.Function;
@@ -39,6 +40,7 @@ public class MessageHelper {
   private Function<String, String> modify;
   private Locale locale;
   private CommandSender receiver;
+  private boolean showPrefix;
   
   public MessageHelper() { 
   }
@@ -63,6 +65,11 @@ public class MessageHelper {
     return this;
   }
   
+  public MessageHelper prefix(boolean show) {
+    this.showPrefix = show;
+    return this;
+  }
+  
   public void send() {
     String message =
       LanguageConfiguration.getInstance()
@@ -70,6 +77,17 @@ public class MessageHelper {
           this.path.toString(),
           this.locale
         );
+    
+    if (showPrefix) {
+      message = message.replace("%prefix",
+        new MessageHelper()
+          .locale(this.locale)
+          .path(CurrentEntries.LANG_PREFIX)
+          .string()
+      );
+    } else {
+      message = message.replace("%prefix", "");
+    }
     
     if (this.modify != null) this.modify.apply(message);
     
