@@ -1,12 +1,13 @@
-main: at.joestr.cartjets.CartJetsPlugin
-name: CartJets
+main: '${project.groupId}.${project.artifactId}.CartJetsPlugin'
+name: '${project.name}'
 version: '${project.version}'
-description: 'Define entry points for faster minecarts.'
+description: '${project.description}'
+api-version: 1.15
 load: POSTWORLD
 author: joestr
 authors: [Bambuskadse, Enkaptaton, General_Honey, Schwakat]
-website: https://www.joestr.at
-prefix: CartJets
+website: '${project.url}'
+prefix: '${project.name}'
 #depend: [WorldEdit, Towny]
 #softdepend: [FAWE]
 #loadbefore: [Essentials]
