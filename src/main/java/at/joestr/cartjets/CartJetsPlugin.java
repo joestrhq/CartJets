@@ -170,6 +170,6 @@ public class CartJetsPlugin extends JavaPlugin {
     
     this.cartJetsDao = DaoManager.createDao(connectionSource, CartJetsModel.class);
     
-    TableUtils.createTable(connectionSource, CartJetsModel.class);
+    TableUtils.createTableIfNotExists(connectionSource, CartJetsModel.class);
   }
 }
