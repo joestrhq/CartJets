@@ -25,6 +25,7 @@ package at.joestr.cartjets.commands;
 
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.configuration.CurrentEntries;
+import at.joestr.cartjets.models.CartJetsModel;
 import at.joestr.cartjets.utils.MessageHelper;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class CommandCartjetsSetupwizard implements TabExecutor{
         .send();
     }
     
+    CartJetsPlugin.getInstance().getPerUserModels().put(player.getUniqueId(), new CartJetsModel());
     new MessageHelper()
       .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
       .locale(locale)

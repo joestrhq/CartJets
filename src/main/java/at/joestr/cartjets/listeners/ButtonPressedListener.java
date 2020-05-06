@@ -82,7 +82,7 @@ public class ButtonPressedListener implements Listener {
         .anyMatch((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         });
-    if (!buttonPresent) return;
+    if (buttonPresent) return;
     
     Optional<CartJetsModel> cartJet =
       cartJets.stream()
