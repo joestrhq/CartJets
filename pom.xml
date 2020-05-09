@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>at.joestr</groupId>
   <artifactId>cartjets</artifactId>
-  <version>0.1.23-SNAPSHOT</version>
+  <version>0.1.26-SNAPSHOT</version>
   <packaging>jar</packaging>
   
   <name>CartJets</name>
@@ -18,29 +18,36 @@
   
   <repositories>
     <repository>
-      <id>jitpack-public-repo</id>
-      <url>https://jitpack.io</url>
-		</repository>
-    <repository>
       <id>joestr-public-releases-repo</id>
+      <name>joestr's public Maven repository for releases</name>
       <url>https://mvn-repo.joestr.at/repository/releases/</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
       <releases>
         <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
       </releases>
     </repository>
     <repository>
       <id>joestr-public-snapshots-repo</id>
+      <name>joestr's public Maven repository for snapshots</name>
       <url>https://mvn-repo.joestr.at/repository/snapshots/</url>
       <snapshots>
         <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
       </snapshots>
       <releases>
         <enabled>false</enabled>
       </releases>
     </repository>
+    <repository>
+      <id>jitpack-public-repo</id>
+      <name>jitpack.io's public Maven repository</name>
+      <url>https://jitpack.io</url>
+		</repository>
   </repositories>
   
   <dependencies>

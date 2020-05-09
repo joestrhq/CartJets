@@ -65,6 +65,9 @@ public class ButtonPressedListener implements Listener {
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
+    if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
+      return;
+    
     Material clickedBlockMaterial = clickedBlock.getType();
     if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
     
@@ -136,7 +139,7 @@ public class ButtonPressedListener implements Listener {
         .anyMatch((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         });
-    if (!buttonPresent) return;
+    if (buttonPresent) return;
     
     Optional<CartJetsModel> cartJet =
       cartJets.stream()

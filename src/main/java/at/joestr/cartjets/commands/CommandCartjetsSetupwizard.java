@@ -39,50 +39,50 @@ import org.bukkit.entity.Player;
  *
  * @author Joel
  */
-public class CommandCartjetsSetupwizard implements TabExecutor{
+public class CommandCartjetsSetupwizard implements TabExecutor {
 
-  @Override
-  public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-    return ImmutableList.of();
-  }
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		return ImmutableList.of();
+	}
 
-  @Override
-  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-    if (args.length != 0) {
-      return false;
-    }
-    
-    Locale l =
-      sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
-    final Locale locale = l != null ? l : Locale.ENGLISH;
-    
-    if (!(sender instanceof Player)) {
-      new MessageHelper()
-        .path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
-        .locale(locale)
-        .receiver(sender)
-        .send();
-      return true;
-    }
-    
-    Player player = (Player) sender;
-    
-    if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(player.getUniqueId())) {
-      CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
-      new MessageHelper()
-        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
-        .locale(locale)
-        .receiver(sender)
-        .send();
-    }
-    
-    CartJetsPlugin.getInstance().getPerUserModels().put(player.getUniqueId(), new CartJetsModel());
-    new MessageHelper()
-      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
-      .locale(locale)
-      .receiver(sender)
-      .send();
-    
-    return true;
-  }
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (args.length != 0) {
+			return false;
+		}
+
+		Locale l
+			= sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
+		final Locale locale = l != null ? l : Locale.ENGLISH;
+
+		if (!(sender instanceof Player)) {
+			new MessageHelper()
+				.path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
+				.locale(locale)
+				.receiver(sender)
+				.send();
+			return true;
+		}
+
+		Player player = (Player) sender;
+
+		if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(player.getUniqueId())) {
+			CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
+			new MessageHelper()
+				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
+				.locale(locale)
+				.receiver(sender)
+				.send();
+		} else {
+			CartJetsPlugin.getInstance().getPerUserModels().put(player.getUniqueId(), new CartJetsModel());
+			new MessageHelper()
+				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
+				.locale(locale)
+				.receiver(sender)
+				.send();
+		}
+
+		return true;
+	}
 }
