@@ -94,6 +94,12 @@ public class ButtonPressedListener implements Listener {
         })
         .findFirst();
     
+		if (!cartJet.isPresent()) {
+			return;
+		}
+		
+		ev.setCancelled(true);
+		
     Entity spawnedMinecart =
       ev.getPlayer().getWorld().spawnEntity(cartJet.get().getMinecartSpawningLocation(),
         EntityType.MINECART
@@ -107,8 +113,6 @@ public class ButtonPressedListener implements Listener {
     );
     
     spawnedMinecart.setVelocity(new Vector(1, 1, 1));
-    
-    ev.setCancelled(true);
   }
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -151,11 +155,12 @@ public class ButtonPressedListener implements Listener {
     Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
     final Locale locale = l != null ? l : Locale.ENGLISH;
     
-    if (!cartJet.isPresent()) {
+    if (cartJet.isPresent()) {
       new MessageHelper()
         .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING)
         .locale(locale)
         .receiver(ev.getPlayer())
+				.modify(s -> s.replace("%line", cartJet.get().getName()))
         .send();
       ev.setCancelled(true);
       return;
