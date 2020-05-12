@@ -39,7 +39,7 @@ public enum CurrentEntries {
   LANG_GEN_NOT_A_PLAYER("generic.not_a_player"),
   LANG_CMD_CARTJETS_MSG_SETUPWIZARD("commands.cartjets.message_setupwizard"),
   LANG_CMD_CARTJETS_MSG_DELETE("commands.cartjets.message_delete"),
-  LANG_CMD_CARTJETS_MSG_LIST("commands.cartjets.message_delete"),
+  LANG_CMD_CARTJETS_MSG_LIST("commands.cartjets.message_list"),
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION("commands.cartjets-setupwizard.button.instruction"),
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_SUCCESS("commands.cartjets-setupwizard.button.success"),
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING("commands.cartjets-setupwizard.button.overlapping"),
