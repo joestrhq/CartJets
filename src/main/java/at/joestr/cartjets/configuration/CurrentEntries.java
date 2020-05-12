@@ -44,7 +44,7 @@ public enum CurrentEntries {
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_SUCCESS("commands.cartjets-setupwizard.button.success"),
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING("commands.cartjets-setupwizard.button.overlapping"),
   LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_INSTRUCTION("commands.cartjets-setupwizard.rail.instruction"),
-  LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS("commands.cartjets-setupwizard.success"),
+  LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS("commands.cartjets-setupwizard.rail.success"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_ANVIL_GUI_TEXT("commands.cartjets-setupwizard.name.anvilgui_text"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_PLACEHOLDER("commands.cartjets-setupwizard.name.placeholder"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_DUPLICATE("commands.cartjets-setupwizard.name.duplicate"),
