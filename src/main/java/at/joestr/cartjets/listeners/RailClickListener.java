@@ -40,6 +40,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -57,6 +58,8 @@ public class RailClickListener implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
   public void onButtonClicked(PlayerInteractEvent ev) {
+		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
+		
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
@@ -132,6 +135,7 @@ public class RailClickListener implements Listener {
         .receiver(player)
         .locale(locale)
         .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_SUCCESS)
+				.modify(s -> s.replace("%line", result.getName()))
         .send();
       return AnvilGUI.Response.close();
     })

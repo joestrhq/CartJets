@@ -41,6 +41,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
@@ -62,6 +63,8 @@ public class ButtonPressedListener implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
   public void onCartJetButtonClick(PlayerInteractEvent ev) {
+		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
+		
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
@@ -117,6 +120,8 @@ public class ButtonPressedListener implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
   public void onButtonClicked(PlayerInteractEvent ev) {
+		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
+		
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
