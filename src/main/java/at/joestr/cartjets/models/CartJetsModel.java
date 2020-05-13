@@ -36,7 +36,9 @@ import org.bukkit.Location;
 public class CartJetsModel {
   @DatabaseField(id = true)
   private String name;
+	@DatabaseField
 	private Map<String, Object> buttonLocation;
+	@DatabaseField
   private Map<String, Object> minecartSpawningLocation;
 
   public CartJetsModel() {
