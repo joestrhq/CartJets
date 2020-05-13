@@ -83,7 +83,7 @@ public class CommandCartjetsList implements TabExecutor {
       .path(CurrentEntries.LANG_CMD_CARTJETS_LIST_MESSAGE)
       .locale(locale)
       .receiver(sender)
-      .modify((s) -> s.replace("%list", lineListAsString))
+      .modify((s) -> s.replace("%lines", lineListAsString))
       .send();
     return true;
   }
