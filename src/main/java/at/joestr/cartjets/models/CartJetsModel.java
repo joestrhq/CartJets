@@ -25,6 +25,7 @@ package at.joestr.cartjets.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import java.util.Map;
 import org.bukkit.Location;
 
 /**
@@ -35,18 +36,16 @@ import org.bukkit.Location;
 public class CartJetsModel {
   @DatabaseField(id = true)
   private String name;
-  @DatabaseField(persisterClass = LocationPersister.class)
-  private Location buttonLocation;
-  @DatabaseField(persisterClass = LocationPersister.class)
-  private Location minecartSpawningLocation;
+	private Map<String, Object> buttonLocation;
+  private Map<String, Object> minecartSpawningLocation;
 
   public CartJetsModel() {
   }
 
   public CartJetsModel(String name, Location buttonLocation, Location minecartSpawningLocation) {
     this.name = name;
-    this.buttonLocation = buttonLocation;
-    this.minecartSpawningLocation = minecartSpawningLocation;
+    this.buttonLocation = buttonLocation.serialize();
+    this.minecartSpawningLocation = minecartSpawningLocation.serialize();
   }
 
   public String getName() {
@@ -58,18 +57,18 @@ public class CartJetsModel {
   }
 
   public Location getButtonLocation() {
-    return buttonLocation;
+    return Location.deserialize(buttonLocation);
   }
 
   public void setButtonLocation(Location buttonLocation) {
-    this.buttonLocation = buttonLocation;
+    this.buttonLocation = buttonLocation.serialize();
   }
 
   public Location getMinecartSpawningLocation() {
-    return minecartSpawningLocation;
+    return Location.deserialize(minecartSpawningLocation);
   }
 
   public void setMinecartSpawningLocation(Location minecartSpawningLocation) {
-    this.minecartSpawningLocation = minecartSpawningLocation;
+    this.minecartSpawningLocation = minecartSpawningLocation.serialize();
   }
 }
