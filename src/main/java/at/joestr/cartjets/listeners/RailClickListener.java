@@ -74,6 +74,8 @@ public class RailClickListener implements Listener {
     
     Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
     final Locale locale = l != null ? l : Locale.ENGLISH;
+		
+		CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).setMinecartSpawningLocation(clickedBlock.getLocation());
     
     new MessageHelper()
       .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS)
