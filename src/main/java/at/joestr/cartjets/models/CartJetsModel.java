@@ -38,8 +38,6 @@ public class CartJetsModel {
 
 	@DatabaseField(id = true)
 	private String name;
-
-	private boolean buttonLocationSet = false;
 	
 	@DatabaseField
 	private UUID buttonLocationWorldUuid;
@@ -53,8 +51,6 @@ public class CartJetsModel {
 	private float buttonLocationPitch;
 	@DatabaseField
 	private float buttonLocationYaw;
-
-	private boolean minecartSpawningLocationSet = false;
 	
 	@DatabaseField
 	private UUID minecartSpawningLocationWorldUuid;
@@ -193,7 +189,8 @@ public class CartJetsModel {
 	}
 
 	public Object getButtonLocation() {
-		if (!this.buttonLocationSet) return null;
+		if (buttonLocationWorldUuid == null) return null;
+		
 		return new Location(
 			Bukkit.getServer().getWorld(buttonLocationWorldUuid),
 			buttonLocationX,
@@ -205,7 +202,8 @@ public class CartJetsModel {
 	}
 
 	public Location getMinecartSpawningLocation() {
-		if (!this.minecartSpawningLocationSet) return null;
+		if (minecartSpawningLocationWorldUuid == null) return null;
+		
 		return new Location(
 			Bukkit.getServer().getWorld(minecartSpawningLocationWorldUuid),
 			minecartSpawningLocationX,
@@ -217,7 +215,6 @@ public class CartJetsModel {
 	}
 
 	public void setButtonLocation(Location location) {
-		this.buttonLocationSet = true;
 		this.buttonLocationWorldUuid = location.getWorld().getUID();
 		this.buttonLocationX = location.getX();
 		this.buttonLocationY = location.getY();
@@ -227,20 +224,11 @@ public class CartJetsModel {
 	}
 
 	public void setMinecartSpawningLocation(Location location) {
-		this.minecartSpawningLocationSet = true;
 		this.minecartSpawningLocationWorldUuid = location.getWorld().getUID();
 		this.minecartSpawningLocationX = location.getX();
 		this.minecartSpawningLocationY = location.getY();
 		this.minecartSpawningLocationZ = location.getZ();
 		this.minecartSpawningLocationYaw = location.getYaw();
 		this.minecartSpawningLocationPitch = location.getPitch();
-	}
-
-	public boolean isButtonLocationSet() {
-		return buttonLocationSet;
-	}
-
-	public boolean isMinecartSpawningLocationSet() {
-		return minecartSpawningLocationSet;
 	}
 }
