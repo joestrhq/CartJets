@@ -126,6 +126,9 @@ public class RailClickListener implements Listener {
       
       CartJetsModel result =
         CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
+			
+			result.setName(text);
+			
       try {
         CartJetsPlugin.getInstance().getCartJetsDao().create(result);
       } catch (SQLException ex) {
