@@ -35,8 +35,11 @@ import org.bukkit.Location;
  */
 @DatabaseTable(tableName = "cartjets")
 public class CartJetsModel {
-  @DatabaseField(id = true)
-  private String name;
+
+	@DatabaseField(id = true)
+	private String name;
+
+	private boolean buttonLocationSet = false;
 	
 	@DatabaseField
 	private UUID buttonLocationWorldUuid;
@@ -50,9 +53,11 @@ public class CartJetsModel {
 	private float buttonLocationPitch;
 	@DatabaseField
 	private float buttonLocationYaw;
+
+	private boolean minecartSpawningLocationSet = false;
 	
 	@DatabaseField
-  private UUID minecartSpawningLocationWorldUuid;
+	private UUID minecartSpawningLocationWorldUuid;
 	@DatabaseField
 	private double minecartSpawningLocationX;
 	@DatabaseField
@@ -64,8 +69,8 @@ public class CartJetsModel {
 	@DatabaseField
 	private float minecartSpawningLocationYaw;
 
-  public CartJetsModel() {
-  }
+	public CartJetsModel() {
+	}
 
 	public CartJetsModel(String name, UUID buttonLocationWorldUuid, double buttonLocationX, double buttonLocationY, double buttonLocationZ, float buttonLocationPitch, float buttonLocationYaw, UUID minecartSpawningLocationWorldUuid, double minecartSpawningLocationX, double minecartSpawningLocationY, double minecartSpawningLocationZ, float minecartSpawningLocationPitch, float minecartSpawningLocationYaw) {
 		this.name = name;
@@ -188,6 +193,7 @@ public class CartJetsModel {
 	}
 
 	public Object getButtonLocation() {
+		if (!this.buttonLocationSet) return null;
 		return new Location(
 			Bukkit.getServer().getWorld(buttonLocationWorldUuid),
 			buttonLocationX,
@@ -199,6 +205,7 @@ public class CartJetsModel {
 	}
 
 	public Location getMinecartSpawningLocation() {
+		if (!this.minecartSpawningLocationSet) return null;
 		return new Location(
 			Bukkit.getServer().getWorld(minecartSpawningLocationWorldUuid),
 			minecartSpawningLocationX,
@@ -210,6 +217,7 @@ public class CartJetsModel {
 	}
 
 	public void setButtonLocation(Location location) {
+		this.buttonLocationSet = true;
 		this.buttonLocationWorldUuid = location.getWorld().getUID();
 		this.buttonLocationX = location.getX();
 		this.buttonLocationY = location.getY();
@@ -219,11 +227,20 @@ public class CartJetsModel {
 	}
 
 	public void setMinecartSpawningLocation(Location location) {
+		this.minecartSpawningLocationSet = true;
 		this.minecartSpawningLocationWorldUuid = location.getWorld().getUID();
 		this.minecartSpawningLocationX = location.getX();
 		this.minecartSpawningLocationY = location.getY();
 		this.minecartSpawningLocationZ = location.getZ();
 		this.minecartSpawningLocationYaw = location.getYaw();
 		this.minecartSpawningLocationPitch = location.getPitch();
+	}
+
+	public boolean isButtonLocationSet() {
+		return buttonLocationSet;
+	}
+
+	public boolean isMinecartSpawningLocationSet() {
+		return minecartSpawningLocationSet;
 	}
 }
