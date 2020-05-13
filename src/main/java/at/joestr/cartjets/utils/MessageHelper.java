@@ -89,7 +89,7 @@ public class MessageHelper {
       message = message.replace("%prefix", "");
     }
     
-    if (this.modify != null) this.modify.apply(message);
+    if (this.modify != null) message = this.modify.apply(message);
     
     receiver.spigot().sendMessage(
       ComponentSerializer.parse(message)
