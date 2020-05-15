@@ -14,6 +14,9 @@ commands:
     rail:
       instruction: '[""%prefix,{"text":"Right-click the rail where the minecart should spawn.","color":"aqua"}]'
       success: '[""%prefix,{"text":"The rail has been selected!","color":"green"}]'
+    rail2:
+      instruction: '[""%prefix,{"text":"Right-click the rail to set the direction for the minecart.","color":"aqua"}]'
+      success: '[""%prefix,{"text":"The rail has been selected!","color":"green"}]'
     name:
       anvilgui_text: 'Line name'
       placeholder: 'Name of the line ...'

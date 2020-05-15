@@ -64,11 +64,24 @@ public class CartJetsModel {
 	private float minecartSpawningLocationPitch;
 	@DatabaseField
 	private float minecartSpawningLocationYaw;
+	
+	@DatabaseField
+	private UUID minecartDirectionLocationWorldUuid;
+	@DatabaseField
+	private double minecartDirectionLocationX;
+	@DatabaseField
+	private double minecartDirectionLocationY;
+	@DatabaseField
+	private double minecartDirectionLocationZ;
+	@DatabaseField
+	private float minecartDirectionLocationPitch;
+	@DatabaseField
+	private float minecartDirectionLocationYaw;
 
 	public CartJetsModel() {
 	}
 
-	public CartJetsModel(String name, UUID buttonLocationWorldUuid, double buttonLocationX, double buttonLocationY, double buttonLocationZ, float buttonLocationPitch, float buttonLocationYaw, UUID minecartSpawningLocationWorldUuid, double minecartSpawningLocationX, double minecartSpawningLocationY, double minecartSpawningLocationZ, float minecartSpawningLocationPitch, float minecartSpawningLocationYaw) {
+	public CartJetsModel(String name, UUID buttonLocationWorldUuid, double buttonLocationX, double buttonLocationY, double buttonLocationZ, float buttonLocationPitch, float buttonLocationYaw, UUID minecartSpawningLocationWorldUuid, double minecartSpawningLocationX, double minecartSpawningLocationY, double minecartSpawningLocationZ, float minecartSpawningLocationPitch, float minecartSpawningLocationYaw, UUID minecartDirectionLocationWorldUuid, double minecartDirectionLocationX, double minecartDirectionLocationY, double minecartDirectionLocationZ, float minecartDirectionLocationPitch, float minecartDirectionLocationYaw) {
 		this.name = name;
 		this.buttonLocationWorldUuid = buttonLocationWorldUuid;
 		this.buttonLocationX = buttonLocationX;
@@ -82,6 +95,12 @@ public class CartJetsModel {
 		this.minecartSpawningLocationZ = minecartSpawningLocationZ;
 		this.minecartSpawningLocationPitch = minecartSpawningLocationPitch;
 		this.minecartSpawningLocationYaw = minecartSpawningLocationYaw;
+		this.minecartDirectionLocationWorldUuid = minecartDirectionLocationWorldUuid;
+		this.minecartDirectionLocationX = minecartDirectionLocationX;
+		this.minecartDirectionLocationY = minecartDirectionLocationY;
+		this.minecartDirectionLocationZ = minecartDirectionLocationZ;
+		this.minecartDirectionLocationPitch = minecartDirectionLocationPitch;
+		this.minecartDirectionLocationYaw = minecartDirectionLocationYaw;
 	}
 
 	public String getName() {
@@ -188,6 +207,54 @@ public class CartJetsModel {
 		this.minecartSpawningLocationYaw = minecartSpawningLocationYaw;
 	}
 
+	public UUID getMinecartDirectionLocationWorldUuid() {
+		return minecartDirectionLocationWorldUuid;
+	}
+
+	public void setMinecartDirectionLocationWorldUuid(UUID minecartDirectionLocationWorldUuid) {
+		this.minecartDirectionLocationWorldUuid = minecartDirectionLocationWorldUuid;
+	}
+
+	public double getMinecartDirectionLocationX() {
+		return minecartDirectionLocationX;
+	}
+
+	public void setMinecartDirectionLocationX(double minecartDirectionLocationX) {
+		this.minecartDirectionLocationX = minecartDirectionLocationX;
+	}
+
+	public double getMinecartDirectionLocationY() {
+		return minecartDirectionLocationY;
+	}
+
+	public void setMinecartDirectionLocationY(double minecartDirectionLocationY) {
+		this.minecartDirectionLocationY = minecartDirectionLocationY;
+	}
+
+	public double getMinecartDirectionLocationZ() {
+		return minecartDirectionLocationZ;
+	}
+
+	public void setMinecartDirectionLocationZ(double minecartDirectionLocationZ) {
+		this.minecartDirectionLocationZ = minecartDirectionLocationZ;
+	}
+
+	public float getMinecartDirectionLocationPitch() {
+		return minecartDirectionLocationPitch;
+	}
+
+	public void setMinecartDirectionLocationPitch(float minecartDirectionLocationPitch) {
+		this.minecartDirectionLocationPitch = minecartDirectionLocationPitch;
+	}
+
+	public float getMinecartDirectionLocationYaw() {
+		return minecartDirectionLocationYaw;
+	}
+
+	public void setMinecartDirectionLocationYaw(float minecartDirectionLocationYaw) {
+		this.minecartDirectionLocationYaw = minecartDirectionLocationYaw;
+	}
+
 	public Object getButtonLocation() {
 		if (buttonLocationWorldUuid == null) return null;
 		
@@ -199,6 +266,15 @@ public class CartJetsModel {
 			buttonLocationYaw,
 			buttonLocationPitch
 		);
+	}
+	
+	public void setButtonLocation(Location location) {
+		this.buttonLocationWorldUuid = location.getWorld().getUID();
+		this.buttonLocationX = location.getX();
+		this.buttonLocationY = location.getY();
+		this.buttonLocationZ = location.getZ();
+		this.buttonLocationYaw = location.getYaw();
+		this.buttonLocationPitch = location.getPitch();
 	}
 
 	public Location getMinecartSpawningLocation() {
@@ -214,15 +290,6 @@ public class CartJetsModel {
 		);
 	}
 
-	public void setButtonLocation(Location location) {
-		this.buttonLocationWorldUuid = location.getWorld().getUID();
-		this.buttonLocationX = location.getX();
-		this.buttonLocationY = location.getY();
-		this.buttonLocationZ = location.getZ();
-		this.buttonLocationYaw = location.getYaw();
-		this.buttonLocationPitch = location.getPitch();
-	}
-
 	public void setMinecartSpawningLocation(Location location) {
 		this.minecartSpawningLocationWorldUuid = location.getWorld().getUID();
 		this.minecartSpawningLocationX = location.getX();
@@ -230,5 +297,27 @@ public class CartJetsModel {
 		this.minecartSpawningLocationZ = location.getZ();
 		this.minecartSpawningLocationYaw = location.getYaw();
 		this.minecartSpawningLocationPitch = location.getPitch();
+	}
+	
+	public Location getMinecarDirectionLocation() {
+		if (minecartDirectionLocationWorldUuid == null) return null;
+		
+		return new Location(
+			Bukkit.getServer().getWorld(minecartSpawningLocationWorldUuid),
+			minecartDirectionLocationX,
+			minecartDirectionLocationY,
+			minecartDirectionLocationZ,
+			minecartDirectionLocationYaw,
+			minecartDirectionLocationPitch
+		);
+	}
+
+	public void setMinecartDirectionLocation(Location location) {
+		this.minecartDirectionLocationWorldUuid = location.getWorld().getUID();
+		this.minecartDirectionLocationX = location.getX();
+		this.minecartDirectionLocationY = location.getY();
+		this.minecartDirectionLocationZ = location.getZ();
+		this.minecartDirectionLocationYaw = location.getYaw();
+		this.minecartDirectionLocationPitch = location.getPitch();
 	}
 }

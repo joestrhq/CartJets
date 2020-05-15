@@ -25,6 +25,7 @@ package at.joestr.cartjets.listeners;
 
 import java.util.List;
 import at.joestr.cartjets.CartJetsPlugin;
+import at.joestr.cartjets.utils.CartJetsManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -55,6 +56,8 @@ public class MinecartLeaveListener implements Listener {
     
     if (metadataValue.asBoolean() != true) return;
     
+		CartJetsManager.getInstrance().removeMinecart(dismounted.getUniqueId());
+		
     dismounted.remove();
   }
 }

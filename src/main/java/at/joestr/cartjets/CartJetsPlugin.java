@@ -31,7 +31,7 @@ import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
 import at.joestr.cartjets.listeners.ButtonPressedListener;
 import at.joestr.cartjets.listeners.MinecartLeaveListener;
-import at.joestr.cartjets.listeners.RailClickListener;
+import at.joestr.cartjets.listeners.SetupwizardRailClickListener;
 import at.joestr.cartjets.models.CartJetsModel;
 import com.google.common.base.CharMatcher;
 import com.j256.ormlite.dao.Dao;
@@ -103,6 +103,9 @@ public class CartJetsPlugin extends JavaPlugin {
   @Override
   public void onDisable() {
     super.onDisable();
+		
+		this.cartJetsDao.getConnectionSource().closeQuietly();
+		this.getServer().getScheduler().cancelTasks(this);
   }
 
   public Dao<CartJetsModel, String> getCartJetsDao() {
@@ -125,7 +128,7 @@ public class CartJetsPlugin extends JavaPlugin {
   private void registerListeners() {
     this.getServer().getPluginManager().registerEvents(new ButtonPressedListener(), this);
     this.getServer().getPluginManager().registerEvents(new MinecartLeaveListener(), this);
-    this.getServer().getPluginManager().registerEvents(new RailClickListener(), this);
+    this.getServer().getPluginManager().registerEvents(new SetupwizardRailClickListener(), this);
   }
   
   private void loadAppConfiguration() {

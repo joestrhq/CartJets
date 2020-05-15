@@ -50,7 +50,7 @@ import org.bukkit.metadata.FixedMetadataValue;
  *
  * @author Joel
  */
-public class ButtonPressedListener implements Listener {
+public class SetupwizardPressedListener implements Listener {
   
   private static final Material[] BUTTONS = new Material[] {
     Material.OAK_BUTTON,
@@ -69,7 +69,10 @@ public class ButtonPressedListener implements Listener {
     Block clickedBlock = ev.getClickedBlock();
     if (clickedBlock == null) return;
     
-    if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
+    if (!CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
+      return;
+    
+    if (CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).getButtonLocation() != null)
       return;
     
     Material clickedBlockMaterial = clickedBlock.getType();
@@ -89,7 +92,7 @@ public class ButtonPressedListener implements Listener {
         .anyMatch((b) -> {
           return b.getButtonLocation().equals(clickedBlock.getLocation());
         });
-    if (!buttonPresent) return;
+    if (buttonPresent) return;
     
     Optional<CartJetsModel> cartJet =
       cartJets.stream()
@@ -98,30 +101,34 @@ public class ButtonPressedListener implements Listener {
         })
         .findFirst();
     
-		if (!cartJet.isPresent()) {
-			return;
-		}
-		
-		ev.setCancelled(true);
-		
-    Minecart spawnedMinecart = 
-      (Minecart) ev.getPlayer().getWorld().spawnEntity(cartJet.get().getMinecartSpawningLocation(),
-        EntityType.MINECART
-      );
+    Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
+    final Locale locale = l != null ? l : Locale.ENGLISH;
     
-		spawnedMinecart.setInvulnerable(true);
-		spawnedMinecart.setMaxSpeed(
-			AppConfiguration.getInstance()
-				.getDouble(CurrentEntries.CONF_MAXSPEED.toString())
-		);
-		
-    spawnedMinecart.addPassenger(ev.getPlayer());
+    if (cartJet.isPresent()) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING)
+        .locale(locale)
+        .receiver(ev.getPlayer())
+				.modify(s -> s.replace("%line", cartJet.get().getName()))
+        .send();
+      ev.setCancelled(true);
+      return;
+    }
     
-    spawnedMinecart.setMetadata(
-      "cartjet.is",
-      new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
-    );
+    CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId())
+      .setButtonLocation(ev.getClickedBlock().getLocation());
+    new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_SUCCESS)
+      .locale(locale)
+      .receiver(ev.getPlayer())
+      .send();
 		
-		CartJetsManager.getInstrance().addMinecart(spawnedMinecart.getUniqueId());
+		new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_INSTRUCTION)
+      .locale(locale)
+      .receiver(ev.getPlayer())
+      .send();
+		
+    ev.setCancelled(true);
   }
 }

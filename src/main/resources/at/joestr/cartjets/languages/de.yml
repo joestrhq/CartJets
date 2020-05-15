@@ -14,6 +14,9 @@ commands:
     rail:
       instruction: '[""%prefix,{"text":"Markiere mit Rechtsklick das Gleisstück, auf welcher das CartJet spawnen soll.","color":"aqua"}]'
       success: '[""%prefix,{"text":"Das Gleisstück wurde erfolgreich markiert.","color":"green"}]'
+    rail2:
+      instruction: '[""%prefix,{"text":"Markiere mit Rechtsklick das Gleisstück, in welche Richtung das CartJet fahren soll.","color":"aqua"}]'
+      success: '[""%prefix,{"text":"Das Gleisstück wurde erfolgreich markiert.","color":"green"}]'
     name:
       anvilgui_text: 'Strecken-Name'
       placeholder: 'Name der Strecke ...'

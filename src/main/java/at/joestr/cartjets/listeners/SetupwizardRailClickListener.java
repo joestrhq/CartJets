@@ -47,7 +47,7 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author Joel
  */
-public class RailClickListener implements Listener {
+public class SetupwizardRailClickListener implements Listener {
   
   private static final Material[] RAILS = new Material[] {
     Material.RAIL,
@@ -57,7 +57,7 @@ public class RailClickListener implements Listener {
   };
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-  public void onButtonClicked(PlayerInteractEvent ev) {
+  public void onRailClicked(PlayerInteractEvent ev) {
 		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
 		
     Block clickedBlock = ev.getClickedBlock();
@@ -79,6 +79,42 @@ public class RailClickListener implements Listener {
     
     new MessageHelper()
       .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS)
+      .locale(locale)
+      .receiver(ev.getPlayer())
+      .send();
+		
+		new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL2_INSTRUCTION)
+      .locale(locale)
+      .receiver(ev.getPlayer())
+      .send();
+    
+    ev.setCancelled(true);
+  }
+	
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+  public void onRail2Clicked(PlayerInteractEvent ev) {
+		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
+		
+    Block clickedBlock = ev.getClickedBlock();
+    if (clickedBlock == null) return;
+    
+    if (!CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
+      return;
+    
+    if (CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).getMinecarDirectionLocation() != null)
+      return;
+    
+    Material clickedBlockMaterial = clickedBlock.getType();
+    if (!Arrays.stream(RAILS).anyMatch(clickedBlockMaterial::equals)) return;
+    
+    Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
+    final Locale locale = l != null ? l : Locale.ENGLISH;
+		
+		CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).setMinecartDirectionLocation(clickedBlock.getLocation());
+    
+    new MessageHelper()
+      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL2_SUCCESS)
       .locale(locale)
       .receiver(ev.getPlayer())
       .send();
