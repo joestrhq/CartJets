@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -45,6 +46,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.util.Vector;
 
 /**
  *
@@ -104,8 +106,12 @@ public class ButtonPressedListener implements Listener {
 		
 		ev.setCancelled(true);
 		
+		Location spawningLocation = cartJet.get().getMinecartSpawningLocation();
+		Location directionLocation = cartJet.get().getMinecarDirectionLocation();
+		
     Minecart spawnedMinecart = 
-      (Minecart) ev.getPlayer().getWorld().spawnEntity(cartJet.get().getMinecartSpawningLocation(),
+      (Minecart) ev.getPlayer().getWorld().spawnEntity(
+				spawningLocation,
         EntityType.MINECART
       );
     
@@ -121,6 +127,10 @@ public class ButtonPressedListener implements Listener {
       "cartjet.is",
       new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
     );
+		
+		Vector directionVector = spawningLocation.toVector().subtract(directionLocation.toVector());
+		
+		spawnedMinecart.setVelocity(directionVector);
 		
 		CartJetsManager.getInstrance().addMinecart(spawnedMinecart.getUniqueId());
   }
