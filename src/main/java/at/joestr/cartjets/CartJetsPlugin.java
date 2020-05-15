@@ -31,6 +31,7 @@ import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
 import at.joestr.cartjets.listeners.ButtonPressedListener;
 import at.joestr.cartjets.listeners.MinecartLeaveListener;
+import at.joestr.cartjets.listeners.SetupwizardButtonPressedListener;
 import at.joestr.cartjets.listeners.SetupwizardRailClickListener;
 import at.joestr.cartjets.models.CartJetsModel;
 import com.google.common.base.CharMatcher;
@@ -129,6 +130,7 @@ public class CartJetsPlugin extends JavaPlugin {
     this.getServer().getPluginManager().registerEvents(new ButtonPressedListener(), this);
     this.getServer().getPluginManager().registerEvents(new MinecartLeaveListener(), this);
     this.getServer().getPluginManager().registerEvents(new SetupwizardRailClickListener(), this);
+		this.getServer().getPluginManager().registerEvents(new SetupwizardButtonPressedListener(), this);
   }
   
   private void loadAppConfiguration() {

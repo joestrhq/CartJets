@@ -50,7 +50,7 @@ import org.bukkit.metadata.FixedMetadataValue;
  *
  * @author Joel
  */
-public class SetupwizardPressedListener implements Listener {
+public class SetupwizardButtonPressedListener implements Listener {
   
   private static final Material[] BUTTONS = new Material[] {
     Material.OAK_BUTTON,
