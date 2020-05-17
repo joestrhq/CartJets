@@ -82,46 +82,10 @@ public class SetupwizardRailClickListener implements Listener {
       .locale(locale)
       .receiver(ev.getPlayer())
       .send();
-		
-		new MessageHelper()
-      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL2_INSTRUCTION)
-      .locale(locale)
-      .receiver(ev.getPlayer())
-      .send();
     
     ev.setCancelled(true);
-  }
-	
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-  public void onRail2Clicked(PlayerInteractEvent ev) {
-		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
 		
-    Block clickedBlock = ev.getClickedBlock();
-    if (clickedBlock == null) return;
-    
-    if (!CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
-      return;
-    
-    if (CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).getMinecarDirectionLocation() != null)
-      return;
-    
-    Material clickedBlockMaterial = clickedBlock.getType();
-    if (!Arrays.stream(RAILS).anyMatch(clickedBlockMaterial::equals)) return;
-    
-    Locale l = Locale.forLanguageTag(ev.getPlayer().getLocale());
-    final Locale locale = l != null ? l : Locale.ENGLISH;
-		
-		CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).setMinecartDirectionLocation(clickedBlock.getLocation());
-    
-    new MessageHelper()
-      .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL2_SUCCESS)
-      .locale(locale)
-      .receiver(ev.getPlayer())
-      .send();
-    
-    ev.setCancelled(true);
-    
-    new AnvilGUI.Builder()
+		new AnvilGUI.Builder()
     .onClose(player -> {
       Object result =
         CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
@@ -192,5 +156,5 @@ public class SetupwizardRailClickListener implements Listener {
     )
     .plugin(CartJetsPlugin.getInstance())
     .open(ev.getPlayer());
-  }
+	}
 }

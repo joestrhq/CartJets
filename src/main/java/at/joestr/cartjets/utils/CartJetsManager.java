@@ -42,8 +42,7 @@ public class CartJetsManager {
 						}
 						
 						target.setVelocity(
-							target.getLocation()
-								.getDirection()
+							target.getVelocity()
 								.multiply(
 									AppConfiguration.getInstance()
 										.getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString())
@@ -52,7 +51,8 @@ public class CartJetsManager {
 					});
 			},
 			0, // No init delay
-			20 // Once per second
+			AppConfiguration.getInstance()
+				.getInt(CurrentEntries.CONF_taskRepeatingDelayInTicks.toString())
 		);
 	}
 	

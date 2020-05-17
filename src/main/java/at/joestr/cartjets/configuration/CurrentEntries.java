@@ -36,6 +36,7 @@ public enum CurrentEntries {
   CONF_JDBCURI("jdbcUri"),
 	CONF_MAXSPEED("maxSpeed"),
 	CONF_VECTORMULTIPLIER("vectorMultiplier"),
+	@Deprecated CONF_taskRepeatingDelayInTicks("taskRepeatingDelayInTicks"),
   // Languages
   LANG_PREFIX("prefix"),
   LANG_GEN_NOT_A_PLAYER("generic.not_a_player"),
@@ -47,8 +48,6 @@ public enum CurrentEntries {
   LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING("commands.cartjets-setupwizard.button.overlapping"),
   LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_INSTRUCTION("commands.cartjets-setupwizard.rail.instruction"),
   LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS("commands.cartjets-setupwizard.rail.success"),
-	LANG_CMD_CARTJETS_SETUPWIZARD_RAIL2_INSTRUCTION("commands.cartjets-setupwizard.rail2.instruction"),
-	LANG_CMD_CARTJETS_SETUPWIZARD_RAIL2_SUCCESS("commands.cartjets-setupwizard.rail2.success"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_ANVIL_GUI_TEXT("commands.cartjets-setupwizard.name.anvilgui_text"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_PLACEHOLDER("commands.cartjets-setupwizard.name.placeholder"),
   LANG_CMD_CARTJETS_SETUPWIZARD_NAME_DUPLICATE("commands.cartjets-setupwizard.name.duplicate"),

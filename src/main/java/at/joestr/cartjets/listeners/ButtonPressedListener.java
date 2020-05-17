@@ -107,7 +107,6 @@ public class ButtonPressedListener implements Listener {
 		ev.setCancelled(true);
 		
 		Location spawningLocation = cartJet.get().getMinecartSpawningLocation();
-		Location directionLocation = cartJet.get().getMinecarDirectionLocation();
 		
     Minecart spawnedMinecart = 
       (Minecart) ev.getPlayer().getWorld().spawnEntity(
@@ -127,10 +126,6 @@ public class ButtonPressedListener implements Listener {
       "cartjet.is",
       new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
     );
-		
-		Vector directionVector = spawningLocation.toVector().subtract(directionLocation.toVector());
-		
-		spawnedMinecart.setVelocity(directionVector);
 		
 		CartJetsManager.getInstrance().addMinecart(spawnedMinecart.getUniqueId());
   }
