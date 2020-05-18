@@ -1,4 +1,4 @@
 jdbcUri: 'jdbc:h2:./plugins/CartJets/cartjets'
-maxSpeed: 0.8
-vectorMultiplier: 2.0
-taskRepeatingDelayInTicks: 40
+maxSpeed: 1.0
+vectorMultiplier: 1.25
+taskRepeatingDelayInTicks: 20
