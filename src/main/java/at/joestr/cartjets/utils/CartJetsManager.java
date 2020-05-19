@@ -52,7 +52,7 @@ public class CartJetsManager {
 			},
 			0, // No init delay
 			AppConfiguration.getInstance()
-				.getInt(CurrentEntries.CONF_taskRepeatingDelayInTicks.toString())
+				.getInt(CurrentEntries.CONF_TASKREPEATINGDELAYINTICKS.toString())
 		);
 	}
 	

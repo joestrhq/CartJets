@@ -36,7 +36,12 @@ public enum CurrentEntries {
   CONF_JDBCURI("jdbcUri"),
 	CONF_MAXSPEED("maxSpeed"),
 	CONF_VECTORMULTIPLIER("vectorMultiplier"),
-	@Deprecated CONF_taskRepeatingDelayInTicks("taskRepeatingDelayInTicks"),
+	CONF_TASKREPEATINGDELAYINTICKS("taskRepeatingDelayInTicks"),
+	CONF_UPDATERMODE("updaterMode"),
+	CONF_UPDATERRELEASESREPO("updaterReleasesRepo"),
+	CONF_UPDATERSNAPSHOTSREPO("updaterSnapshotsRepo"),
+	CONF_UPDATERPROJECTPATH("updaterProjectPath"),
+	CONF_UPDATERSUFFIX("updaterSuffix"),
   // Languages
   LANG_PREFIX("prefix"),
   LANG_GEN_NOT_A_PLAYER("generic.not_a_player"),
