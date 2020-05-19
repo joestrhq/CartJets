@@ -8,6 +8,7 @@ package at.joestr.cartjets.configuration;
 import com.vdurmont.semver4j.Semver;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,21 +42,23 @@ public class MavenUpdater {
 		this.suffix = suffix;
 	}
 	
-	public CompletableFuture<Update> checkForUpdate() {
-		return CompletableFuture.runAsync(() -> {
-			Update result = null;
+	public CompletableFuture<Optional<Update>> checkForUpdate() {
+		return CompletableFuture.supplyAsync(() -> {
+			Optional<Update> result = Optional.empty();
 			
-			if (mode.equals(Mode.OFF)) return result;
+			if (mode.equals(Mode.OFF)) result = Optional.empty();
 			
 			String newVersion = checkForUpdate(
 				releaseRepo + projectPath + "maven-metadata.xml"
 			);
 
 			if (newVersion != null) {
-				result = new Update(
-					currentVersion,
-					newVersion,
-					releaseRepo + projectPath + "-" + newVersion + "-" + suffix + ".jar"
+				result = Optional.of(
+					new Update(
+						currentVersion,
+						newVersion,
+						releaseRepo + projectPath + "-" + newVersion + "-" + suffix + ".jar"
+					)
 				);
 			}
 			
@@ -68,10 +71,12 @@ public class MavenUpdater {
 			);
 
 			if (newVersion != null) {
-				result = new Update(
-					currentVersion,
-					newVersion,
-					snapshotRepo + projectPath + "-" + newVersion + "-" + suffix + ".jar"
+				result = Optional.of(
+					new Update(
+						currentVersion,
+						newVersion,
+						snapshotRepo + projectPath + "-" + newVersion + "-" + suffix + ".jar"
+					)
 				);
 			}
 			

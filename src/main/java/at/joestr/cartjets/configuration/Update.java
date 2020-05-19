@@ -15,7 +15,7 @@ public class Update {
 	private String currentVersion;
 	private String newVersion;
 	private String downloadUrl;
-
+	
 	public Update(String currentVersion, String newVersion, String downloadUrl) {
 		this.currentVersion = currentVersion;
 		this.newVersion = newVersion;
