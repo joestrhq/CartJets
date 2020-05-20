@@ -6,13 +6,17 @@
 package at.joestr.cartjets.configuration;
 
 import com.vdurmont.semver4j.Semver;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -32,6 +36,7 @@ public class MavenUpdater {
 	private final String snapshotRepo;
 	private final String projectPath;
 	private final String suffix;
+	private Update lastUpdate;
 
 	public MavenUpdater(Mode mode, String currentVersion, String releaseRepo, String snapshotRepo, String projectPath, String suffix) {
 		this.mode = mode;
@@ -44,26 +49,30 @@ public class MavenUpdater {
 	
 	public CompletableFuture<Optional<Update>> checkForUpdate() {
 		return CompletableFuture.supplyAsync(() -> {
-			Optional<Update> result = Optional.empty();
+			Update result = null;
 			
-			if (mode.equals(Mode.OFF)) result = Optional.empty();
+			if (lastUpdate.getExpiry().isAfter(LocalDateTime.now())) {
+				return Optional.of(lastUpdate);
+			} 
+			
+			if (mode.equals(Mode.OFF)) return Optional.empty();
 			
 			String newVersion = checkForUpdate(
 				releaseRepo + projectPath + "maven-metadata.xml"
 			);
 
 			if (newVersion != null) {
-				result = Optional.of(
-					new Update(
-						currentVersion,
-						newVersion,
-						releaseRepo + projectPath + "-" + newVersion + "-" + suffix + ".jar"
-					)
-				);
+				result = new Update(
+					currentVersion,
+					newVersion,
+					releaseRepo + projectPath + "-" + newVersion + (suffix.equalsIgnoreCase("") ? "-" + suffix : "") + ".jar",
+					LocalDateTime.now().plusHours(12)
+			);
 			}
 			
 			if (mode.equals(Mode.RELEASES) && newVersion != null) {
-				return result;
+				lastUpdate = result;
+				return Optional.of(result);
 			}
 			
 			newVersion = checkForUpdate(
@@ -71,20 +80,20 @@ public class MavenUpdater {
 			);
 
 			if (newVersion != null) {
-				result = Optional.of(
-					new Update(
-						currentVersion,
-						newVersion,
-						snapshotRepo + projectPath + "-" + newVersion + "-" + suffix + ".jar"
-					)
+				result = new Update(
+					currentVersion,
+					newVersion,
+					snapshotRepo + projectPath + "-" + newVersion + (suffix.equalsIgnoreCase("") ? "-" + suffix : "") + ".jar",
+					LocalDateTime.now().plusHours(12)
 				);
 			}
 			
 			if (mode.equals(Mode.SNAPSHOTS_AND_RELEASES) && newVersion != null) {
-				return result;
+				lastUpdate = result;
+				return Optional.of(result);
 			}
 			
-			return result;
+			return Optional.empty();
 		});
 	}
 	
@@ -96,7 +105,7 @@ public class MavenUpdater {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			document = db.parse(iS);
-		} catch (Exception ex) {
+		} catch (IOException | ParserConfigurationException | SAXException ex) {
 			return null;
 		}
 		

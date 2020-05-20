@@ -65,7 +65,8 @@ public enum CurrentEntries {
   PERM_CMD_CARTJETS("cartjets.commands.cartjets"),
   PERM_CMD_CARTJETS_SETUPWIZARD("cartjets.commands.cartjets-setupwizard"),
   PERM_CMD_CARTJETS_LIST("cartjets.commands.cartjets-list"),
-  PERM_CMD_CARTJETS_DELETE("cartjets.commands.cartjets-delete");
+  PERM_CMD_CARTJETS_DELETE("cartjets.commands.cartjets-delete"),
+	PERM_CMD_CARTJETS_UPDATE("cartjets.commands.cartjets-update");
   
   private final String text;
 

@@ -20,7 +20,7 @@ commands:
     usage: '§cSyntax error! Use: §f/<command>'
   cartjets-setupwizard:
     description: Toggles the setup wizard for creating lines.
-    #aliases: [cjsw]
+    #aliases: [cjs]
     permission: cartjets.commands.cartjets-setupwizard
     permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets-setupwizard§c!'
     usage: '§cSyntax error! Use: §f/<command>'
@@ -36,6 +36,12 @@ commands:
     permission: cartjets.commands.cartjets-delete
     permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets-delete§c!'
     usage: '§cSyntax error! Use: §f/<command> <name>'
+  cartjets-update:
+    description: Updates the plugin.
+    #aliases [cju]
+    permission: 'cartjets.commands.cartjets-update'
+    permission-message: '§cYou are lacking permission §fcartjets.commands.cartjets-update§c!'
+    usage: '§cSyntax error! Use: §f/<command>'
 permissions:
   cartjets.commands.*:
    description: Allows the usage all commands provided by the CartJets plugin.
@@ -45,3 +51,4 @@ permissions:
      cartjets.commands.cartjets-setupwizard: true
      cartjets.commands.cartjets-list: true
      cartjets.commands.cartjets-delete: true
+     cartjets.commands.cartjets-update: true

@@ -28,7 +28,9 @@ import at.joestr.cartjets.commands.CommandCartjetsDelete;
 import at.joestr.cartjets.commands.CommandCartjetsList;
 import at.joestr.cartjets.commands.CommandCartjetsSetupwizard;
 import at.joestr.cartjets.configuration.AppConfiguration;
+import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
+import at.joestr.cartjets.configuration.MavenUpdater;
 import at.joestr.cartjets.listeners.ButtonPressedListener;
 import at.joestr.cartjets.listeners.MinecartLeaveListener;
 import at.joestr.cartjets.listeners.SetupwizardButtonPressedListener;
@@ -65,6 +67,7 @@ public class CartJetsPlugin extends JavaPlugin {
   private Dao<CartJetsModel, String> cartJetsDao;
   private HashMap<UUID, CartJetsModel> perUserModels;
   private HashMap<String, TabExecutor> commandMap;
+	private MavenUpdater updater;
   
   public static CartJetsPlugin getInstance() {
     return instance;
@@ -85,12 +88,25 @@ public class CartJetsPlugin extends JavaPlugin {
     
     this.loadAppConfiguration();
     this.loadLanguageConfiguration();
+		
     try {
       this.loadDatabase();
     } catch (SQLException ex) {
       this.getLogger().log(Level.SEVERE, "Error whilst loading database!", ex);
       this.getServer().getPluginManager().disablePlugin(this);
     }
+		
+		
+		this.updater = new MavenUpdater(
+			MavenUpdater.Mode.valueOf(
+				AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERMODE.toString())
+			),
+			this.getDescription().getVersion(),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERRELEASESREPO.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERSNAPSHOTSREPO.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERPROJECTPATH.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERSUFFIX.toString())
+		);
     
     this.commandMap.put("cartjets", new CommandCartjets());
     this.commandMap.put("cartjets-delete", new CommandCartjetsDelete());
@@ -116,6 +132,10 @@ public class CartJetsPlugin extends JavaPlugin {
   public HashMap<UUID, CartJetsModel> getPerUserModels() {
     return perUserModels;
   }
+
+	public MavenUpdater getUpdater() {
+		return updater;
+	}
   
   private void registerCommands() {
     this.commandMap.forEach((s, e) -> {

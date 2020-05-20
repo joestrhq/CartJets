@@ -6,6 +6,7 @@
 package at.joestr.cartjets.configuration;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -15,11 +16,13 @@ public class Update {
 	private String currentVersion;
 	private String newVersion;
 	private String downloadUrl;
+	private LocalDateTime expiry;
 	
-	public Update(String currentVersion, String newVersion, String downloadUrl) {
+	public Update(String currentVersion, String newVersion, String downloadUrl, LocalDateTime expiry) {
 		this.currentVersion = currentVersion;
 		this.newVersion = newVersion;
 		this.downloadUrl = downloadUrl;
+		this.expiry = expiry;
 	}
 
 	public String getCurrentVersion() {
@@ -45,4 +48,14 @@ public class Update {
 	public void setDownloadUrl(String downloadUrl) {
 		this.downloadUrl = downloadUrl;
 	}
+
+	public LocalDateTime getExpiry() {
+		return expiry;
+	}
+
+	public void setExpiry(LocalDateTime expiry) {
+		this.expiry = expiry;
+	}
+	
+	
 }
