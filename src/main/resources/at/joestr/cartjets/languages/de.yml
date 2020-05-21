@@ -28,3 +28,8 @@ commands:
   cartjets-delete:
     non_existing: '[""%prefix,{"text":"Die Strecke ","color":"red"},{"text":"%line","color":"white"},{"text":" existiert nicht.","color":"red"}]'
     success: '[""%prefix,{"text":"Die Strecke ","color":"green"},{"text":"%line","color":"white"},{"text":" wurde erfolgreich gelöscht.","color":"green"}]'
+  cartjets-update:
+    error: ''
+    uptodate: ''
+    available: ''
+    readytoupdate: ''

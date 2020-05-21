@@ -27,12 +27,14 @@ import at.joestr.cartjets.commands.CommandCartjets;
 import at.joestr.cartjets.commands.CommandCartjetsDelete;
 import at.joestr.cartjets.commands.CommandCartjetsList;
 import at.joestr.cartjets.commands.CommandCartjetsSetupwizard;
+import at.joestr.cartjets.commands.CommandCartjetsUpdate;
 import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
 import at.joestr.cartjets.configuration.MavenUpdater;
 import at.joestr.cartjets.listeners.ButtonPressedListener;
 import at.joestr.cartjets.listeners.MinecartLeaveListener;
+import at.joestr.cartjets.listeners.PlayerJoinListener;
 import at.joestr.cartjets.listeners.SetupwizardButtonPressedListener;
 import at.joestr.cartjets.listeners.SetupwizardRailClickListener;
 import at.joestr.cartjets.models.CartJetsModel;
@@ -97,6 +99,7 @@ public class CartJetsPlugin extends JavaPlugin {
     }
 		
 		
+		/*
 		this.updater = new MavenUpdater(
 			MavenUpdater.Mode.valueOf(
 				AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERMODE.toString())
@@ -107,11 +110,13 @@ public class CartJetsPlugin extends JavaPlugin {
 			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERPROJECTPATH.toString()),
 			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERSUFFIX.toString())
 		);
+		*/
     
     this.commandMap.put("cartjets", new CommandCartjets());
     this.commandMap.put("cartjets-delete", new CommandCartjetsDelete());
     this.commandMap.put("cartjets-list", new CommandCartjetsList());
     this.commandMap.put("cartjets-setupwizard", new CommandCartjetsSetupwizard());
+		//this.commandMap.put("cartjets-update", new CommandCartjetsUpdate());
     
     this.registerCommands();
     this.registerListeners();
@@ -151,6 +156,7 @@ public class CartJetsPlugin extends JavaPlugin {
     this.getServer().getPluginManager().registerEvents(new MinecartLeaveListener(), this);
     this.getServer().getPluginManager().registerEvents(new SetupwizardRailClickListener(), this);
 		this.getServer().getPluginManager().registerEvents(new SetupwizardButtonPressedListener(), this);
+		//this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
   }
   
   private void loadAppConfiguration() {

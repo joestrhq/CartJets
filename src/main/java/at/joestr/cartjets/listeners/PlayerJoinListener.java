@@ -7,15 +7,15 @@ package at.joestr.cartjets.listeners;
 
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.configuration.CurrentEntries;
-import java.util.EventListener;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
  *
  * @author Joel
  */
-public class PlayerJoinListener implements EventListener {
+public class PlayerJoinListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent ev) {

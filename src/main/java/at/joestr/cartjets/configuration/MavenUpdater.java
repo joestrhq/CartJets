@@ -5,13 +5,22 @@
  */
 package at.joestr.cartjets.configuration;
 
+import com.sun.xml.internal.bind.api.impl.NameConverter;
 import com.vdurmont.semver4j.Semver;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -117,5 +126,40 @@ public class MavenUpdater {
 		if (currenVersion.isLowerThan(newVersion)) return nVal;
 		
 		return null;
+	}
+	
+	private CompletableFuture<Boolean> downloadUpdate(File folder) {
+		return CompletableFuture.supplyAsync(() -> {
+			if (!folder.exists()) return false;
+			if (!folder.canWrite()) return false;
+			
+			if (lastUpdate == null) {
+				try {
+					lastUpdate = checkForUpdate().get().get();
+				} catch (InterruptedException | ExecutionException ex) {
+					Logger.getLogger(MavenUpdater.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+			
+			if (lastUpdate == null) return false;
+			
+			URL downloadUrl = null;
+			try {
+				 downloadUrl = new URL(lastUpdate.getDownloadUrl());
+			} catch (MalformedURLException ex) {
+				Logger.getLogger(MavenUpdater.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			if (downloadUrl == null) return false;
+			
+			;
+			
+			try {
+				Files.copy(downloadUrl.openStream(), folder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException ex) {
+				Logger.getLogger(MavenUpdater.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			
+			return false;
+		});
 	}
 }
