@@ -47,13 +47,12 @@ public class CartJetsManager {
 								.getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString());
 						
 						// Execute this synchronously
-						Bukkit.getServer().getScheduler().callSyncMethod(
+						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
 							CartJetsPlugin.getInstance(), () -> {
 								target.setVelocity(
 									target.getVelocity()
 										.multiply(multiplier)
 								);
-								return Optional.empty();
 						});
 					});
 			},
