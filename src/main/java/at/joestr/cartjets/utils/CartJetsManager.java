@@ -11,6 +11,7 @@ import at.joestr.cartjets.configuration.CurrentEntries;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -28,7 +29,7 @@ public class CartJetsManager {
 	private CartJetsManager() {
 		this.minecarts = new ArrayList<>();
 		
-		Bukkit.getScheduler().runTaskTimer(
+		Bukkit.getScheduler().runTaskTimerAsynchronously(
 			CartJetsPlugin.getInstance(),
 			() -> {
 				CartJetsManager
@@ -41,13 +42,19 @@ public class CartJetsManager {
 							return;
 						}
 						
-						target.setVelocity(
-							target.getVelocity()
-								.multiply(
-									AppConfiguration.getInstance()
-										.getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString())
-								)
-						);
+						double multiplier =
+							AppConfiguration.getInstance()
+								.getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString());
+						
+						// Execute this synchronously
+						Bukkit.getServer().getScheduler().callSyncMethod(
+							CartJetsPlugin.getInstance(), () -> {
+								target.setVelocity(
+									target.getVelocity()
+										.multiply(multiplier)
+								);
+								return Optional.empty();
+						});
 					});
 			},
 			0, // No init delay
@@ -72,7 +79,7 @@ public class CartJetsManager {
 		Entity target = Bukkit.getServer().getEntity(e);
 		if (target == null) return;
 		if (target.getType() != EntityType.MINECART) return;
-		this.minecarts.add(e);
+		this.minecarts.remove(e);
 	}
 	
 	public List<UUID> getCurrentMinecarts() {
