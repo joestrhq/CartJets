@@ -105,13 +105,13 @@
 	
 	<distributionManagement>
 			<snapshotRepository>
-				<id>ossrh</id>
+				<id>sonatype-oss-snapshots-repo</id>
 				<name>Sonatype's Snapshots repo</name>
 				<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			</snapshotRepository>
 			<repository>
 				<id>ossrh</id>
-				<name>Sonatype's Staging repo</name>
+				<name>sonatype-oss-staging-repo</name>
 				<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 			</repository>
     </distributionManagement>
