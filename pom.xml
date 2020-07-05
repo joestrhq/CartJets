@@ -105,7 +105,7 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>github-joestr</id>
+			<id>github-joestr-repo</id>
 			<name>GitHub Packages: joestr's repo</name>
 			<url>https://maven.pkg.github.com/joestr/CartJets</url>
 		</repository>
