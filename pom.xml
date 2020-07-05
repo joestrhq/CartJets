@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>at.joestr</groupId>
   <artifactId>cartjets</artifactId>
-  <version>0.1.43-SNAPSHOT</version>
+  <version>0.1.44-SNAPSHOT</version>
   <packaging>jar</packaging>
   
   <name>CartJets</name>
@@ -104,12 +104,17 @@
 	</ciManagement>
 	
 	<distributionManagement>
-		<repository>
-			<id>github-joestr-repo</id>
-			<name>GitHub Packages: joestr's repo</name>
-			<url>https://maven.pkg.github.com/joestr/CartJets</url>
-		</repository>
-	</distributionManagement>
+			<snapshotRepository>
+				<id>ossrh</id>
+				<name>Sonatype's Snapshots repo</name>
+				<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			</snapshotRepository>
+			<repository>
+				<id>ossrh</id>
+				<name>Sonatype's Staging repo</name>
+				<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			</repository>
+    </distributionManagement>
   
   <build>
     <resources>
@@ -173,16 +178,6 @@
           </execution>
         </executions>
       </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>3.0.0-M1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>3.0.0-M1</version>
-			</plugin>
     </plugins>
   </build>
 </project>
