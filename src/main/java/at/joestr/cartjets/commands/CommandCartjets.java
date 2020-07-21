@@ -23,13 +23,12 @@
 // 
 package at.joestr.cartjets.commands;
 
-import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.configuration.CurrentEntries;
+import at.joestr.cartjets.utils.LocaleHelper;
 import at.joestr.cartjets.utils.MessageHelper;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Locale;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -52,9 +51,10 @@ public class CommandCartjets implements TabExecutor {
       return false;
     }
     
-    Locale l =
-      sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
-    final Locale locale = l != null ? l : Locale.ENGLISH;
+    final Locale locale =
+			sender instanceof Player
+			? LocaleHelper.resolve(((Player) sender).getLocale())
+			: Locale.ENGLISH;
     
     if (!(sender instanceof Player)) {
       new MessageHelper()
@@ -67,24 +67,32 @@ public class CommandCartjets implements TabExecutor {
     
     if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_SETUPWIZARD.toString())) {
       new MessageHelper()
-        .path(CurrentEntries.LANG_CMD_CARTJETS_MSG_SETUPWIZARD)
-        .locale(l)
+        .path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_SETUPWIZARD)
+        .locale(locale)
         .receiver(sender)
         .send();
     }
     
     if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_LIST.toString())) {
       new MessageHelper()
-        .path(CurrentEntries.LANG_CMD_CARTJETS_MSG_LIST)
-        .locale(l)
+        .path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_LIST)
+        .locale(locale)
         .receiver(sender)
         .send();
     }
     
     if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_DELETE.toString())) {
       new MessageHelper()
-        .path(CurrentEntries.LANG_CMD_CARTJETS_MSG_DELETE)
-        .locale(l)
+        .path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_DELETE)
+        .locale(locale)
+        .receiver(sender)
+        .send();
+    }
+		
+		if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_UPDATE.toString())) {
+      new MessageHelper()
+        .path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_UPDATE)
+        .locale(locale)
         .receiver(sender)
         .send();
     }

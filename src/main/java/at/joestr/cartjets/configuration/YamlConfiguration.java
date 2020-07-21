@@ -60,6 +60,14 @@ public abstract class YamlConfiguration {
   public boolean contains(String path) {
     return this.lookupObject(path, config) != null;
   }
+	
+	public Boolean getBoolean(String path) {
+		return getObject(path, Boolean.class);
+	}
+	
+	public void setBoolean(String path, Boolean value) {
+		setObject(path, Boolean.class, value);
+	}
   
   public Integer getInteger(String path) {
     return getObject(path, Integer.class);

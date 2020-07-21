@@ -25,6 +25,8 @@ package at.joestr.cartjets.utils;
 
 import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -41,9 +43,11 @@ public class MessageHelper {
   private Locale locale;
   private CommandSender receiver;
   private boolean showPrefix;
-  
-  public MessageHelper() { 
-  }
+	private List<Function<String, String>> modifiers;
+	
+	public MessageHelper() {
+		this.modifiers = new ArrayList<>();
+	}
   
   public MessageHelper path(CurrentEntries path) {
     this.path = path;
@@ -59,6 +63,11 @@ public class MessageHelper {
     this.modify = modify;
     return this;
   }
+	
+	public MessageHelper addModifier(Function<String, String> modifier) {
+		this.modifiers.add(modifier);
+		return this;
+	}
   
   public MessageHelper receiver(CommandSender receiver) {
     this.receiver = receiver;
@@ -90,6 +99,10 @@ public class MessageHelper {
     }
     
     if (this.modify != null) message = this.modify.apply(message);
+		
+		for (Function<String, String> modifier: this.modifiers) {
+			modifier.apply(message);
+		}
     
     receiver.spigot().sendMessage(
       ComponentSerializer.parse(message)

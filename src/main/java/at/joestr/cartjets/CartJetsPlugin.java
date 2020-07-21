@@ -31,14 +31,12 @@ import at.joestr.cartjets.commands.CommandCartjetsUpdate;
 import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
-import at.joestr.cartjets.configuration.MavenUpdater;
+import at.joestr.cartjets.configuration.JenkinsUpdater;
 import at.joestr.cartjets.listeners.ButtonPressedListener;
 import at.joestr.cartjets.listeners.MinecartLeaveListener;
-import at.joestr.cartjets.listeners.PlayerJoinListener;
 import at.joestr.cartjets.listeners.SetupwizardButtonPressedListener;
 import at.joestr.cartjets.listeners.SetupwizardRailClickListener;
 import at.joestr.cartjets.models.CartJetsModel;
-import com.google.common.base.CharMatcher;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -53,7 +51,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -69,7 +67,7 @@ public class CartJetsPlugin extends JavaPlugin {
   private Dao<CartJetsModel, String> cartJetsDao;
   private HashMap<UUID, CartJetsModel> perUserModels;
   private HashMap<String, TabExecutor> commandMap;
-	private MavenUpdater updater;
+	private JenkinsUpdater updater;
   
   public static CartJetsPlugin getInstance() {
     return instance;
@@ -98,25 +96,23 @@ public class CartJetsPlugin extends JavaPlugin {
       this.getServer().getPluginManager().disablePlugin(this);
     }
 		
-		
-		/*
-		this.updater = new MavenUpdater(
-			MavenUpdater.Mode.valueOf(
-				AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERMODE.toString())
+		this.updater = new JenkinsUpdater(
+			JenkinsUpdater.Mode.valueOf(
+				AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_MODE.toString())
 			),
+			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_JENKINSUPDATER_AUTOUPDATE.toString()),
 			this.getDescription().getVersion(),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERRELEASESREPO.toString()),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERSNAPSHOTSREPO.toString()),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERPROJECTPATH.toString()),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATERSUFFIX.toString())
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_ROOTURL.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_POMPROPERTIES.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_CLASSIFIER.toString()),
+			Bukkit.getUpdateFolderFile()
 		);
-		*/
     
     this.commandMap.put("cartjets", new CommandCartjets());
     this.commandMap.put("cartjets-delete", new CommandCartjetsDelete());
     this.commandMap.put("cartjets-list", new CommandCartjetsList());
     this.commandMap.put("cartjets-setupwizard", new CommandCartjetsSetupwizard());
-		//this.commandMap.put("cartjets-update", new CommandCartjetsUpdate());
+		this.commandMap.put("cartjets-update", new CommandCartjetsUpdate());
     
     this.registerCommands();
     this.registerListeners();
@@ -134,11 +130,11 @@ public class CartJetsPlugin extends JavaPlugin {
     return cartJetsDao;
   }
   
-  public HashMap<UUID, CartJetsModel> getPerUserModels() {
+  public Map<UUID, CartJetsModel> getPerUserModels() {
     return perUserModels;
   }
 
-	public MavenUpdater getUpdater() {
+	public JenkinsUpdater getUpdater() {
 		return updater;
 	}
   
@@ -156,7 +152,6 @@ public class CartJetsPlugin extends JavaPlugin {
     this.getServer().getPluginManager().registerEvents(new MinecartLeaveListener(), this);
     this.getServer().getPluginManager().registerEvents(new SetupwizardRailClickListener(), this);
 		this.getServer().getPluginManager().registerEvents(new SetupwizardButtonPressedListener(), this);
-		//this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
   }
   
   private void loadAppConfiguration() {
@@ -182,7 +177,7 @@ public class CartJetsPlugin extends JavaPlugin {
     File externalLanguagesFolder = new File(this.getDataFolder(), "languages");
     
     try {
-      LanguageConfiguration.getInstance(externalLanguagesFolder, bundledLanguages, Locale.ENGLISH);
+      LanguageConfiguration.getInstance(externalLanguagesFolder, bundledLanguages, new Locale("en"));
     } catch (IOException ex) {
       this.getLogger().log(
         Level.SEVERE,

@@ -21,43 +21,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // 
-package at.joestr.cartjets.listeners;
+package at.joestr.cartjets.utils;
 
-import java.util.List;
-import at.joestr.cartjets.CartJetsPlugin;
-import at.joestr.cartjets.utils.CartJetsManager;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.metadata.MetadataValue;
-import org.spigotmc.event.entity.EntityDismountEvent;
+import java.util.Locale;
 
 /**
  *
  * @author Joel
  */
-public class MinecartLeaveListener implements Listener {
-  
-  @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-  public void onMinecartLeave(EntityDismountEvent ev) {
-    Entity dismounted = ev.getDismounted();
-    
-    if (dismounted.getType() != EntityType.MINECART) return;
-    
-    List<MetadataValue> metadataValues = dismounted.getMetadata("cartjet.is");
-    
-    if (metadataValues.isEmpty()) return;
-    
-    MetadataValue metadataValue = metadataValues.get(0);
-    
-    if (metadataValue.getOwningPlugin() != CartJetsPlugin.getInstance()) return;
-    
-    if (!metadataValue.asBoolean()) return;
-    
-		CartJetsManager.getInstrance().removeMinecart(dismounted.getUniqueId());
+public class LocaleHelper {
+	
+	public LocaleHelper() {
+		throw new IllegalMonitorStateException("Utility class");
+	}
+	
+	public static Locale resolve(final String locale) {
+		// Minecraft's format: e.g. de_de, en_gb
+		String[] localeTagParts = locale.split("_");
 		
-    dismounted.remove();
-  }
+    Locale l =
+      localeTagParts.length > 1
+			? new Locale(localeTagParts[0]) // Use the language part only.
+			: Locale.ENGLISH;
+    return l != null ? l : Locale.ENGLISH;
+	}
 }

@@ -111,9 +111,7 @@ public class SetupwizardRailClickListener implements Listener {
 
       Optional<CartJetsModel> cartJet =
         cartJets.stream()
-          .filter((b) -> {
-            return b.getName().equalsIgnoreCase(text);
-          })
+          .filter(b ->  b.getName().equalsIgnoreCase(text))
           .findFirst();
       
       if(cartJet.isPresent()) {

@@ -7,6 +7,8 @@ Only the owner is allowed to use this software.
 */
 package at.joestr.cartjets.configuration;
 
+import at.joestr.cartjets.CartJetsPlugin;
+import com.vdurmont.semver4j.Semver;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,13 +30,42 @@ public class AppConfiguration {
   private final YamlFileConfiguration external;
   private final YamlStreamConfiguration bundled;
   
-  private AppConfiguration(File externalConfig, InputStream bundledConfig) throws FileNotFoundException, IOException {
+  private AppConfiguration(File externalConfig, InputStream bundledConfig) throws IOException {
     this.bundled = new YamlStreamConfiguration(bundledConfig);
     if (!externalConfig.exists()) {
       externalConfig.getParentFile().mkdirs();
       this.bundled.saveConfigAsFile(externalConfig);
     }
     this.external = new YamlFileConfiguration(externalConfig);
+
+		Semver bundledVersion = new Semver(
+			this.bundled.getString(CurrentEntries.CONF_VERSION.toString()),
+			Semver.SemverType.IVY
+		);
+		
+		Semver externalVersion = new Semver(
+			this.external.getString(CurrentEntries.CONF_VERSION.toString()),
+			Semver.SemverType.IVY
+		);
+		
+		boolean containsRequiredEntries = true;
+		
+		if (!bundledVersion.isEqualTo(externalVersion)) {
+			for (CurrentEntries currentEntry : CurrentEntries.getConfigurationEntries()) {
+				if (!((YamlConfiguration) this.external).contains(currentEntry.toString())) {
+					containsRequiredEntries = false;
+				}
+			}
+			
+			if (!containsRequiredEntries) {
+				CartJetsPlugin.getInstance().getLogger()
+					.log(
+						Level.WARNING,
+						"The file {0} is missing some entries. Please check the documentation!",
+						new Object[] { this.external.getConfigFile().getPath() }
+					);
+			}
+		}
   }
   
   /**
@@ -46,7 +77,7 @@ public class AppConfiguration {
    * @throws FileNotFoundException
    * @throws IOException 
    */
-  public static AppConfiguration getInstance(File externalConfigFile, InputStream bundledConfigStream) throws FileNotFoundException, IOException {
+  public static AppConfiguration getInstance(File externalConfigFile, InputStream bundledConfigStream) throws IOException {
     if (INSTANCE != null) {
       throw new RuntimeException("This class has already been instantiated.");
     }
@@ -72,6 +103,25 @@ public class AppConfiguration {
     );
   }
   
+	public Boolean getBool(String path) {
+		Boolean result =
+      this.external.getBoolean(path);
+    if (result != null) {
+      return result;
+    }
+    this.logMissingExternalPathEntry(path);
+    result =
+      this.bundled.getBoolean(path);
+    if (result != null) {
+      return result;
+    }
+    return null;
+	}
+	
+	public void setBool(String path, Boolean value) {
+    this.external.setBoolean(path, value);
+  }
+	
   public Integer getInt(String path) {
     Integer result =
       this.external.getInteger(path);

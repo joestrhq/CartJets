@@ -26,6 +26,7 @@ package at.joestr.cartjets.commands;
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.models.CartJetsModel;
+import at.joestr.cartjets.utils.LocaleHelper;
 import at.joestr.cartjets.utils.MessageHelper;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
@@ -52,9 +53,10 @@ public class CommandCartjetsSetupwizard implements TabExecutor {
 			return false;
 		}
 
-		Locale l
-			= sender instanceof Player ? Locale.forLanguageTag(((Player) sender).getLocale()) : Locale.ENGLISH;
-		final Locale locale = l != null ? l : Locale.ENGLISH;
+		final Locale locale =
+			sender instanceof Player
+			? LocaleHelper.resolve(((Player) sender).getLocale())
+			: Locale.ENGLISH;
 
 		if (!(sender instanceof Player)) {
 			new MessageHelper()

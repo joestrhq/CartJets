@@ -11,7 +11,6 @@ import at.joestr.cartjets.configuration.CurrentEntries;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -24,7 +23,7 @@ import org.bukkit.entity.EntityType;
 public class CartJetsManager {
 	private static CartJetsManager instance = null;
 	
-	private ArrayList<UUID> minecarts;
+	private final ArrayList<UUID> minecarts;
 	
 	private CartJetsManager() {
 		this.minecarts = new ArrayList<>();
@@ -35,7 +34,7 @@ public class CartJetsManager {
 				CartJetsManager
 					.getInstrance()
 					.getCurrentMinecarts()
-					.forEach((e) -> {
+					.forEach(e -> {
 						Entity target = Bukkit.getServer().getEntity(e);
 						if (target == null) {
 							CartJetsManager.getInstrance().removeMinecart(e);

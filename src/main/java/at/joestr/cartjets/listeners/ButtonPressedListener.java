@@ -23,7 +23,6 @@
 // 
 package at.joestr.cartjets.listeners;
 
-import at.joestr.cartjets.utils.MessageHelper;
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.models.CartJetsModel;
@@ -32,7 +31,6 @@ import at.joestr.cartjets.utils.CartJetsManager;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
 import org.bukkit.Location;
@@ -65,9 +63,11 @@ public class ButtonPressedListener implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
   public void onButtonClicked(PlayerInteractEvent ev) {
-		if (!EquipmentSlot.HAND.equals(ev.getHand())) return;
+		if (!EquipmentSlot.HAND.equals(ev.getHand()))
+			return;
 		
     Block clickedBlock = ev.getClickedBlock();
+		
     if (clickedBlock == null) return;
     
     if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
@@ -87,16 +87,12 @@ public class ButtonPressedListener implements Listener {
     
     boolean buttonPresent =
       cartJets.stream()
-        .anyMatch((b) -> {
-          return b.getButtonLocation().equals(clickedBlock.getLocation());
-        });
+        .anyMatch(b -> b.getButtonLocation().equals(clickedBlock.getLocation()));
     if (!buttonPresent) return;
     
     Optional<CartJetsModel> cartJet =
       cartJets.stream()
-        .filter((b) -> {
-          return b.getButtonLocation().equals(clickedBlock.getLocation());
-        })
+        .filter(b -> b.getButtonLocation().equals(clickedBlock.getLocation()))
         .findFirst();
     
 		if (!cartJet.isPresent()) {

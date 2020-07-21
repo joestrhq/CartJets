@@ -1,93 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>at.joestr</groupId>
-  <artifactId>cartjets</artifactId>
-  <version>0.1.44-SNAPSHOT</version>
-  <packaging>jar</packaging>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>at.joestr</groupId>
+	<artifactId>cartjets</artifactId>
+	<version>0.1.45-SNAPSHOT</version>
+	<packaging>jar</packaging>
   
-  <name>CartJets</name>
-  <description>Define entry points for faster minecarts.</description>
-  <url>https://www.joestr.at</url>
+	<name>CartJets</name>
+	<description>Define entry points for faster minecarts.</description>
+	<url>https://www.joestr.at</url>
   
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
   
-  <repositories>
-    <repository>
-      <id>joestr-public-releases-repo</id>
-      <name>joestr.at's public repo for releases</name>
-      <url>https://mvn-repo.joestr.at/repository/releases/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-        <checksumPolicy>fail</checksumPolicy>
-      </releases>
-    </repository>
-    <repository>
-      <id>joestr-public-snapshots-repo</id>
-      <name>joestr.at's public repo for snapshots</name>
-      <url>https://mvn-repo.joestr.at/repository/snapshots/</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-        <checksumPolicy>fail</checksumPolicy>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>jitpack-public-repo</id>
-      <name>jitpack.io's public Maven repository</name>
-      <url>https://jitpack.io</url>
+	<repositories>
+		<repository>
+			<id>joestr-public-releases-repo</id>
+			<name>joestr.at's public repo for releases</name>
+			<url>https://mvn-repo.joestr.at/repository/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
 		</repository>
-  </repositories>
+		<repository>
+			<id>joestr-public-snapshots-repo</id>
+			<name>joestr.at's public repo for snapshots</name>
+			<url>https://mvn-repo.joestr.at/repository/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>jitpack-public-repo</id>
+			<name>jitpack.io's public Maven repository</name>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
   
-  <dependencies>
-    <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.16.1-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.j256.ormlite</groupId>
-      <artifactId>ormlite-core</artifactId>
-      <version>5.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.j256.ormlite</groupId>
-      <artifactId>ormlite-jdbc</artifactId>
-      <version>5.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.200</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.WesJD.AnvilGUI</groupId>
-      <artifactId>anvilgui</artifactId>
-      <version>master-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.16.1-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.j256.ormlite</groupId>
+			<artifactId>ormlite-core</artifactId>
+			<version>5.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.j256.ormlite</groupId>
+			<artifactId>ormlite-jdbc</artifactId>
+			<version>5.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.200</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.WesJD.AnvilGUI</groupId>
+			<artifactId>anvilgui</artifactId>
+			<version>master-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.vdurmont</groupId>
 			<artifactId>semver4j</artifactId>
 			<version>3.1.0</version>
 			<scope>compile</scope>
 		</dependency>
-  </dependencies>
+	</dependencies>
 	
 	<ciManagement>
 		<system>jenkins</system>
@@ -103,81 +108,92 @@
 		</notifiers>
 	</ciManagement>
 	
+	<!--
+	This is not a library neither does this package expose any Api so we do not have to
+	deploy it to Sonatype OSS.
+	-->
+	<!--
 	<distributionManagement>
-			<snapshotRepository>
-				<id>sonatype-oss-snapshots-repo</id>
-				<name>Sonatype's Snapshots repo</name>
-				<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			</snapshotRepository>
-			<repository>
-				<id>ossrh</id>
-				<name>sonatype-oss-staging-repo</name>
-				<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-			</repository>
-    </distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-oss-snapshots-repo</id>
+			<name>Sonatype's Snapshots repo</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<name>sonatype-oss-staging-repo</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	-->
   
-  <build>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/*.yml</include>
-        </includes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
-        <configuration>
-          <filters>
-            <filter>
-              <artifact>*:*</artifact>
-              <excludes>
-                <exclude>META-INF/*.SF</exclude>
-                <exclude>META-INF/*.DSA</exclude>
-                <exclude>META-INF/*.RSA</exclude>
-              </excludes>
-            </filter>
-          </filters>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <minimizeJar>false</minimizeJar>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-              <artifactSet>
-                <includes>
-                  <include>com.j256.ormlite:ormlite-core</include>
-                  <include>com.j256.ormlite:ormlite-jdbc</include>
-                  <include>com.h2database:h2</include>
-                  <include>com.github.WesJD.AnvilGUI:anvilgui</include>
-                </includes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>com.j256.ormlite</pattern>
-                  <shadedPattern>at.joestr.cartjets.thirdparty.com.j256.ormlite</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>com.h2database</pattern>
-                  <shadedPattern>at.joestr.cartjets.thirdparty.com.h2database</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>net.wesjd</pattern>
-                  <shadedPattern>at.joestr.cartjets.thirdparty.net.wesjd</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.yml</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>false</minimizeJar>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<artifactSet>
+								<includes>
+									<include>com.j256.ormlite:ormlite-core</include>
+									<include>com.j256.ormlite:ormlite-jdbc</include>
+									<include>com.h2database:h2</include>
+									<include>com.github.WesJD.AnvilGUI:anvilgui</include>
+									<include>com.vdurmont:semver4j</include>
+								</includes>
+							</artifactSet>
+							<relocations>
+								<relocation>
+									<pattern>com.j256.ormlite</pattern>
+									<shadedPattern>at.joestr.cartjets.thirdparty.com.j256.ormlite</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>com.h2database</pattern>
+									<shadedPattern>at.joestr.cartjets.thirdparty.com.h2database</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>net.wesjd</pattern>
+									<shadedPattern>at.joestr.cartjets.thirdparty.net.wesjd</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>com.vdurmont.semver4j</pattern>
+									<shadedPattern>at.joestr.cartjets.thirdparty.com.vdurmont.semver4j</shadedPattern>
+								</relocation>
+							</relocations>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

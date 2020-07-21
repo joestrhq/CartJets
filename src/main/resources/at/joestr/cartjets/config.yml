@@ -1,10 +1,12 @@
+version: '${project.version}'
 jdbcUri: 'jdbc:h2:./plugins/CartJets/cartjets'
 maxSpeed: 1.0
 vectorMultiplier: 1.25
 taskRepeatingDelayInTicks: 20
-# Updater config
-updaterMode: 'SNAPSHOTS_AND_RELEASES'
-updaterReleasesRepo: 'https://mvn-repo.joestr.at/repository/releases/'
-updaterSnapshotsRepo: 'https://mvn-repo.joestr.at/repository/snapshots/'
-updaterProjectPath: 'at/joestr/cartjets/'
-updaterSuffix: 'shaded'
+# Jenkins updater config
+jenkinsUpdater:
+  mode: 'RELEASES'
+  autoUpdate: true
+  rootUrl: 'https://ci.joestr.at/job/CartJets/lastSuccessfulBuild/artifact/target/maven-archiver/'
+  pomProperties: 'pom.properties'
+  classifier: 'shaded'
