@@ -1,25 +1,7 @@
-//
-// MIT License
 // 
-// Copyright (c) 2020 minecraft.kiwi
+// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// Licensed under the EUPL-1.2
 // 
 package at.joestr.cartjets.commands;
 
@@ -55,10 +37,10 @@ public class CommandCartjetsList implements TabExecutor {
 			return false;
 		}
 
-		final Locale locale =
-			sender instanceof Player
-			? LocaleHelper.resolve(((Player) sender).getLocale())
-			: Locale.ENGLISH;
+		final Locale locale
+			= sender instanceof Player
+				? LocaleHelper.resolve(((Player) sender).getLocale())
+				: Locale.ENGLISH;
 
 		if (!(sender instanceof Player)) {
 			new MessageHelper()
@@ -69,13 +51,16 @@ public class CommandCartjetsList implements TabExecutor {
 			return true;
 		}
 
-		String lineListAsString;
+		StringBuilder lineListAsString = new StringBuilder();
 		try {
-			lineListAsString
-				= CartJetsPlugin.getInstance().getCartJetsDao().queryForAll()
+			lineListAsString.append(
+				CartJetsPlugin.getInstance()
+					.getCartJetsDao()
+					.queryForAll()
 					.stream()
-					.map((b) -> b.getName())
-					.collect(Collectors.joining(", ", "", ""));
+					.map(b -> b.getName())
+					.collect(Collectors.joining(", ", "", ""))
+			);
 		} catch (SQLException ex) {
 			CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
 			throw new RuntimeException(null, ex);
@@ -85,7 +70,7 @@ public class CommandCartjetsList implements TabExecutor {
 			.path(CurrentEntries.LANG_CMD_CARTJETS_LIST_MESSAGE)
 			.locale(locale)
 			.receiver(sender)
-			.modify((s) -> s.replace("%lines", lineListAsString))
+			.modify(s -> s.replace("%lines", lineListAsString.toString()))
 			.send();
 		return true;
 	}

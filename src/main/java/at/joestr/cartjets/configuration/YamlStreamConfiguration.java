@@ -1,10 +1,10 @@
-/*
-Private License
-
-Copyright (c) 2019 Joel Strasser
-
-Only the owner is allowed to use this software.
- */
+// 
+// Private License
+// 
+// Copyright (c) 2019-2020 Joel Strasser <strasser999@gmail.com>
+// 
+// Only the copyright holder is allowed to use this software.
+// 
 package at.joestr.cartjets.configuration;
 
 import java.io.File;
@@ -20,27 +20,26 @@ import org.yaml.snakeyaml.Yaml;
  * @author Joel
  */
 public class YamlStreamConfiguration extends YamlConfiguration {
-  
-  private InputStream configInputStream;
-  
-  
-  public YamlStreamConfiguration(InputStream configInputStream) throws FileNotFoundException {
-    super(new Yaml().load(configInputStream));
-    this.configInputStream = configInputStream;
-  }
 
-  public InputStream getConfigInputStream() {
-    return configInputStream;
-  }
+	private InputStream configInputStream;
 
-  public void setConfigInputStream(InputStream configInputStream) {
-    this.configInputStream = configInputStream;
-  }
-  
-  public void saveConfigAsFile(File configFile) throws FileNotFoundException, IOException {
-    FileOutputStream fOS = new FileOutputStream(configFile);
-    fOS.write(
-      new Yaml().dumpAsMap(this.config).getBytes(StandardCharsets.UTF_8)
-    );
-  }
+	public YamlStreamConfiguration(InputStream configInputStream) throws FileNotFoundException {
+		super(new Yaml().load(configInputStream));
+		this.configInputStream = configInputStream;
+	}
+
+	public InputStream getConfigInputStream() {
+		return configInputStream;
+	}
+
+	public void setConfigInputStream(InputStream configInputStream) {
+		this.configInputStream = configInputStream;
+	}
+
+	public void saveConfigAsFile(File configFile) throws IOException {
+		FileOutputStream fOS = new FileOutputStream(configFile);
+		fOS.write(
+			new Yaml().dumpAsMap(this.config).getBytes(StandardCharsets.UTF_8)
+		);
+	}
 }

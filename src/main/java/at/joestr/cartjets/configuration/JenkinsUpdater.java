@@ -1,8 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// 
+// Private License
+// 
+// Copyright (c) 2019-2020 Joel Strasser <strasser999@gmail.com>
+// 
+// Only the copyright holder is allowed to use this software.
+// 
 package at.joestr.cartjets.configuration;
 
 import com.vdurmont.semver4j.Semver;

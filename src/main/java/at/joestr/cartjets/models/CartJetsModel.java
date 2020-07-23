@@ -1,25 +1,7 @@
-//
-// MIT License
 // 
-// Copyright (c) 2020 minecraft.kiwi
+// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// Licensed under the EUPL-1.2
 // 
 package at.joestr.cartjets.models;
 
@@ -38,7 +20,7 @@ public class CartJetsModel {
 
 	@DatabaseField(id = true)
 	private String name;
-	
+
 	@DatabaseField
 	private UUID buttonLocationWorldUuid;
 	@DatabaseField
@@ -51,7 +33,7 @@ public class CartJetsModel {
 	private float buttonLocationPitch;
 	@DatabaseField
 	private float buttonLocationYaw;
-	
+
 	@DatabaseField
 	private UUID minecartSpawningLocationWorldUuid;
 	@DatabaseField
@@ -189,8 +171,10 @@ public class CartJetsModel {
 	}
 
 	public Object getButtonLocation() {
-		if (buttonLocationWorldUuid == null) return null;
-		
+		if (buttonLocationWorldUuid == null) {
+			return null;
+		}
+
 		return new Location(
 			Bukkit.getServer().getWorld(buttonLocationWorldUuid),
 			buttonLocationX,
@@ -200,7 +184,7 @@ public class CartJetsModel {
 			buttonLocationPitch
 		);
 	}
-	
+
 	public void setButtonLocation(Location location) {
 		this.buttonLocationWorldUuid = location.getWorld().getUID();
 		this.buttonLocationX = location.getX();
@@ -211,8 +195,10 @@ public class CartJetsModel {
 	}
 
 	public Location getMinecartSpawningLocation() {
-		if (minecartSpawningLocationWorldUuid == null) return null;
-		
+		if (minecartSpawningLocationWorldUuid == null) {
+			return null;
+		}
+
 		return new Location(
 			Bukkit.getServer().getWorld(minecartSpawningLocationWorldUuid),
 			minecartSpawningLocationX,

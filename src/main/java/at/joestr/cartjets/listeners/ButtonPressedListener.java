@@ -1,25 +1,7 @@
-//
-// MIT License
 // 
-// Copyright (c) 2020 minecraft.kiwi
+// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// Licensed under the EUPL-1.2
 // 
 package at.joestr.cartjets.listeners;
 
@@ -50,78 +32,88 @@ import org.bukkit.metadata.FixedMetadataValue;
  * @author Joel
  */
 public class ButtonPressedListener implements Listener {
-  
-  private static final Material[] BUTTONS = new Material[] {
-    Material.OAK_BUTTON,
-    Material.STONE_BUTTON,
-    Material.DARK_OAK_BUTTON,
-    Material.ACACIA_BUTTON,
-    Material.SPRUCE_BUTTON,
-    Material.BIRCH_BUTTON,
-    Material.JUNGLE_BUTTON
-  };
-  
-  @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-  public void onButtonClicked(PlayerInteractEvent ev) {
-		if (!EquipmentSlot.HAND.equals(ev.getHand()))
+
+	private static final Material[] BUTTONS = new Material[] {
+		Material.OAK_BUTTON,
+		Material.STONE_BUTTON,
+		Material.DARK_OAK_BUTTON,
+		Material.ACACIA_BUTTON,
+		Material.SPRUCE_BUTTON,
+		Material.BIRCH_BUTTON,
+		Material.JUNGLE_BUTTON
+	};
+
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onButtonClicked(PlayerInteractEvent ev) {
+		if (!EquipmentSlot.HAND.equals(ev.getHand())) {
 			return;
-		
-    Block clickedBlock = ev.getClickedBlock();
-		
-    if (clickedBlock == null) return;
-    
-    if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId()))
-      return;
-    
-    Material clickedBlockMaterial = clickedBlock.getType();
-    if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) return;
-    
-    List<CartJetsModel> cartJets = null;
-    try {
-      cartJets =
-        CartJetsPlugin.getInstance().getCartJetsDao().queryForAll();
-    } catch (SQLException ex) {
-      CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
-    }
-    if (cartJets == null) return;
-    
-    boolean buttonPresent =
-      cartJets.stream()
-        .anyMatch(b -> b.getButtonLocation().equals(clickedBlock.getLocation()));
-    if (!buttonPresent) return;
-    
-    Optional<CartJetsModel> cartJet =
-      cartJets.stream()
-        .filter(b -> b.getButtonLocation().equals(clickedBlock.getLocation()))
-        .findFirst();
-    
+		}
+
+		Block clickedBlock = ev.getClickedBlock();
+
+		if (clickedBlock == null) {
+			return;
+		}
+
+		if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(ev.getPlayer().getUniqueId())) {
+			return;
+		}
+
+		Material clickedBlockMaterial = clickedBlock.getType();
+		if (!Arrays.stream(BUTTONS).anyMatch(clickedBlockMaterial::equals)) {
+			return;
+		}
+
+		List<CartJetsModel> cartJets = null;
+		try {
+			cartJets
+				= CartJetsPlugin.getInstance().getCartJetsDao().queryForAll();
+		} catch (SQLException ex) {
+			CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
+		}
+		if (cartJets == null) {
+			return;
+		}
+
+		boolean buttonPresent
+			= cartJets.stream()
+				.anyMatch(b -> b.getButtonLocation().equals(clickedBlock.getLocation()));
+		if (!buttonPresent) {
+			return;
+		}
+
+		Optional<CartJetsModel> cartJet
+			= cartJets.stream()
+				.filter(b -> b.getButtonLocation().equals(clickedBlock.getLocation()))
+				.findFirst();
+
 		if (!cartJet.isPresent()) {
 			return;
 		}
-		
+
 		ev.setCancelled(true);
-		
+
 		Location spawningLocation = cartJet.get().getMinecartSpawningLocation();
-		
-    Minecart spawnedMinecart = 
-      (Minecart) ev.getPlayer().getWorld().spawnEntity(
+
+		Minecart spawnedMinecart
+			= (Minecart) ev.getPlayer().getWorld().spawnEntity(
 				spawningLocation,
-        EntityType.MINECART
-      );
-    
+				EntityType.MINECART
+			);
+
 		spawnedMinecart.setInvulnerable(true);
 		spawnedMinecart.setMaxSpeed(
 			AppConfiguration.getInstance()
 				.getDouble(CurrentEntries.CONF_MAXSPEED.toString())
 		);
-		
-    spawnedMinecart.addPassenger(ev.getPlayer());
-    
-    spawnedMinecart.setMetadata(
-      "cartjet.is",
-      new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
-    );
-		
+
+		spawnedMinecart.addPassenger(ev.getPlayer());
+
+		spawnedMinecart.setMetadata(
+			"cartjet.is",
+			new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
+		);
+
 		CartJetsManager.getInstrance().addMinecart(spawnedMinecart.getUniqueId());
-  }
+	}
 }
