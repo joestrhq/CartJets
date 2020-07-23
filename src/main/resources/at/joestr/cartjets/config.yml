@@ -5,8 +5,8 @@ vectorMultiplier: 1.25
 taskRepeatingDelayInTicks: 20
 # Jenkins updater config
 jenkinsUpdater:
-  mode: 'RELEASES'
-  autoUpdate: true
-  rootUrl: 'https://ci.joestr.at/job/CartJets/lastSuccessfulBuild/artifact/target/maven-archiver/'
-  pomProperties: 'pom.properties'
+  enabled: true
+  downloadToPluginUpdateFolder: true
+  targetUrl: 'https://ci.joestr.at/job/github.com_joestr/job/CartJets/job/develop/lastSuccessfulBuild/artifact/target/'
+  pomPropertiesFile: 'maven-archiver/pom.properties'
   classifier: 'shaded'

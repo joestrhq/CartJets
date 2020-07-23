@@ -79,13 +79,11 @@ public class CartJetsPlugin extends JavaPlugin {
 		}
 
 		this.updater = new JenkinsUpdater(
-			JenkinsUpdater.Mode.valueOf(
-				AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_MODE.toString())
-			),
-			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_JENKINSUPDATER_AUTOUPDATE.toString()),
+			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_JENKINSUPDATER_ENABLED.toString()),
+			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_JENKINSUPDATER_DOWNLOADTOPLUGINUPDATEFOLDER.toString()),
 			this.getDescription().getVersion(),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_ROOTURL.toString()),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_POMPROPERTIES.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_TARGETURL.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_POMPROPERTIESFILE.toString()),
 			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_CLASSIFIER.toString()),
 			Bukkit.getUpdateFolderFile()
 		);

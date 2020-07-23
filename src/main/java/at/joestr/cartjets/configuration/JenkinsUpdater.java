@@ -27,12 +27,6 @@ import java.util.logging.Logger;
  */
 public class JenkinsUpdater {
 	
-	public enum Mode {
-		OFF,
-		RELEASES,
-		SNAPSHOTS_AND_RELEASES
-	}
-	
 	public enum State {
 		ERROR_OFF,
 		SUCCESS_UPTODATE,
@@ -86,31 +80,44 @@ public class JenkinsUpdater {
 		}
 	}
 	
-	private final Mode mode;
-	private final boolean autoUpdate;
+	private final boolean enabled;
+	private final boolean download;
 	private final Semver currentVersion;
-	private final String rootUrl;
+	private final String targetUrl;
+	private final String classifier;
+	private final File downloadFolder;
+	
 	private final String pomPropsUrl;
 	private final Properties pomProps;
-	private final String classifier;
-	private final File targetFolder;
 	private Update lastUpdate;
 
-	public JenkinsUpdater(Mode mode, boolean autoUpdate, String currentVersion, String rootUrl, String pomProperties, String classifier, File targetFolder) {
-		this.mode = mode;
-		this.autoUpdate = autoUpdate;
+	/**
+	 * Creates an instance of this updater
+	 * 
+	 * @param enabled If the updater is enabled.
+	 * @param download If an attempt to download the update should be made.
+	 * @param currentVersion The version currently running.
+	 * @param targetUrl The URL of the target folder after a Maven build.
+	 * @param pomProperties Where the pom.properties-file is located.
+	 * @param classifier The classifier of this software (like 'shaded' etc.)
+	 * @param downloadFolder The folder where the download should be placed.
+	 */
+	public JenkinsUpdater(boolean enabled, boolean download, String currentVersion, String targetUrl, String pomProperties, String classifier, File downloadFolder) {
+		this.enabled = enabled;
+		this.download = download;
 		this.currentVersion = new Semver(currentVersion, Semver.SemverType.IVY);
-		this.rootUrl = rootUrl;
-		this.pomPropsUrl = new StringBuilder(rootUrl).append("/").append(pomProperties).toString();
-		this.pomProps = new Properties();
+		this.targetUrl = targetUrl;
 		this.classifier = classifier;
-		this.targetFolder = targetFolder;
+		this.downloadFolder = downloadFolder;
+		
+		this.pomPropsUrl = new StringBuilder(targetUrl).append(pomProperties).toString();
+		this.pomProps = new Properties();
 		this.lastUpdate = null;
 	}
 	
 	public CompletableFuture<State> checkForUpdate() {
 		return CompletableFuture.supplyAsync(() -> {
-			if (mode.equals(Mode.OFF)) return State.ERROR_OFF;
+			if (!enabled) return State.ERROR_OFF;
 			
 			if ((lastUpdate == null) || (lastUpdate.getExpiry().isBefore(LocalDateTime.now()))) {
 				downloadPomProperties(pomPropsUrl);
@@ -123,8 +130,7 @@ public class JenkinsUpdater {
 				lastUpdate = new Update(
 						currentVersion,
 						newVersion,
-						new StringBuilder(rootUrl)
-							.append("/")
+						new StringBuilder(targetUrl)
 							.append(pomProps.getProperty("artifactId"))
 							.append("-")
 							.append(newVersion.getOriginalValue())
@@ -135,21 +141,12 @@ public class JenkinsUpdater {
 					);
 			}
 			
-			if (mode.equals(Mode.RELEASES) && lastUpdate.getNewVersion().isStable() && !autoUpdate) {
+			if (!download) {
 				return State.SUCCESS_AVAILABLE;
 			}
 			
-			if (mode.equals(Mode.SNAPSHOTS_AND_RELEASES) && !autoUpdate) {
-				return State.SUCCESS_AVAILABLE;
-			}
-			
-			if (mode.equals(Mode.RELEASES) && lastUpdate.getNewVersion().isStable() && autoUpdate) {
-				this.downloadUpdateTo(targetFolder);
-				return State.SUCCES_DOWNLOADED;
-			}
-			
-			if (mode.equals(Mode.SNAPSHOTS_AND_RELEASES) && autoUpdate) {
-				this.downloadUpdateTo(targetFolder);
+			if (download) {
+				this.downloadUpdateTo(downloadFolder);
 				return State.SUCCES_DOWNLOADED;
 			}
 			
