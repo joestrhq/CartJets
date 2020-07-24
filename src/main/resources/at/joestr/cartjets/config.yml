@@ -7,6 +7,6 @@ taskRepeatingDelayInTicks: 20
 jenkinsUpdater:
   enabled: true
   downloadToPluginUpdateFolder: true
-  targetUrl: 'https://ci.joestr.at/job/github.com_joestr/job/CartJets-develop/lastSuccessfulBuild/artifact/target/'
+  targetUrl: 'https://ci.joestr.at/job/github.com_joestr/job/CartJets-master/lastSuccessfulBuild/artifact/target/'
   pomPropertiesFile: 'maven-archiver/pom.properties'
   classifier: 'shaded'
