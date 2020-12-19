@@ -87,6 +87,7 @@ public class CommandCartjetsDelete implements TabExecutor {
 			new MessageHelper()
 				.path(CurrentEntries.LANG_CMD_CARTJETS_DELETE_NON_EXISTING)
 				.locale(locale)
+				.modify(s -> s.replace("%line", args[0]))
 				.receiver(sender)
 				.send();
 		}
@@ -94,6 +95,7 @@ public class CommandCartjetsDelete implements TabExecutor {
 		new MessageHelper()
 			.path(CurrentEntries.LANG_CMD_CARTJETS_DELETE_SUCCESS)
 			.locale(locale)
+			.modify(s -> s.replace("%line", args[0]))
 			.receiver(sender)
 			.send();
 		return true;
