@@ -5,12 +5,11 @@ commands:
   cartjets:
     message_setupwizard: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Start/cancel
       the setup wizard","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-setupwizard"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-setupwizard","color":"white"}}}]'
-    message_list: '[""%prefix,{"text":"» ","color":"gray"},{"text":"List all lines","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
+    message_list: '[""%prefix,{"text":"» ","color":"gray"},{"text":"List all lines","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
     message_delete: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Delete a line","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-delete
       "},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete <Name>","color":"white"}}}]'
     message_update: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Check for an
-      update","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-update"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete
-      <Name>","color":"white"}}}]'
+      update","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-update"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-update","color":"white"}}}]'
   cartjets-setupwizard:
     button:
       instruction: '[""%prefix,{"text":"Right-click the button that should spawn a

@@ -6,13 +6,12 @@ commands:
     message_setupwizard: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Den Setup-Wizard
       verwenden/beenden","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-setupwizard"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-setupwizard","color":"white"}}}]'
     message_list: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Alle Strecken
-      auflisten","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
+      auflisten","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-list"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-list","color":"white"}}}]'
     message_delete: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Eine Strecke
       löschen","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-delete
       "},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete <Name>","color":"white"}}}]'
     message_update: '[""%prefix,{"text":"» ","color":"gray"},{"text":"Auf Updates
-      prüfen","color":"gray","clickEvent":{"action":"suggest_command","value":"/cartjets-delete"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-delete
-      <Name>","color":"white"}}}]'
+      prüfen","color":"gray","clickEvent":{"action":"run_command","value":"/cartjets-update"},"hoverEvent":{"action":"show_text","value":{"text":"/cartjets-update","color":"white"}}}]'
   cartjets-setupwizard:
     button:
       instruction: '[""%prefix,{"text":"Markiere mit Rechtsklick auf den Knopf, welcher
@@ -44,7 +43,7 @@ commands:
       wurde erfolgreich gelöscht.","color":"green"}]'
   cartjets-update:
     false: '[""%prefix,{"text":"Updates sind ausgeschalten!","color":"green"}]'
-    asyncstart: '[""%prefix,{"text":"Überprüfung auf updates ...","color":"aqua"}]'
+    asyncstart: '[""%prefix,{"text":"Überprüfung auf Updates ...","color":"aqua"}]'
     error: '[""%prefix,{"text":"Beim herunterladen des Updates ist ein Fehler aufgetreten!","color":"red"}]'
     uptodate: '[""%prefix,{"text":"Es ist bereits die aktuellste Version installiert.","color":"green"}]'
     available: '[""%prefix,{"text":"Die neue Version kann ","color":"green"},{"text":"hier","underlined":true,"color":"gray","clickEvent":{"action":"open_url","value":"%update$downloadUrl"},"hoverEvent":{"action":"show_text","value":{"text":"%update$downloadUrl","color":"white"}}},{"text":"
