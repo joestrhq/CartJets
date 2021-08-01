@@ -141,7 +141,7 @@ public class SetupwizardRailClickListener implements Listener {
 				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_PLACEHOLDER)
 				.string()
 			)
-			.item(new ItemStack(Material.MINECART))
+      .itemLeft(new ItemStack(Material.MINECART))
 			.title(new MessageHelper().locale(locale)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_ANVIL_GUI_TEXT)
 				.string()

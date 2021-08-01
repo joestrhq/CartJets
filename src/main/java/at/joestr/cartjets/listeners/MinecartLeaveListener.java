@@ -46,7 +46,7 @@ public class MinecartLeaveListener implements Listener {
 			return;
 		}
 
-		CartJetsManager.getInstrance().removeMinecart(dismounted.getUniqueId());
+		CartJetsManager.getInstance().removeMinecart(dismounted.getUniqueId());
 
 		dismounted.remove();
 	}

@@ -25,35 +25,35 @@ public class CartJetsManager {
 	private static CartJetsManager instance = null;
 
 	private final ArrayList<UUID> minecarts;
+  private final double multiplier;
 
 	private CartJetsManager() {
 		this.minecarts = new ArrayList<>();
+    multiplier
+      = AppConfiguration.getInstance()
+        .getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString());
 
-		Bukkit.getScheduler().runTaskTimerAsynchronously(
+		Bukkit.getScheduler().runTaskTimer(
 			CartJetsPlugin.getInstance(),
 			() -> {
 				CartJetsManager
-					.getInstrance()
+					.getInstance()
 					.getCurrentMinecarts()
 					.forEach(e -> {
-						Entity target = Bukkit.getServer().getEntity(e);
-						if (target == null) {
-							CartJetsManager.getInstrance().removeMinecart(e);
-							return;
-						}
-
-						double multiplier
-							= AppConfiguration.getInstance()
-								.getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString());
-
-						// Execute this synchronously
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-							CartJetsPlugin.getInstance(), () -> {
-							target.setVelocity(
-								target.getVelocity()
-									.multiply(multiplier)
-							);
-						});
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CartJetsPlugin.getInstance(), () -> {
+              Entity target = Bukkit.getServer().getEntity(e);
+              
+              if (target == null) {
+                CartJetsManager.getInstance().removeMinecart(e);
+                return;
+              }
+              
+              target.setVelocity(
+                target.getVelocity()
+                  .normalize()
+                  .multiply(multiplier)
+              );
+          });
 					});
 			},
 			0, // No init delay
@@ -62,7 +62,7 @@ public class CartJetsManager {
 		);
 	}
 
-	public static CartJetsManager getInstrance() {
+	public static CartJetsManager getInstance() {
 		if (instance == null) {
 			instance = new CartJetsManager();
 		}

@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  *
  * @author Joel
  */
-public class JenkinsUpdater {
+public class Updater {
 	
 	public enum State {
 		ERROR_OFF,
@@ -102,7 +102,7 @@ public class JenkinsUpdater {
 	 * @param classifier The classifier of this software (like 'shaded' etc.)
 	 * @param downloadFolder The folder where the download should be placed.
 	 */
-	public JenkinsUpdater(boolean enabled, boolean download, String currentVersion, String targetUrl, String pomProperties, String classifier, File downloadFolder) {
+	public Updater(boolean enabled, boolean download, String currentVersion, String targetUrl, String pomProperties, String classifier, File downloadFolder) {
 		this.enabled = enabled;
 		this.download = download;
 		this.currentVersion = new Semver(currentVersion, Semver.SemverType.IVY);
@@ -124,8 +124,8 @@ public class JenkinsUpdater {
 			
 				Semver newVersion =
 					new Semver(pomProps.getProperty("version", "0.1.0-SNAPSHOT"), Semver.SemverType.IVY);
-
-				if (!newVersion.isGreaterThan(currentVersion)) return State.SUCCESS_UPTODATE;
+        
+				if (newVersion.isLowerThanOrEqualTo(currentVersion)) return State.SUCCESS_UPTODATE;
 
 				lastUpdate = new Update(
 						currentVersion,
@@ -172,7 +172,7 @@ public class JenkinsUpdater {
 		try {
 			 downloadUrl = new URL(lastUpdate.getDownloadUrl());
 		} catch (MalformedURLException ex) {
-			Logger.getLogger(JenkinsUpdater.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		if (downloadUrl == null) return result;
 
@@ -183,7 +183,7 @@ public class JenkinsUpdater {
 				StandardCopyOption.REPLACE_EXISTING
 			);
 		} catch (IOException ex) {
-			Logger.getLogger(JenkinsUpdater.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
 		result = true;
