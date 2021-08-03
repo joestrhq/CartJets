@@ -13,7 +13,7 @@ import at.joestr.cartjets.commands.CommandCartjetsUpdate;
 import at.joestr.cartjets.configuration.AppConfiguration;
 import at.joestr.cartjets.configuration.CurrentEntries;
 import at.joestr.cartjets.configuration.LanguageConfiguration;
-import at.joestr.cartjets.configuration.JenkinsUpdater;
+import at.joestr.cartjets.configuration.Updater;
 import at.joestr.cartjets.listeners.ButtonPressedListener;
 import at.joestr.cartjets.listeners.MinecartLeaveListener;
 import at.joestr.cartjets.listeners.SetupwizardButtonPressedListener;
@@ -49,7 +49,7 @@ public class CartJetsPlugin extends JavaPlugin {
 	private Dao<CartJetsModel, String> cartJetsDao;
 	private HashMap<UUID, CartJetsModel> perUserModels;
 	private HashMap<String, TabExecutor> commandMap;
-	private JenkinsUpdater updater;
+	private Updater updater;
 
 	public static CartJetsPlugin getInstance() {
 		return instance;
@@ -78,13 +78,13 @@ public class CartJetsPlugin extends JavaPlugin {
 			this.getServer().getPluginManager().disablePlugin(this);
 		}
 
-		this.updater = new JenkinsUpdater(
-			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_JENKINSUPDATER_ENABLED.toString()),
-			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_JENKINSUPDATER_DOWNLOADTOPLUGINUPDATEFOLDER.toString()),
+		this.updater = new Updater(
+			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_UPDATER_ENABLED.toString()),
+			AppConfiguration.getInstance().getBool(CurrentEntries.CONF_UPDATER_DOWNLOADTOPLUGINUPDATEFOLDER.toString()),
 			this.getDescription().getVersion(),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_TARGETURL.toString()),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_POMPROPERTIESFILE.toString()),
-			AppConfiguration.getInstance().getString(CurrentEntries.CONF_JENKINSUPDATER_CLASSIFIER.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATER_TARGETURL.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATER_POMPROPERTIESFILE.toString()),
+			AppConfiguration.getInstance().getString(CurrentEntries.CONF_UPDATER_CLASSIFIER.toString()),
 			Bukkit.getUpdateFolderFile()
 		);
 
@@ -115,11 +115,11 @@ public class CartJetsPlugin extends JavaPlugin {
 	}
 
 	/**
-	 * Gets the {@link JenkinsUpdater updater} for this plugin.
+	 * Gets the {@link Updater updater} for this plugin.
 	 *
-	 * @return The {@link JenkinsUpdater updater}
+	 * @return The {@link Updater updater}
 	 */
-	public JenkinsUpdater getUpdater() {
+	public Updater getUpdater() {
 		return updater;
 	}
 

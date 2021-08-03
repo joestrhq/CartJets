@@ -2,7 +2,7 @@ main: '${project.groupId}.${project.artifactId}.CartJetsPlugin'
 name: '${project.name}'
 version: '${project.version}'
 description: '${project.description}'
-api-version: 1.16
+api-version: 1.17
 load: POSTWORLD
 author: joestr
 authors: [Bambuskadse, Enkaptaton, General_Honey, Schwakat]

@@ -7,7 +7,7 @@ package at.joestr.cartjets.commands;
 
 import at.joestr.cartjets.CartJetsPlugin;
 import at.joestr.cartjets.configuration.CurrentEntries;
-import at.joestr.cartjets.configuration.JenkinsUpdater.State;
+import at.joestr.cartjets.configuration.Updater.State;
 import at.joestr.cartjets.utils.LocaleHelper;
 import at.joestr.cartjets.utils.MessageHelper;
 import java.util.Collections;

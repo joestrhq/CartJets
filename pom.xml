@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.joestr</groupId>
 	<artifactId>cartjets</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
   
 	<name>CartJets</name>
@@ -17,14 +17,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+    <!-- to be included in pom.properties file -->
+    <minecraft.serverVersion>1.17.1</minecraft.serverVersion>
 	</properties>
   
-	<repositories>
+	<!--<repositories>
 		<repository>
-			<id>joestr-public-releases-repo</id>
-			<name>joestr.at's public repo for releases</name>
+			<id>joestrhq-public-releases-repo</id>
+			<name>joestrhq's public repo for releases</name>
 			<url>https://mvn-repo.joestr.at/repository/releases/</url>
 			<snapshots>
 				<enabled>false</enabled>
@@ -36,8 +36,8 @@
 			</releases>
 		</repository>
 		<repository>
-			<id>joestr-public-snapshots-repo</id>
-			<name>joestr.at's public repo for snapshots</name>
+			<id>joestrhq-public-snapshots-repo</id>
+			<name>joestrhq's public repo for snapshots</name>
 			<url>https://mvn-repo.joestr.at/repository/snapshots/</url>
 			<snapshots>
 				<enabled>true</enabled>
@@ -48,18 +48,13 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
-		<repository>
-			<id>jitpack-public-repo</id>
-			<name>jitpack.io's public Maven repository</name>
-			<url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+	</repositories>-->
   
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.16.4-R0.1-SNAPSHOT</version>
+			<version>1.17-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -81,9 +76,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.WesJD.AnvilGUI</groupId>
+			<groupId>net.wesjd</groupId>
 			<artifactId>anvilgui</artifactId>
-			<version>master-SNAPSHOT</version>
+			<version>1.5.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -138,6 +133,19 @@
 			</resource>
 		</resources>
 		<plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+          <compilerArgs>
+            <!--<arg>-Xlint:deprecation</arg>
+            <arg>-Xlint:unchecked</arg>-->
+          </compilerArgs>
+        </configuration>
+      </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -168,7 +176,7 @@
 									<include>com.j256.ormlite:ormlite-core</include>
 									<include>com.j256.ormlite:ormlite-jdbc</include>
 									<include>com.h2database:h2</include>
-									<include>com.github.WesJD.AnvilGUI:anvilgui</include>
+									<include>net.wesjd:anvilgui</include>
 									<include>com.vdurmont:semver4j</include>
 								</includes>
 							</artifactSet>
@@ -178,8 +186,8 @@
 									<shadedPattern>at.joestr.cartjets.thirdparty.com.j256.ormlite</shadedPattern>
 								</relocation>
 								<relocation>
-									<pattern>com.h2database</pattern>
-									<shadedPattern>at.joestr.cartjets.thirdparty.com.h2database</shadedPattern>
+									<pattern>org.h2</pattern>
+									<shadedPattern>at.joestr.cartjets.thirdparty.org.h2</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>net.wesjd</pattern>
