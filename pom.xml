@@ -95,7 +95,7 @@
 				<address>strasser999@gmail.com</address>
 				<sendOnError>true</sendOnError>
 				<sendOnFailure>true</sendOnFailure>
-				<sendOnSuccess>false</sendOnSuccess>
+				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>true</sendOnWarning>
 			</notifier>
 		</notifiers>
