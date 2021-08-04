@@ -17,11 +17,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- to be included in pom.properties file -->
-    <minecraft.serverVersion>1.17.1</minecraft.serverVersion>
 	</properties>
   
-	<!--<repositories>
+	<repositories>
 		<repository>
 			<id>joestrhq-public-releases-repo</id>
 			<name>joestrhq's public repo for releases</name>
@@ -48,13 +46,13 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
-	</repositories>-->
+	</repositories>
   
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.17-R0.1-SNAPSHOT</version>
+			<version>1.17.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
