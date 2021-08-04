@@ -88,8 +88,8 @@
 	</dependencies>
 	
 	<ciManagement>
-		<system>jenkins</system>
-		<url>https://ci.joestr.at/job/github.com_joestr/job/CartJets-develop</url>
+		<system>gocd</system>
+		<url>https://ci.joestr.at/go/pipeline/activity/PIP.github.joestrhq.CartJets_master.pr</url>
 		<notifiers>
 			<notifier>
 				<address>strasser999@gmail.com</address>
