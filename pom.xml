@@ -120,6 +120,35 @@
 	</distributionManagement>
 	-->
   
+  <pluginRepositories>
+    <pluginRepository>
+			<id>joestrhq-public-releases-repo</id>
+			<name>joestrhq's public repo for releases</name>
+			<url>https://mvn-repo.joestr.at/repository/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>joestrhq-public-snapshots-repo</id>
+			<name>joestrhq's public repo for snapshots</name>
+			<url>https://mvn-repo.joestr.at/repository/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+  </pluginRepositories>
+  
 	<build>
 		<resources>
 			<resource>
