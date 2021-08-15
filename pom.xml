@@ -17,11 +17,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- to be included in pom.properties file -->
-    <minecraft.serverVersion>1.17.1</minecraft.serverVersion>
 	</properties>
   
-	<!--<repositories>
+	<repositories>
 		<repository>
 			<id>joestrhq-public-releases-repo</id>
 			<name>joestrhq's public repo for releases</name>
@@ -48,13 +46,13 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
-	</repositories>-->
+	</repositories>
   
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.17-R0.1-SNAPSHOT</version>
+			<version>1.17.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -78,7 +76,7 @@
 		<dependency>
 			<groupId>net.wesjd</groupId>
 			<artifactId>anvilgui</artifactId>
-			<version>1.5.2-SNAPSHOT</version>
+			<version>1.5.3-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -90,14 +88,14 @@
 	</dependencies>
 	
 	<ciManagement>
-		<system>jenkins</system>
-		<url>https://ci.joestr.at/job/github.com_joestr/job/CartJets-develop</url>
+		<system>gocd</system>
+		<url>https://ci.joestr.at/go/pipeline/activity/PIP.github.joestrhq.CartJets_master.pr</url>
 		<notifiers>
 			<notifier>
 				<address>strasser999@gmail.com</address>
 				<sendOnError>true</sendOnError>
 				<sendOnFailure>true</sendOnFailure>
-				<sendOnSuccess>false</sendOnSuccess>
+				<sendOnSuccess>true</sendOnSuccess>
 				<sendOnWarning>true</sendOnWarning>
 			</notifier>
 		</notifiers>
@@ -121,6 +119,35 @@
 		</repository>
 	</distributionManagement>
 	-->
+  
+  <pluginRepositories>
+    <pluginRepository>
+			<id>joestrhq-public-releases-repo</id>
+			<name>joestrhq's public repo for releases</name>
+			<url>https://mvn-repo.joestr.at/repository/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>joestrhq-public-snapshots-repo</id>
+			<name>joestrhq's public repo for snapshots</name>
+			<url>https://mvn-repo.joestr.at/repository/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+  </pluginRepositories>
   
 	<build>
 		<resources>
@@ -149,13 +176,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.3.0-SNAPSHOT</version>
 				<configuration>
 					<filters>
 						<filter>
 							<artifact>*:*</artifact>
 							<excludes>
 								<exclude>META-INF/*.SF</exclude>
+                <exclude>META-INF/*.MF</exclude>
 								<exclude>META-INF/*.DSA</exclude>
 								<exclude>META-INF/*.RSA</exclude>
 							</excludes>
