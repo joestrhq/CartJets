@@ -113,6 +113,8 @@ public class ButtonPressedListener implements Listener {
 			"cartjet.is",
 			new FixedMetadataValue(CartJetsPlugin.getInstance(), true)
 		);
+    
+    spawnedMinecart.setVelocity(ev.getPlayer().getEyeLocation().getDirection());
 
 		CartJetsManager.getInstance().addMinecart(spawnedMinecart.getUniqueId());
 	}
