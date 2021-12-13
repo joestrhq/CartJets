@@ -3,7 +3,7 @@ site_description: Documentation for CartJets Spigot plugin
 site_author: Strasser, Joel;
 site_url: https://projects.joestr.at/cartjets/
 
-repo_name: CartJets-website
+repo_name: CartJets
 repo_url: https://github.com/joestrhq/CartJets
 edit_uri: http://github.com/joestrhq/CartJets/edit/website/src/doc/docs
 
