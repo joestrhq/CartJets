@@ -1,13 +1,13 @@
 site_name: CartJets
 site_description: Documentation for CartJets Spigot plugin
 site_author: Strasser, Joel;
-site_url: https://cartjets.joestr.or.at/
+site_url: https://projects.joestr.at/cartjets/
 
 repo_name: CartJets-website
-repo_url: https://github.com/joestrhq/CartJets-website
-edit_uri: http://github.com/joestrhq/CartJets-website/edit/master/src/doc/docs
+repo_url: https://github.com/joestrhq/CartJets
+edit_uri: http://github.com/joestrhq/CartJets/edit/website/src/doc/docs
 
-copyright: Copyright &copy; <a href="https://www.joestr.or.at/">joestrhq (Open Source)</a> and all contributors
+copyright: Copyright &copy; <a href="https://www.joestr.at/">joestrhq (Open Source)</a> and all contributors
 
 nav:
   - Home: index.md
@@ -36,4 +36,4 @@ extra:
     - icon: fontawesome/brands/instagram
       link: https://www.instagram.com/joestrhq
     - icon: fontawesome/brands/keybase
-      link: https://keybase.io/team/joestrhq.acronisfss
+      link: https://keybase.io/team/joestrhq.cartjets
