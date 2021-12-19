@@ -1,2 +1,2 @@
 # About
-Powered by [joestr.at](https://www.joestr.at)
+Powered by [joestrhq](https://www.joestr.at)

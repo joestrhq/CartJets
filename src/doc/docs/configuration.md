@@ -1,10 +1,10 @@
 # Configuration
-The configuration file is located in `plugins/CartJEts/config.yml`.  
+The configuration file is located in `plugins/CartJets/config.yml`.  
   
 The default configuration file looks like this:  
   
 ```
-version: '1.1.1'
+version: '1.1.2'
 jdbcUri: 'jdbc:h2:./plugins/CartJets/cartjets'
 maxSpeed: 1.0
 vectorMultiplier: 0.75
@@ -33,4 +33,4 @@ updater:
 `pomPropertiesFile`: Where the meta-file `pom.properties` is located (on the `targetUrl`).  
 `classifier`: A classifier added to the jar.  
   
-With the default settings a download URL can look like `https://github.com/joestrhq/CartJets/latest/download/cartjets-1.1.1-shaded.jar`.
+With the default settings a download URL can look like `https://github.com/joestrhq/CartJets/latest/download/cartjets-1.1.2-shaded.jar`.
