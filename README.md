@@ -6,9 +6,9 @@
 
 ## Installtion
 
-Head to over the [latest releases](https://github.com/joestrhq/PostBox/releases/tag/v1.0.0).
+Head to over the [latest releases](https://github.com/joestrhq/CartJets/releases/tag/v1.1.2).
 
-Download the `jar` file (currently `postbox-1.0.0-shaded.jar`).
+Download the `jar` file (currently `cartjets-1.1.2-shaded.jar`).
 
 Drop the downloaded `jar` file into your Spigot `plugins` folder.
 
