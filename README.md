@@ -6,7 +6,7 @@
 
 ## Installtion
 
-Head to over the [latest releases](https://github.com/joestrhq/CartJets/releases/tag/v1.1.2).
+Head to over the [latest release](https://github.com/joestrhq/CartJets/releases/tag/v1.1.2).
 
 Download the `jar` file (currently `cartjets-1.1.2-shaded.jar`).
 
