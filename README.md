@@ -4,11 +4,21 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e50fc6d42cf44bf736ba/test_coverage)](https://codeclimate.com/github/joestrhq/CartJets/test_coverage)
 [![License](https://img.shields.io/static/v1?label=License&message=EUPL-1.2&color=blue)](https://github.com/joestrhq/CartJets/blob/master/LICENSE)
 
+## Installtion
+
+Head to over the [latest releases](https://github.com/joestrhq/PostBox/releases/tag/v1.0.0).
+
+Download the `jar` file (currently `postbox-1.0.0-shaded.jar`).
+
+Drop the downloaded `jar` file into your Spigot `plugins` folder.
+
+Stop your Spigot server and start it again.
+
 ## About
 With CartJets you can define entry points where custom minecarts spawn which can travel faster than normal ones to establish a custom rail network on your server.
 
 ## Build
-To build the project you need at least Java Development Kit (JDK) in version 11 and Maven 3 installed.  
+To build the project you need at least a Java Development Kit (JDK) in version 11 and Maven 3 installed.  
 
 At first get a copy of the source code. Preferrably via `git clone https://github.com/joestrhq/CartJets.git`.  
 
