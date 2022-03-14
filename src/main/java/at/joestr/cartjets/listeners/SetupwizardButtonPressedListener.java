@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.listeners;
 
@@ -92,6 +94,7 @@ public class SetupwizardButtonPressedListener implements Listener {
 
 		if (cartJet.isPresent()) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_OVERLAPPING)
 				.locale(locale)
 				.receiver(ev.getPlayer())
@@ -104,12 +107,14 @@ public class SetupwizardButtonPressedListener implements Listener {
 		CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId())
 			.setButtonLocation(ev.getClickedBlock().getLocation());
 		new MessageHelper()
+      .prefix(true)
 			.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_SUCCESS)
 			.locale(locale)
 			.receiver(ev.getPlayer())
 			.send();
 
 		new MessageHelper()
+      .prefix(true)
 			.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_INSTRUCTION)
 			.locale(locale)
 			.receiver(ev.getPlayer())

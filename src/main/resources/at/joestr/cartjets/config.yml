@@ -1,5 +1,5 @@
-version: '${project.version}'
-jdbcUri: 'jdbc:h2:./plugins/CartJets/cartjets'
+version: 2
+jdbcUri: 'jdbc:sqlite:./plugins/CartJets/cartjets.db'
 maxSpeed: 1.0
 vectorMultiplier: 0.75
 taskRepeatingDelayInTicks: 20

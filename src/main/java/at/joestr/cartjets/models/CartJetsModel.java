@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.models;
 

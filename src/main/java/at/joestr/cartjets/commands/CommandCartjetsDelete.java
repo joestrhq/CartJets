@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.commands;
 
@@ -39,7 +41,8 @@ public class CommandCartjetsDelete implements TabExecutor {
 			buttonNames
 				= CartJetsPlugin.getInstance().getCartJetsDao()
 					.queryForAll()
-					.stream().map(CartJetsModel::getName)
+					.stream()
+          .map(CartJetsModel::getName)
 					.collect(Collectors.toList());
 		} catch (SQLException ex) {
 			CartJetsPlugin.getInstance().getLogger().log(Level.SEVERE, null, ex);
@@ -68,6 +71,7 @@ public class CommandCartjetsDelete implements TabExecutor {
 
 		if (!(sender instanceof Player)) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
 				.locale(locale)
 				.receiver(sender)
@@ -85,6 +89,7 @@ public class CommandCartjetsDelete implements TabExecutor {
 
 		if (result == -1) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_DELETE_NON_EXISTING)
 				.locale(locale)
 				.modify(s -> s.replace("%line", args[0]))
@@ -93,6 +98,7 @@ public class CommandCartjetsDelete implements TabExecutor {
 		}
 
 		new MessageHelper()
+      .prefix(true)
 			.path(CurrentEntries.LANG_CMD_CARTJETS_DELETE_SUCCESS)
 			.locale(locale)
 			.modify(s -> s.replace("%line", args[0]))

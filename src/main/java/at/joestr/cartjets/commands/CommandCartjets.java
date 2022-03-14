@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.commands;
 
@@ -40,6 +42,7 @@ public class CommandCartjets implements TabExecutor {
 
 		if (!(sender instanceof Player)) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
 				.locale(locale)
 				.receiver(sender)
@@ -49,6 +52,7 @@ public class CommandCartjets implements TabExecutor {
 
 		if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_SETUPWIZARD.toString())) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_SETUPWIZARD)
 				.locale(locale)
 				.receiver(sender)
@@ -57,6 +61,7 @@ public class CommandCartjets implements TabExecutor {
 
 		if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_LIST.toString())) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_LIST)
 				.locale(locale)
 				.receiver(sender)
@@ -65,6 +70,7 @@ public class CommandCartjets implements TabExecutor {
 
 		if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_DELETE.toString())) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_DELETE)
 				.locale(locale)
 				.receiver(sender)
@@ -73,6 +79,7 @@ public class CommandCartjets implements TabExecutor {
 
 		if (sender.hasPermission(CurrentEntries.PERM_CMD_CARTJETS_UPDATE.toString())) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_CMD_CARTJETS_X_MSG_UPDATE)
 				.locale(locale)
 				.receiver(sender)

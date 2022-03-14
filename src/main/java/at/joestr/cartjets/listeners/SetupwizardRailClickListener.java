@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.listeners;
 
@@ -68,6 +70,7 @@ public class SetupwizardRailClickListener implements Listener {
 		CartJetsPlugin.getInstance().getPerUserModels().get(ev.getPlayer().getUniqueId()).setMinecartSpawningLocation(clickedBlock.getLocation());
 
 		new MessageHelper()
+      .prefix(true)
 			.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_RAIL_SUCCESS)
 			.locale(locale)
 			.receiver(ev.getPlayer())
@@ -85,6 +88,7 @@ public class SetupwizardRailClickListener implements Listener {
 				}
 
 				new MessageHelper()
+          .prefix(true)
 					.receiver(player)
 					.locale(locale)
 					.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
@@ -129,6 +133,7 @@ public class SetupwizardRailClickListener implements Listener {
 				}
 
 				new MessageHelper()
+          .prefix(true)
 					.receiver(player)
 					.locale(locale)
 					.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_NAME_SUCCESS)
