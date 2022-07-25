@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets;
 
@@ -27,6 +29,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
@@ -188,7 +191,7 @@ public class CartJetsPlugin extends JavaPlugin {
 	 *
 	 * @throws SQLException If an SQL error occurs.
 	 */
-	private void loadDatabase() throws SQLException {
+	private void loadDatabase() throws SQLException {    
 		ConnectionSource connectionSource
 			= new JdbcConnectionSource(
 				AppConfiguration.getInstance().getString("jdbcUri")

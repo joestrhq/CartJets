@@ -1,4 +1,5 @@
-prefix: ',{"text":"[","color":"dark_gray"},{"text":"CJ","color":"dark_green"},{"text":"]","color":"dark_gray"}'
+version: 2
+prefix: ',{"text":"[","color":"dark_gray"},{"text":"CJ","color":"dark_green"},{"text":"]","color":"dark_gray"},{"text":" "}'
 generic:
   not_a_player: '{"text":"Dieser Befehl kann nur von Spielern verwendet werden!","color":"red"}'
 commands:

@@ -1,7 +1,9 @@
 // 
-// Copyright (c) 2020 Joel Strasser <strasser999@gmail.com>
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Licensed under the EUPL-1.2
+// Licensed under the EUPL-1.2 license.
+// 
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.commands;
 
@@ -42,6 +44,7 @@ public class CommandCartjetsUpdate implements TabExecutor {
 
 		if (!(sender instanceof Player)) {
 			new MessageHelper()
+        .prefix(true)
 				.path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
 				.locale(locale)
 				.receiver(sender)
@@ -50,6 +53,7 @@ public class CommandCartjetsUpdate implements TabExecutor {
 		}
 
 		new MessageHelper()
+      .prefix(true)
 			.path(CurrentEntries.LANG_CMD_CARTJETS_UPDATE_ASYNCSTART)
 			.locale(locale)
 			.receiver(sender)
@@ -58,6 +62,7 @@ public class CommandCartjetsUpdate implements TabExecutor {
 		CartJetsPlugin.getInstance().getUpdater().checkForUpdate().whenCompleteAsync((optionalUpdate, error) -> {
 			if (error != null) {
 				new MessageHelper()
+          .prefix(true)
 					.path(CurrentEntries.LANG_CMD_CARTJETS_UPDATE_ERROR)
 					.locale(locale)
 					.receiver(sender)
@@ -67,6 +72,7 @@ public class CommandCartjetsUpdate implements TabExecutor {
 
 			if (optionalUpdate.equals(State.SUCCESS_UPTODATE)) {
 				new MessageHelper()
+          .prefix(true)
 					.path(CurrentEntries.LANG_CMD_CARTJETS_UPDATE_UPTODATE)
 					.locale(locale)
 					.receiver(sender)
@@ -76,6 +82,7 @@ public class CommandCartjetsUpdate implements TabExecutor {
 
 			if (optionalUpdate.equals(State.SUCCESS_AVAILABLE)) {
 				new MessageHelper()
+          .prefix(true)
 					.path(CurrentEntries.LANG_CMD_CARTJETS_UPDATE_AVAILABLE)
 					.locale(locale)
 					.receiver(sender)
@@ -86,6 +93,7 @@ public class CommandCartjetsUpdate implements TabExecutor {
 
 			if (optionalUpdate.equals(State.SUCCES_DOWNLOADED)) {
 				new MessageHelper()
+          .prefix(true)
 					.path(CurrentEntries.LANG_CMD_CARTJETS_UPDATE_DOWNLOADED)
 					.locale(locale)
 					.receiver(sender)

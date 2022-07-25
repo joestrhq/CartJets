@@ -1,9 +1,9 @@
 // 
-// Private License
+// Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
 // 
-// Copyright (c) 2019-2020 Joel Strasser <strasser999@gmail.com>
+// Licensed under the EUPL-1.2 license.
 // 
-// Only the copyright holder is allowed to use this software.
+// For the full license text consult the 'LICENSE' file from the repository.
 // 
 package at.joestr.cartjets.configuration;
 
