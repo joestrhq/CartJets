@@ -5,6 +5,7 @@ Use following table to identify the version which is compatible for your Spigot 
 |Plugin version|Server versions tested|
 |--------------|----------------------|
 |1.1.2         |1.18.1                |
+|2.0.0         |1.19                  |
 
 Then download matching version of the plugin [here](https://github.com/joestrhq/CartJets/releases).  
   

@@ -4,8 +4,8 @@ The configuration file is located in `plugins/CartJets/config.yml`.
 The default configuration file looks like this:  
   
 ```
-version: '1.1.2'
-jdbcUri: 'jdbc:h2:./plugins/CartJets/cartjets'
+version: 2
+jdbcUri: 'jdbc:sqlite:./plugins/CartJets/cartjets.db'
 maxSpeed: 1.0
 vectorMultiplier: 0.75
 taskRepeatingDelayInTicks: 20
@@ -19,7 +19,7 @@ updater:
 ```
   
 ## Settings
-`version`: Version of the plugin.  
+`version`: Version of the plugin config file.  
 `jdbcUri`: The URI for the database connection.  
 `maxSpeed`: The maximum speed a minecart should reach.  
 `vectorMultiplier`: The factor which the current velocity get multiplied by.  
