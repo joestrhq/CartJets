@@ -10,11 +10,42 @@ plugins {
 }
 
 mkdocs {
-    publish {
-        docPath = null
-        rootRedirect = true
-    }
-    extras = [
-        'dependencyVersion': '1.1.1'
-    ]
+  publish {
+    docPath = '1.1.2'
+    rootRedirect = true
+    rootRedirectTo = 'latest'
+    versionAliases = ['latest']
+    generateVersionsFile = false
+  }
 }
+
+task writeVersionsJson() {
+  new File("$buildDir/mkdocs").mkdirs()
+  new File("$buildDir/mkdocs", "versions.json").write("""
+[
+  {
+    "version": "1.1.2",
+    "title": "1.1.2",
+    "aliases": [
+      "latest"
+    ]
+  }
+]
+  """)
+}
+
+/* add old version
+{
+  "version": "1.0.0",
+  "title": "1.0.0",
+  "aliases": []
+}
+*/
+
+/* update old docs
+publish {
+  docPath = '1.0.0'
+  rootRedirect = false
+  generateVersionsFile = false
+}
+*/
