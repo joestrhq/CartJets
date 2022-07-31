@@ -11,7 +11,7 @@ plugins {
 
 mkdocs {
   publish {
-    docPath = '2.0.0'
+    docPath = '2.1.0'
     rootRedirect = true
     rootRedirectTo = 'latest'
     versionAliases = ['latest']
@@ -31,6 +31,11 @@ task writeVersionsJson() {
   {
     "version": "2.0.0",
     "title": "2.0.0",
+    "aliases": []
+  },
+  {
+    "version": "2.1.0",
+    "title": "2.1.0",
     "aliases": [
       "latest"
     ]
