@@ -9,7 +9,7 @@
 
 Head to over the [latest release](https://github.com/joestrhq/CartJets/releases/tag/v2.0.0).
 
-Download the `jar` file (currently `cartjets-2.0.0-shaded.jar`).
+Download the `jar` file (currently `cartjets-2.1.0-shaded.jar`).
 
 Drop the downloaded `jar` file into your Spigot `plugins` folder.
 
