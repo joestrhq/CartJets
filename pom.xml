@@ -42,7 +42,7 @@
   
   <ciManagement>
     <system>gocd</system>
-    <url>https://ci.joestr.at/go/pipeline/activity/PIP.github.joestrhq.CartJets_master.pr</url>
+    <url>https://ci.joestr.at/go/pipeline/activity/PIP.github.joestrhq.CartJets_main</url>
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -92,6 +92,35 @@
       <organizationUrl>https://www.joestr.at</organizationUrl>
     </developer>
   </developers>
+  
+  <repositories>
+    <repository>
+      <id>joestrhq-public-releases-repo</id>
+      <name>joestrhq's public repo for releases</name>
+      <url>https://mvn-repo.joestr.at/repository/releases/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </releases>
+    </repository>
+    <repository>
+      <id>joestrhq-public-snapshots-repo</id>
+      <name>joestrhq's public repo for snapshots</name>
+      <url>https://mvn-repo.joestr.at/repository/snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
   
   <dependencies>
     <dependency>
