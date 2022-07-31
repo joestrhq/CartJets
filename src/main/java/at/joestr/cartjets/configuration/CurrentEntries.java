@@ -53,7 +53,7 @@ public enum CurrentEntries {
 	LANG_CMD_CARTJETS_UPDATE_ERROR("commands.cartjets-update.error", new int[]{1,2}),
 	LANG_CMD_CARTJETS_UPDATE_UPTODATE("commands.cartjets-update.uptodate", new int[]{1,2}),
 	LANG_CMD_CARTJETS_UPDATE_AVAILABLE("commands.cartjets-update.available", new int[]{1,2}),
-	LANG_CMD_CARTJETS_UPDATE_DOWNLOADED("command.cartjets-update.downloaded", new int[]{1,2}),
+	LANG_CMD_CARTJETS_UPDATE_DOWNLOADED("commands.cartjets-update.downloaded", new int[]{1,2}),
 	// Permissions
 	PERM_CMD_CARTJETS("cartjets.commands.cartjets", new int[]{0}),
 	PERM_CMD_CARTJETS_SETUPWIZARD("cartjets.commands.cartjets-setupwizard", new int[]{0}),

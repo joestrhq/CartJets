@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>at.joestr</groupId>
   <artifactId>cartjets</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
   <packaging>jar</packaging>
   
   <name>CartJets</name>
@@ -97,7 +97,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.18.1-R0.1-SNAPSHOT</version>
+      <version>1.19.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -137,6 +137,21 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.0.0-M1</version>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -181,7 +196,6 @@
                 <includes>
                   <include>com.j256.ormlite:ormlite-core</include>
                   <include>com.j256.ormlite:ormlite-jdbc</include>
-                  <include>com.h2database:h2</include>
                   <include>net.wesjd:anvilgui</include>
                   <include>com.vdurmont:semver4j</include>
                 </includes>
@@ -190,10 +204,6 @@
                 <relocation>
                   <pattern>com.j256.ormlite</pattern>
                   <shadedPattern>at.joestr.cartjets.thirdparty.com.j256.ormlite</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.h2</pattern>
-                  <shadedPattern>at.joestr.cartjets.thirdparty.org.h2</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>net.wesjd</pattern>
