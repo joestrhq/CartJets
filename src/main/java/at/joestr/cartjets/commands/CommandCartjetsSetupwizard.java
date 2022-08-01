@@ -1,10 +1,11 @@
-// 
+//
 // Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
-// 
+//
 // Licensed under the EUPL-1.2 license.
-// 
+//
 // For the full license text consult the 'LICENSE' file from the repository.
-// 
+//
+
 package at.joestr.cartjets.commands;
 
 import at.joestr.cartjets.CartJetsPlugin;
@@ -21,57 +22,59 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 /**
- *
  * @author Joel
  */
 public class CommandCartjetsSetupwizard implements TabExecutor {
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		return ImmutableList.of();
-	}
+  @Override
+  public List<String> onTabComplete(
+      CommandSender sender, Command command, String alias, String[] args) {
+    return ImmutableList.of();
+  }
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length != 0) {
-			return false;
-		}
+  @Override
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    if (args.length != 0) {
+      return false;
+    }
 
-		final Locale locale
-			= sender instanceof Player
-				? LocaleHelper.resolve(((Player) sender).getLocale())
-				: Locale.ENGLISH;
+    final Locale locale =
+        sender instanceof Player
+            ? LocaleHelper.resolve(((Player) sender).getLocale())
+            : Locale.ENGLISH;
 
-		if (!(sender instanceof Player)) {
-			new MessageHelper()
-        .prefix(true)
-				.path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
-				.locale(locale)
-				.receiver(sender)
-				.send();
-			return true;
-		}
+    if (!(sender instanceof Player)) {
+      new MessageHelper()
+          .prefix(true)
+          .path(CurrentEntries.LANG_GEN_NOT_A_PLAYER)
+          .locale(locale)
+          .receiver(sender)
+          .send();
+      return true;
+    }
 
-		Player player = (Player) sender;
+    Player player = (Player) sender;
 
-		if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(player.getUniqueId())) {
-			CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
-			new MessageHelper()
-        .prefix(true)
-				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
-				.locale(locale)
-				.receiver(sender)
-				.send();
-		} else {
-			CartJetsPlugin.getInstance().getPerUserModels().put(player.getUniqueId(), new CartJetsModel());
-			new MessageHelper()
-        .prefix(true)
-				.path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
-				.locale(locale)
-				.receiver(sender)
-				.send();
-		}
+    if (CartJetsPlugin.getInstance().getPerUserModels().containsKey(player.getUniqueId())) {
+      CartJetsPlugin.getInstance().getPerUserModels().remove(player.getUniqueId());
+      new MessageHelper()
+          .prefix(true)
+          .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_CANCEL)
+          .locale(locale)
+          .receiver(sender)
+          .send();
+    } else {
+      CartJetsPlugin.getInstance()
+          .getPerUserModels()
+          .put(player.getUniqueId(), new CartJetsModel());
+      new MessageHelper()
+          .prefix(true)
+          .path(CurrentEntries.LANG_CMD_CARTJETS_SETUPWIZARD_BUTTON_INSTRUCTION)
+          .locale(locale)
+          .receiver(sender)
+          .send();
+    }
 
-		return true;
-	}
+    return true;
+  }
 }

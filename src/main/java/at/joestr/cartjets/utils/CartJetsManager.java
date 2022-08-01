@@ -1,10 +1,11 @@
-// 
+//
 // Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
-// 
+//
 // Licensed under the EUPL-1.2 license.
-// 
+//
 // For the full license text consult the 'LICENSE' file from the repository.
-// 
+//
+
 package at.joestr.cartjets.utils;
 
 import at.joestr.cartjets.CartJetsPlugin;
@@ -19,81 +20,80 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 /**
- *
  * @author Joel
  */
 public class CartJetsManager {
 
-	private static CartJetsManager instance = null;
+  private static CartJetsManager instance = null;
 
-	private final ArrayList<UUID> minecarts;
+  private final ArrayList<UUID> minecarts;
   private final double multiplier;
 
-	private CartJetsManager() {
-		this.minecarts = new ArrayList<>();
-    multiplier
-      = AppConfiguration.getInstance()
-        .getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString());
+  private CartJetsManager() {
+    this.minecarts = new ArrayList<>();
+    multiplier =
+        AppConfiguration.getInstance().getDouble(CurrentEntries.CONF_VECTORMULTIPLIER.toString());
 
-		Bukkit.getScheduler().runTaskTimer(
-			CartJetsPlugin.getInstance(),
-			() -> {
-				CartJetsManager
-					.getInstance()
-					.getCurrentMinecarts()
-					.forEach(e -> {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CartJetsPlugin.getInstance(), () -> {
-              Entity target = Bukkit.getServer().getEntity(e);
-              
-              if (target == null) {
-                CartJetsManager.getInstance().removeMinecart(e);
-                return;
-              }
-              
-              target.setVelocity(
-                target.getVelocity()
-                  .normalize()
-                  .multiply(multiplier)
-              );
-          });
-					});
-			},
-			0, // No init delay
-			AppConfiguration.getInstance()
-				.getInt(CurrentEntries.CONF_TASKREPEATINGDELAYINTICKS.toString())
-		);
-	}
+    Bukkit.getScheduler()
+        .runTaskTimer(
+            CartJetsPlugin.getInstance(),
+            () -> {
+              CartJetsManager.getInstance()
+                  .getCurrentMinecarts()
+                  .forEach(
+                      e -> {
+                        Bukkit.getServer()
+                            .getScheduler()
+                            .scheduleSyncDelayedTask(
+                                CartJetsPlugin.getInstance(),
+                                () -> {
+                                  Entity target = Bukkit.getServer().getEntity(e);
 
-	public static CartJetsManager getInstance() {
-		if (instance == null) {
-			instance = new CartJetsManager();
-		}
-		return instance;
-	}
+                                  if (target == null) {
+                                    CartJetsManager.getInstance().removeMinecart(e);
+                                    return;
+                                  }
 
-	public synchronized void addMinecart(UUID e) {
-		Entity target = Bukkit.getServer().getEntity(e);
-		if (target == null) {
-			return;
-		}
-		if (target.getType() != EntityType.MINECART) {
-			return;
-		}
-		this.minecarts.add(e);
-	}
+                                  target.setVelocity(
+                                      target.getVelocity().normalize().multiply(multiplier));
+                                });
+                      });
+            },
+            0, // No init delay
+            AppConfiguration.getInstance()
+                .getInt(CurrentEntries.CONF_TASKREPEATINGDELAYINTICKS.toString()));
+  }
 
-	public synchronized void removeMinecart(UUID e) {
-		Entity target = Bukkit.getServer().getEntity(e);
-		if (target == null) {
-			return;
-		}
-		if (target.getType() != EntityType.MINECART) {
-			return;
-		}
-		this.minecarts.remove(e);
-	}
+  public static CartJetsManager getInstance() {
+    if (instance == null) {
+      instance = new CartJetsManager();
+    }
+    return instance;
+  }
 
-	public List<UUID> getCurrentMinecarts() {
-		return Collections.unmodifiableList(minecarts); // Just to be on the safe side.
-	}
+  public synchronized void addMinecart(UUID e) {
+    Entity target = Bukkit.getServer().getEntity(e);
+    if (target == null) {
+      return;
+    }
+    if (target.getType() != EntityType.MINECART) {
+      return;
+    }
+    this.minecarts.add(e);
+  }
+
+  public synchronized void removeMinecart(UUID e) {
+    Entity target = Bukkit.getServer().getEntity(e);
+    if (target == null) {
+      return;
+    }
+    if (target.getType() != EntityType.MINECART) {
+      return;
+    }
+    this.minecarts.remove(e);
+  }
+
+  public List<UUID> getCurrentMinecarts() {
+    return Collections.unmodifiableList(minecarts); // Just to be on the safe side.
+  }
 }

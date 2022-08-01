@@ -1,10 +1,11 @@
-// 
+//
 // Copyright (c) 2020-2022 Joel Strasser <strasser999@gmail.com>
-// 
+//
 // Licensed under the EUPL-1.2 license.
-// 
+//
 // For the full license text consult the 'LICENSE' file from the repository.
-// 
+//
+
 package at.joestr.cartjets.configuration;
 
 import java.io.File;
@@ -19,134 +20,119 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Joel
  */
 public class LanguageConfiguration {
 
-	private static LanguageConfiguration instance;
-	private static final Logger LOG = Logger.getLogger(LanguageConfiguration.class.getName());
+  private static LanguageConfiguration instance;
+  private static final Logger LOG = Logger.getLogger(LanguageConfiguration.class.getName());
 
-	private Set<Locale> languagesNotFound;
+  private Set<Locale> languagesNotFound;
 
-	private Map<Locale, YamlFileConfiguration> externalLanguageConfigurations;
-	private Map<Locale, YamlStreamConfiguration> bundledLanguageConfigurations;
-	private Locale fallback;
+  private Map<Locale, YamlFileConfiguration> externalLanguageConfigurations;
+  private Map<Locale, YamlStreamConfiguration> bundledLanguageConfigurations;
+  private Locale fallback;
 
-	private LanguageConfiguration(File externalLanguagesFolder, Map<String, InputStream> bundledLanguages, Locale fallback) throws IOException {
-		this.externalLanguageConfigurations = new HashMap<>();
-		this.bundledLanguageConfigurations = new HashMap<>();
-		this.languagesNotFound = new HashSet<>();
-		this.fallback = fallback;
+  private LanguageConfiguration(
+      File externalLanguagesFolder, Map<String, InputStream> bundledLanguages, Locale fallback)
+      throws IOException {
+    this.externalLanguageConfigurations = new HashMap<>();
+    this.bundledLanguageConfigurations = new HashMap<>();
+    this.languagesNotFound = new HashSet<>();
+    this.fallback = fallback;
 
-		if (!externalLanguagesFolder.exists()) {
-			externalLanguagesFolder.mkdirs();
-		}
+    if (!externalLanguagesFolder.exists()) {
+      externalLanguagesFolder.mkdirs();
+    }
 
-		for (String languageFileName : bundledLanguages.keySet()) {
-			String fileName = languageFileName;
-			Locale l
-				= Locale.forLanguageTag(
-					fileName.contains(".") ? fileName.split("\\.")[0] : fileName
-				);
-			bundledLanguageConfigurations.put(
-				l,
-				new YamlStreamConfiguration(
-					bundledLanguages.get(languageFileName)
-				)
-			);
-			File externalFile
-				= new File(externalLanguagesFolder, fileName);
-			if (!externalFile.exists()) {
-				bundledLanguageConfigurations.get(l).saveConfigAsFile(
-					externalFile
-				);
-			}
-		}
+    for (String languageFileName : bundledLanguages.keySet()) {
+      String fileName = languageFileName;
+      Locale l =
+          Locale.forLanguageTag(fileName.contains(".") ? fileName.split("\\.")[0] : fileName);
+      bundledLanguageConfigurations.put(
+          l, new YamlStreamConfiguration(bundledLanguages.get(languageFileName)));
+      File externalFile = new File(externalLanguagesFolder, fileName);
+      if (!externalFile.exists()) {
+        bundledLanguageConfigurations.get(l).saveConfigAsFile(externalFile);
+      }
+    }
 
-		for (File languageFile : externalLanguagesFolder.listFiles()) {
-			String fileName = languageFile.getName();
-			externalLanguageConfigurations.put(
-				Locale.forLanguageTag(
-					fileName.contains(".") ? fileName.split("\\.")[0] : fileName
-				),
-				new YamlFileConfiguration(languageFile)
-			);
-		}
-	}
+    for (File languageFile : externalLanguagesFolder.listFiles()) {
+      String fileName = languageFile.getName();
+      externalLanguageConfigurations.put(
+          Locale.forLanguageTag(fileName.contains(".") ? fileName.split("\\.")[0] : fileName),
+          new YamlFileConfiguration(languageFile));
+    }
+  }
 
-	public static LanguageConfiguration getInstance(File externalLanguagesFolder, Map<String, InputStream> bundledLanguagesStream, Locale fallback) throws IOException {
-		if (instance != null) {
-			throw new RuntimeException("This class has already been instantiated!");
-		}
+  public static LanguageConfiguration getInstance(
+      File externalLanguagesFolder,
+      Map<String, InputStream> bundledLanguagesStream,
+      Locale fallback)
+      throws IOException {
+    if (instance != null) {
+      throw new RuntimeException("This class has already been instantiated!");
+    }
 
-		instance = new LanguageConfiguration(externalLanguagesFolder, bundledLanguagesStream, fallback);
+    instance = new LanguageConfiguration(externalLanguagesFolder, bundledLanguagesStream, fallback);
 
-		return instance;
-	}
+    return instance;
+  }
 
-	public static LanguageConfiguration getInstance() {
-		if (instance == null) {
-			throw new RuntimeException("This class has not been instantiated yet!");
-		}
+  public static LanguageConfiguration getInstance() {
+    if (instance == null) {
+      throw new RuntimeException("This class has not been instantiated yet!");
+    }
 
-		return instance;
-	}
+    return instance;
+  }
 
-	private void externalLanguageNotFound(Locale locale) {
-		if (!this.languagesNotFound.add(locale)) {
-			return;
-		}
+  private void externalLanguageNotFound(Locale locale) {
+    if (!this.languagesNotFound.add(locale)) {
+      return;
+    }
 
-		LOG.log(
-			Level.WARNING,
-			"The external language file {0}.yml ({1}) was not found!",
-			new Object[] {locale.toLanguageTag(), locale.getDisplayName()}
-		);
-	}
+    LOG.log(
+        Level.WARNING,
+        "The external language file {0}.yml ({1}) was not found!",
+        new Object[] {locale.toLanguageTag(), locale.getDisplayName()});
+  }
 
-	private void pathNotInExternalLanguage(String path, Locale locale) {
-		LOG.log(
-			Level.WARNING,
-			"The path {0} was not found in {1}!",
-			new Object[] {path, this.externalLanguageConfigurations.get(locale)}
-		);
-	}
+  private void pathNotInExternalLanguage(String path, Locale locale) {
+    LOG.log(
+        Level.WARNING,
+        "The path {0} was not found in {1}!",
+        new Object[] {path, this.externalLanguageConfigurations.get(locale)});
+  }
 
-	public String getString(String path, Locale locale) {
-		YamlFileConfiguration configFile
-			= this.externalLanguageConfigurations.get(locale);
-		if (configFile != null) {
-			String result
-				= configFile.getString(path);
-			if (result != null) {
-				return result;
-			} else {
-				this.pathNotInExternalLanguage(path, locale);
-			}
-		} else {
-			this.externalLanguageNotFound(locale);
-		}
+  public String getString(String path, Locale locale) {
+    YamlFileConfiguration configFile = this.externalLanguageConfigurations.get(locale);
+    if (configFile != null) {
+      String result = configFile.getString(path);
+      if (result != null) {
+        return result;
+      } else {
+        this.pathNotInExternalLanguage(path, locale);
+      }
+    } else {
+      this.externalLanguageNotFound(locale);
+    }
 
-		YamlStreamConfiguration configStream
-			= this.bundledLanguageConfigurations.get(locale);
-		if (configStream != null) {
-			String result
-				= configStream.getString(path);
-			if (result != null) {
-				return result;
-			}
-		}
+    YamlStreamConfiguration configStream = this.bundledLanguageConfigurations.get(locale);
+    if (configStream != null) {
+      String result = configStream.getString(path);
+      if (result != null) {
+        return result;
+      }
+    }
 
-		configStream
-			= this.bundledLanguageConfigurations.get(fallback);
-		if (configStream != null) {
-			String result
-				= configStream.getString(path);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
+    configStream = this.bundledLanguageConfigurations.get(fallback);
+    if (configStream != null) {
+      String result = configStream.getString(path);
+      if (result != null) {
+        return result;
+      }
+    }
+    return null;
+  }
 }
