@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
@@ -68,6 +69,8 @@ public class CartJetsPlugin extends JavaPlugin {
   @Override
   public void onEnable() {
     super.onEnable();
+
+    Metrics metrics = new Metrics(this, 16603);
 
     this.perUserModels = new HashMap<>();
     this.commandMap = new HashMap<>();
