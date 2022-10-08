@@ -12,8 +12,9 @@ copyright: Copyright &copy; <a href="https://www.joestr.at/">joestr.at</a> and a
 nav:
   - Home: index.md
   - Installation: installation.md
-  - Configuration: configuration.md
   - Usage: usage.md
+  - Permissions: permissions.md
+  - Configuration: configuration.md
   - About: about.md
 theme:
   name: material
